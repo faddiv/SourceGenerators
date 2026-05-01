@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<Nullable>enable</Nullable>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="IntegrationTests\SourceGenerationTestCases\**\*.cs" />
+		<None Include="IntegrationTests\SourceGenerationTestCases\**\*" />
+		<Compile Remove="IntegrationTests\ErrorReportingTestCases\**\*.cs" />
+		<None Include="IntegrationTests\ErrorReportingTestCases\**\*" />
+		<Compile Remove="IntegrationTests\CachingTestCases\**\*.cs" />
+		<None Include="IntegrationTests\CachingTestCases\**\*" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector" Version="10.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" Version="1.1.3" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.3.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="xunit.v3" Version="3.2.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\SourceGenerator\Foxy.PocoDictionary.SourceGenerator.csproj" />
+		<ProjectReference Include="..\Test.Infrastructure\Test.Infrastructure.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ConsoleApp/ConsoleApp.csproj" />
+  <Project Path="SourceGenerator/Foxy.PocoDictionary.SourceGenerator.csproj" />
+  <Project Path="SourceGeneratorTests/SourceGeneratorTests.csproj" />
+  <Project Path="Test.Infrastructure/Test.Infrastructure.csproj" />
+</Solution>
