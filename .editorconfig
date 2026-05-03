@@ -17,3 +17,6 @@ charset = utf-8
 # Generated code
 [*{_AssemblyInfo.cs,.notsupported.cs,AsmOffsets.cs}]
 generated_code = true
+
+[*.csproj]
+indent_size = 2

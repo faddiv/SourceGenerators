@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SourceGeneratorTools.Shared/SourceGeneratorTools.Shared.shproj" />
+  <Project Path="SourceGeneratorTools.Tests/SourceGeneratorTools.Tests.csproj" />
+  <Project Path="SourceGeneratorTools/SourceGeneratorTools.csproj" />
+</Solution>

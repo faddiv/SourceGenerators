@@ -1,8 +1,8 @@
 using System;
 
-namespace Foxy.PocoDictionary.SourceGenerator.Helpers;
+namespace Foxy.Params.SourceGenerator.Helpers;
 
-internal partial class SourceBuilder
+partial class SourceBuilder
 {
     public Block StartBlock()
     {
@@ -12,20 +12,20 @@ internal partial class SourceBuilder
 
     public Block StartIndented()
     {
-        IncreaseIntend();
+        IncreaseIndent();
         return new Block(this, false);
     }
 
     private void OpenBlock()
     {
-        AddLineInternal("{");
-        IncreaseIntend();
+        AppendLineInternal("{");
+        IncreaseIndent();
     }
 
     private void CloseBlock()
     {
-        DecreaseIntend();
-        AddLineInternal("}");
+        DecreaseIndent();
+        AppendLineInternal("}");
     }
 
     public readonly struct Block(SourceBuilder sourceBuilder, bool addClosingBracket) : IDisposable
@@ -41,7 +41,7 @@ internal partial class SourceBuilder
             }
             else
             {
-                _sourceBuilder.DecreaseIntend();
+                _sourceBuilder.DecreaseIndent();
             }
         }
     }
