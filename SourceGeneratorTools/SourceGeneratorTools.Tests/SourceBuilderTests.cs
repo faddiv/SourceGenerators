@@ -62,7 +62,7 @@ public partial class SourceBuilderTests
     }
 
     [Fact]
-    public void StartBlock_CreatesBlockWithBraces()
+    public void StartBlock_WithNoParameter_CreatesBlockWithBraces()
     {
         var builder = new SourceBuilder();
 
@@ -76,6 +76,26 @@ public partial class SourceBuilderTests
             {
                 Inside block
             }
+            """, builder);
+    }
+
+    [Fact]
+    public void StartBlock_WithParameter_CreatesBlockWithCustomStartAndEnd()
+    {
+        var builder = new SourceBuilder();
+
+        using (builder.StartBlock("[", "]"))
+        {
+            builder.AppendLine("Element 1,");
+            builder.AppendLine("Element 2");
+        }
+
+        Assert.Content(
+            """
+            [
+                Element 1,
+                Element 2
+            ]
             """, builder);
     }
 }

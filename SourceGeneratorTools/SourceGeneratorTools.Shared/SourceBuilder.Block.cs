@@ -4,40 +4,40 @@ namespace Foxy.Params.SourceGenerator.Helpers;
 
 partial class SourceBuilder
 {
-    public Block StartBlock()
+    public Block StartBlock(string openingElement = "{", string closingElement = "}")
     {
-        OpenBlock();
-        return new Block(this, true);
+        OpenBlock(openingElement);
+        return new Block(this, closingElement);
     }
 
     public Block StartIndented()
     {
         IncreaseIndent();
-        return new Block(this, false);
+        return new Block(this, null);
     }
 
-    private void OpenBlock()
+    private void OpenBlock(string openingElement = "{")
     {
-        AppendLineInternal("{");
+        AppendLineInternal(openingElement);
         IncreaseIndent();
     }
 
-    private void CloseBlock()
+    private void CloseBlock(string closingElement)
     {
         DecreaseIndent();
-        AppendLineInternal("}");
+        AppendLineInternal(closingElement);
     }
 
-    public readonly struct Block(SourceBuilder sourceBuilder, bool addClosingBracket) : IDisposable
+    public readonly struct Block(SourceBuilder sourceBuilder, string? closingElement) : IDisposable
     {
-        private readonly bool _addClosingBracket = addClosingBracket;
         private readonly SourceBuilder _sourceBuilder = sourceBuilder;
+        private readonly string? _closingElement = closingElement;
 
         public void Dispose()
         {
-            if (_addClosingBracket)
+            if (_closingElement is not null)
             {
-                _sourceBuilder.CloseBlock();
+                _sourceBuilder.CloseBlock(_closingElement);
             }
             else
             {
