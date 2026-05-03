@@ -5,20 +5,11 @@ namespace SourceGeneratorTools;
 
 partial class SourceBuilder
 {
-    public ref struct SourceLine : IDisposable
+    public ref struct SourceLine(SourceBuilder builder) : IDisposable
     {
-        private readonly SourceBuilder _builder;
-        private readonly int _originalIndent;
+        private readonly SourceBuilder _builder = builder;
+        private readonly int _originalIndent = builder._intendLevel;
         private bool _indentAdded;
-
-        public SourceLine(SourceBuilder builder)
-        {
-            _builder = builder;
-            _originalIndent = builder._intendLevel;
-            _indentAdded = true;
-            builder.AddIndent();
-            _builder.IncreaseIndent();
-        }
 
         public void Dispose()
         {
@@ -39,7 +30,7 @@ partial class SourceBuilder
 
         public void Append(string segment)
         {
-            EnsureIndentation();
+            EnsureIndentationApplied();
 
             _builder.AppendInternal(segment);
         }
@@ -50,24 +41,36 @@ partial class SourceBuilder
         {
             _builder.AppendLine();
 
+            EnsureSecondLineIndentation();
+
             _indentAdded = false;
         }
 
         public void AppendLine(string segment)
         {
-            EnsureIndentation();
+            EnsureIndentationApplied();
 
             _builder.AppendInternal(segment);
             _builder.AppendLine();
 
+            EnsureSecondLineIndentation();
+
             _indentAdded = false;
         }
 
-        private void EnsureIndentation()
+        private void EnsureIndentationApplied()
         {
             if (_indentAdded) return;
             _builder.AddIndent();
             _indentAdded = true;
+        }
+
+        private void EnsureSecondLineIndentation()
+        {
+            if (_originalIndent == _builder._intendLevel)
+            {
+                _builder.IncreaseIndent();
+            }
         }
 
         private bool EndsWithNewline()
@@ -90,7 +93,7 @@ partial class SourceBuilder
 
         public static implicit operator SourceBuilderSegment(SourceLine line)
         {
-            line.EnsureIndentation();
+            line.EnsureIndentationApplied();
             return new SourceBuilderSegment(line._builder, SourceBuilderSegmentFlags.None);
         }
     }

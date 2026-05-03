@@ -5,6 +5,19 @@ namespace SourceGeneratorTools.Tests;
 public partial class SourceBuilderTests
 {
     [Fact]
+    public void CreateLine_WithoutElements_CreatesSingleLine()
+    {
+        var builder = new SourceBuilder();
+
+        using (builder.CreateLine())
+        {
+            // No elements added to the line
+        }
+
+        Assert.Content(Environment.NewLine, builder);
+    }
+
+    [Fact]
     public void CreateLine_WithMultipleElement_CreatesSingleLine()
     {
         var builder = new SourceBuilder();

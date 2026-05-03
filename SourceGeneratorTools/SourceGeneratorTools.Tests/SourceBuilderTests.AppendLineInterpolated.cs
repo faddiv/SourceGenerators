@@ -27,6 +27,17 @@ public partial class SourceBuilderTests
     }
 
     [Fact]
+    public void AppendLineInterpolated_WithNullArray_AddsEmptyParentheses()
+    {
+        var builder = new SourceBuilder();
+        string[]? items = null;
+
+        builder.AppendLine($"({items})");
+
+        Assert.Content("()", builder);
+    }
+
+    [Fact]
     public void AppendLineInterpolated_WithIEnumerable_AddsCommaSeparatedList()
     {
         var builder = new SourceBuilder();
@@ -35,6 +46,39 @@ public partial class SourceBuilderTests
         builder.AppendLine($"({items})");
 
         Assert.Content("(Item1, Item2, Item3)", builder);
+    }
+
+    [Fact]
+    public void AppendLineInterpolated_WithEmptyIEnumerable_AddsEmptyParentheses()
+    {
+        var builder = new SourceBuilder();
+        IEnumerable<string> items = Array.Empty<string>();
+
+        builder.AppendLine($"({items})");
+
+        Assert.Content("()", builder);
+    }
+
+    [Fact]
+    public void AppendLineInterpolated_WithIEnumerableCastedObject_AddsCommaSeparatedList()
+    {
+        var builder = new SourceBuilder();
+        object items = new[] { "Item1", "Item2", "Item3" };
+
+        builder.AppendLine($"({items})");
+
+        Assert.Content("(Item1, Item2, Item3)", builder);
+    }
+
+    [Fact]
+    public void AppendLineInterpolated_WithNullIEnumerable_AddsEmptyString()
+    {
+        var builder = new SourceBuilder();
+        IEnumerable<string>? items = null;
+
+        builder.AppendLine($"({items})");
+
+        Assert.Content("()", builder);
     }
 
     [Fact]
@@ -63,7 +107,7 @@ public partial class SourceBuilderTests
     public void AppendLineInterpolated_WithNull_AddsEmptyString()
     {
         var builder = new SourceBuilder();
-        string? value = null;
+        object? value = null;
 
         builder.AppendLine($"Value: {value}");
 
