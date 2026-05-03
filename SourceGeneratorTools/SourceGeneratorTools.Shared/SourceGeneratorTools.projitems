@@ -9,6 +9,7 @@
     <Import_RootNamespace>SourceGeneratorTools</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.AppendLine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Block.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Helpers.cs" />

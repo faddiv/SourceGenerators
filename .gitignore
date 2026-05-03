@@ -23,3 +23,6 @@
 
 # Approval Tests result files
 *.received.*
+
+# Tests and coverage
+coveragereport/
