@@ -58,4 +58,26 @@ public partial class SourceBuilderTests
 
         Assert.Content("Value: 42", builder);
     }
+
+    [Fact]
+    public void AppendLineInterpolated_WithNull_AddsEmptyString()
+    {
+        var builder = new SourceBuilder();
+        string? value = null;
+
+        builder.AppendLine($"Value: {value}");
+
+        Assert.Content("Value: ", builder);
+    }
+
+    [Fact]
+    public void AppendLineInterpolated_WithObject_AddsObjectToString()
+    {
+        var builder = new SourceBuilder();
+        var value = new { Name = "Test" };
+
+        builder.AppendLine($"Value: {value}");
+
+        Assert.Content("Value: { Name = Test }", builder);
+    }
 }

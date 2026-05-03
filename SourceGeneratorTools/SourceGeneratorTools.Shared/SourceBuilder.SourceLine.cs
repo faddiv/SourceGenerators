@@ -44,6 +44,15 @@ partial class SourceBuilder
             _builder.AppendInternal(segment);
         }
 
+        public void AppendLine(
+            [InterpolatedStringHandlerArgument("")]
+            in InterpolatedStringHandler input)
+        {
+            _builder.AppendLine();
+
+            _indentAdded = false;
+        }
+
         public void AppendLine(string segment)
         {
             EnsureIndentation();
@@ -79,7 +88,10 @@ partial class SourceBuilder
             };
         }
 
-        public static implicit operator SourceBuilderSegment(SourceLine line) =>
-            new(line._builder, SourceBuilderSegmentFlags.None);
+        public static implicit operator SourceBuilderSegment(SourceLine line)
+        {
+            line.EnsureIndentation();
+            return new SourceBuilderSegment(line._builder, SourceBuilderSegmentFlags.None);
+        }
     }
 }

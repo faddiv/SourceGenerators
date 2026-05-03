@@ -99,4 +99,48 @@ public partial class SourceBuilderTests
             {
             """, builder);
     }
+
+    [Fact]
+    public void CreateLine_WhenAppendLineInterpolated_SecondAppendLineIndented()
+    {
+        var builder = new SourceBuilder();
+        var argument = TestHelpers.GenerateRandomName();
+
+        using (var line = builder.CreateLine())
+        {
+            line.AppendLine($"Method({argument});");
+            line.Append("Second line");
+        }
+
+        builder.AppendLine("Third line");
+
+        Assert.Content(
+            $"""
+            Method({argument});
+                Second line
+            Third line
+            """, builder);
+    }
+
+    [Fact]
+    public void CreateLine_WhenAppendLine_SecondAppendLineInterpolatedIsIndented()
+    {
+        var builder = new SourceBuilder();
+        var argument = TestHelpers.GenerateRandomName();
+
+        using (var line = builder.CreateLine())
+        {
+            line.AppendLine("Method");
+            line.AppendLine($"Second line {argument}");
+        }
+
+        builder.AppendLine("Third line");
+
+        Assert.Content(
+            $"""
+            Method
+                Second line {argument}
+            Third line
+            """, builder);
+    }
 }

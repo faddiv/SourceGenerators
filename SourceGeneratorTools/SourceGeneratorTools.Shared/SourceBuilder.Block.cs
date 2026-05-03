@@ -4,13 +4,13 @@ namespace Foxy.Params.SourceGenerator.Helpers;
 
 partial class SourceBuilder
 {
-    public Block StartBlock(string openingElement = "{", string closingElement = "}")
+    public Block CreateBlock(string openingElement = "{", string closingElement = "}")
     {
         OpenBlock(openingElement);
         return new Block(this, closingElement);
     }
 
-    public Block StartIndented()
+    public Block CreateIndented()
     {
         IncreaseIndent();
         return new Block(this, null);
