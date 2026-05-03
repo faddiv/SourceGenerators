@@ -5,15 +5,18 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>d05b1492-5f6e-4a42-8dee-ff62c59dd046</SharedGUID>
   </PropertyGroup>
+
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>SourceGeneratorTools</Import_RootNamespace>
   </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.AppendLine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Block.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Helpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.InterpolatedStringHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.SourceLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.AppendLine.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Block.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Helpers.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.InterpolatedStringHandler.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.SourceBuilderSegment.cs"/>
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.SourceLine.cs"/>
   </ItemGroup>
 </Project>

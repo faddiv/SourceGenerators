@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Foxy.Params.SourceGenerator.Helpers;
+namespace SourceGeneratorTools;
 
 partial class SourceBuilder
 {

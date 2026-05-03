@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Foxy.Params.SourceGenerator.Helpers;
+namespace SourceGeneratorTools;
 
 partial class SourceBuilder
 {

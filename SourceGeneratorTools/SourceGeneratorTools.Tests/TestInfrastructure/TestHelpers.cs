@@ -1,4 +1,4 @@
-﻿namespace SourceGeneratorTools.Tests;
+﻿namespace SourceGeneratorTools.Tests.TestInfrastructure;
 
 public static class TestHelpers
 {

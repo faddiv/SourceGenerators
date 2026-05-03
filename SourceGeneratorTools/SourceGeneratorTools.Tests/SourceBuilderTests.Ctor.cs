@@ -1,6 +1,4 @@
-﻿using Foxy.Params.SourceGenerator.Helpers;
-
-namespace SourceGeneratorTools.Tests;
+﻿namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Foxy.Params.SourceGenerator.Helpers;
+namespace SourceGeneratorTools;
 
 public partial class SourceBuilder
 {

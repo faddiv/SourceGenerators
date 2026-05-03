@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Foxy.Params.SourceGenerator.Helpers;
+namespace SourceGeneratorTools;
 
 /// <summary>
 ///
@@ -121,38 +121,4 @@ public partial class SourceBuilder(string indent = "    ", int bufferCapacity = 
 
     public static implicit operator SourceBuilderSegment(SourceBuilder builder) =>
         new(builder, SourceBuilderSegmentFlags.AddAll);
-
-    public readonly ref struct SourceBuilderSegment
-    {
-        private readonly SourceBuilderSegmentFlags _flags;
-
-        public SourceBuilderSegment(SourceBuilder builder, SourceBuilderSegmentFlags flags)
-        {
-            _flags = flags;
-            Builder = builder;
-            if (_flags.HasFlag(SourceBuilderSegmentFlags.AddIndent))
-            {
-                Builder.AddIndent();
-            }
-        }
-
-        public SourceBuilder Builder { get; }
-
-        public void AppendLine([InterpolatedStringHandlerArgument("")] in InterpolatedStringHandler handler)
-        {
-            if (_flags.HasFlag(SourceBuilderSegmentFlags.AddNewLine))
-            {
-                Builder.AppendLine();
-            }
-        }
-    }
-
-    [Flags]
-    public enum SourceBuilderSegmentFlags
-    {
-        None = 0,
-        AddIndent = 1,
-        AddNewLine = 2,
-        AddAll = AddIndent | AddNewLine
-    }
 }
