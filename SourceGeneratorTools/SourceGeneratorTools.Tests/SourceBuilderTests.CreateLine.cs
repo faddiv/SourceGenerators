@@ -17,10 +17,12 @@ public partial class SourceBuilderTests
         Assert.Content(Environment.NewLine, builder);
     }
 
-    [Fact]
-    public void CreateLine_WithMultipleElement_CreatesSingleLine()
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    public void CreateLine_WithMultipleElement_CreatesSingleLine(string newLine)
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceBuilder(newLine: newLine);
 
         using (var line = builder.CreateLine())
         {
@@ -28,7 +30,7 @@ public partial class SourceBuilderTests
             line.Append("World!");
         }
 
-        Assert.Content("Hello, World!", builder);
+        Assert.RawContent($"Hello, World!{newLine}", builder);
     }
 
     [Fact]

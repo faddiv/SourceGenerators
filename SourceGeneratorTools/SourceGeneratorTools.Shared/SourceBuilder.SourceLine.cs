@@ -8,7 +8,7 @@ partial class SourceBuilder
     public ref struct SourceLine(SourceBuilder builder) : IDisposable
     {
         private readonly SourceBuilder _builder = builder;
-        private readonly int _originalIndent = builder._intendLevel;
+        private readonly int _originalIndent = builder._indentLevel;
         private bool _indentAdded;
 
         public void Dispose()
@@ -18,7 +18,7 @@ partial class SourceBuilder
                 _builder.AppendLine();
             }
 
-            _builder._intendLevel = _originalIndent;
+            _builder._indentLevel = _originalIndent;
         }
 
         // ReSharper disable once UnusedParameter.Global
@@ -67,7 +67,7 @@ partial class SourceBuilder
 
         private void EnsureSecondLineIndentation()
         {
-            if (_originalIndent == _builder._intendLevel)
+            if (_originalIndent == _builder._indentLevel)
             {
                 _builder.IncreaseIndent();
             }
@@ -81,13 +81,12 @@ partial class SourceBuilder
                 return false;
             }
 
-            var newLine = Environment.NewLine;
-
+            var newLine = _builder.NewLine;
             return newLine.Length switch
             {
                 1 => builder[^1] == newLine[0],
                 2 => builder.Length > 1 && builder[^2] == newLine[0] && builder[^1] == newLine[1],
-                _ => false
+                _ => throw new InvalidOperationException("NewLine must be either 1 or 2 characters long.")
             };
         }
 

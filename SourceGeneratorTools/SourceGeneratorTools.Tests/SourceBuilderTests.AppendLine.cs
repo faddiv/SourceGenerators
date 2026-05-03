@@ -24,4 +24,29 @@ public partial class SourceBuilderTests
 
         Assert.Content(text, builder);
     }
+
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    public void AppendLine_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
+    {
+        var builder = new SourceBuilder(newLine: newLine);
+        const string text = "Hello, World!";
+
+        builder.AppendLine(text);
+
+        Assert.RawContent($"{text}{newLine}", builder);
+    }
+
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    public void AppendLineEmpty_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
+    {
+        var builder = new SourceBuilder(newLine: newLine);
+
+        builder.AppendLine();
+
+        Assert.RawContent(newLine, builder);
+    }
 }

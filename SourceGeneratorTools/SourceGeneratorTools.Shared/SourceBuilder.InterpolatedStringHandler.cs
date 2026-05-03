@@ -54,10 +54,12 @@ partial class SourceBuilder
 
         public void AppendFormatted(int? arg)
         {
-            if (arg.HasValue)
+            if (!arg.HasValue)
             {
-                _builder.Append(arg.Value);
+                return;
             }
+
+            _builder.Append(arg.Value);
         }
 
         public void AppendFormatted<T>(IEnumerable<T>? args)

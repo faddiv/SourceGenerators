@@ -13,5 +13,10 @@ public static class AssertExtensions
 
             Assert.Equal(expected, builder.ToString());
         }
+
+        public static void RawContent(string expected, SourceBuilder builder)
+        {
+            Assert.Equal(expected, builder.ToString());
+        }
     }
 }

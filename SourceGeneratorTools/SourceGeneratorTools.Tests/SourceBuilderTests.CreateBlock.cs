@@ -12,11 +12,13 @@ public partial class SourceBuilderTests
         builder.AppendLine("First line");
         using (builder.CreateBlock())
         {
+            Assert.Equal(1, builder.IndentLevel);
             builder.AppendLine("Inside block");
         }
 
         builder.AppendLine("Next line");
 
+        Assert.Equal(0, builder.IndentLevel);
         Assert.Content(
             """
             First line
@@ -35,12 +37,14 @@ public partial class SourceBuilderTests
         builder.AppendLine("First line");
         using (builder.CreateBlock("[", "]"))
         {
+            Assert.Equal(1, builder.IndentLevel);
             builder.AppendLine("Element 1,");
             builder.AppendLine("Element 2");
         }
 
         builder.AppendLine("Next line");
 
+        Assert.Equal(0, builder.IndentLevel);
         Assert.Content(
             """
             First line

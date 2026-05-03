@@ -11,13 +11,16 @@ namespace SourceGeneratorTools;
 /// </summary>
 /// <param name="indent">The indent used for indentation.</param>
 /// <param name="bufferCapacity">The suggested starting capacitz of the buffer.</param>
-public partial class SourceBuilder(string indent = "    ", int bufferCapacity = 2048)
+public sealed partial class SourceBuilder(string indent = "    ", string? newLine = null, int bufferCapacity = 2048)
 {
-    private int _intendLevel;
-
     private readonly StringBuilder _builder = new(bufferCapacity);
+    private int _indentLevel;
+
+    public int IndentLevel => _indentLevel;
 
     public string Indent { get; } = indent;
+
+    public string NewLine { get; } = Valid(newLine) ?? Environment.NewLine;
 
     public override string ToString()
     {
@@ -57,18 +60,21 @@ public partial class SourceBuilder(string indent = "    ", int bufferCapacity = 
 
     public void Clear()
     {
-        _intendLevel = 0;
+        _indentLevel = 0;
         _builder.Clear();
     }
 
+    public static implicit operator SourceBuilderSegment(SourceBuilder builder) =>
+        new(builder, SourceBuilderSegmentFlags.AddAll);
+
     private void IncreaseIndent()
     {
-        _intendLevel++;
+        _indentLevel++;
     }
 
     private void DecreaseIndent()
     {
-        _intendLevel--;
+        _indentLevel--;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -80,12 +86,18 @@ public partial class SourceBuilder(string indent = "    ", int bufferCapacity = 
     private void AppendLineInternal(string text)
     {
         AddIndent();
-        _builder.AppendLine(text);
+        _builder.Append(text);
+        AppendNewLine();
+    }
+
+    private void AppendNewLine()
+    {
+        _builder.Append(NewLine);
     }
 
     private void AddIndent()
     {
-        for (var i = 0; i < _intendLevel; i++)
+        for (var i = 0; i < _indentLevel; i++)
         {
             _builder.Append(Indent);
         }
@@ -119,6 +131,23 @@ public partial class SourceBuilder(string indent = "    ", int bufferCapacity = 
         _builder.EnsureCapacity(capacity);
     }
 
-    public static implicit operator SourceBuilderSegment(SourceBuilder builder) =>
-        new(builder, SourceBuilderSegmentFlags.AddAll);
+    private static string? Valid(string? newLine)
+    {
+        if (newLine is null)
+        {
+            return null;
+        }
+
+        if (newLine == string.Empty)
+        {
+            throw new ArgumentException("New line cannot be empty.", nameof(newLine));
+        }
+
+        if (newLine.Length > 2)
+        {
+            throw new ArgumentException("New line cannot be longer than 2 characters.", nameof(newLine));
+        }
+
+        return newLine;
+    }
 }

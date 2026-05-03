@@ -6,17 +6,16 @@ public partial class SourceBuilder
 {
     public void AppendLine([InterpolatedStringHandlerArgument("")] in InterpolatedStringHandler handler)
     {
-        AppendLine();
+        AppendNewLine();
     }
 
     public void AppendLine()
     {
-        _builder.AppendLine();
+        AppendNewLine();
     }
 
     public void AppendLine(string text)
     {
-        AddIndent();
-        _builder.AppendLine(text);
+        AppendLineInternal(text);
     }
 }

@@ -15,6 +15,19 @@ public partial class SourceBuilderTests
         Assert.Content($"Hello, {name}!", builder);
     }
 
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    public void AppendLineInterpolated_WithNewLine_AddsNewLine(string newLine)
+    {
+        var builder = new SourceBuilder(newLine: newLine);
+        var name = TestHelpers.GenerateRandomName();
+
+        builder.AppendLine($"Hello, {name}!");
+
+        Assert.RawContent($"Hello, {name}!{newLine}", builder);
+    }
+
     [Fact]
     public void AppendLineInterpolated_WithArray_AddsCommaSeparatedList()
     {
@@ -92,15 +105,16 @@ public partial class SourceBuilderTests
         Assert.Content("Value: 42", builder);
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithInt32Nullable_AddsValue()
+    [Theory]
+    [InlineData(null)]
+    [InlineData(42)]
+    public void AppendLineInterpolated_WithInt32Nullable_AddsValue(int? value)
     {
         var builder = new SourceBuilder();
-        int? value = 42;
 
         builder.AppendLine($"Value: {value}");
 
-        Assert.Content("Value: 42", builder);
+        Assert.Content($"Value: {value}", builder);
     }
 
     [Fact]
