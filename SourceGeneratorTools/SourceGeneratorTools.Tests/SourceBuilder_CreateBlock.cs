@@ -2,7 +2,8 @@
 
 namespace SourceGeneratorTools.Tests;
 
-public partial class SourceBuilderTests
+// ReSharper disable once InconsistentNaming
+public partial class SourceBuilder_CreateBlock
 {
     [Test]
     public async Task CreateBlock_WithNoParameter_CreatesBlockWithBraces()

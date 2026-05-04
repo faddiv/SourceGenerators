@@ -2,7 +2,8 @@
 
 namespace SourceGeneratorTools.Tests;
 
-public partial class SourceBuilderTests
+// ReSharper disable once InconsistentNaming
+public class SourceBuilder_AppendLine
 {
     [Test]
     public async Task AppendLine_WithoutParameters_AddsEmptyLine()

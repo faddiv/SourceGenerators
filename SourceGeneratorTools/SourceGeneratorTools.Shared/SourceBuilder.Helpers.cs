@@ -10,6 +10,7 @@ partial class SourceBuilder
         public static void AppendJoin<T>(StringBuilder builder, string? separator, IEnumerable<T> values)
         {
             using var en = values.GetEnumerator();
+            // Stryker disable once block, statement
             if (!en.MoveNext())
             {
                 return;

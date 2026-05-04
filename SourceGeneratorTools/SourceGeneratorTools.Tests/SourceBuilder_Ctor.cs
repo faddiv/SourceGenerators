@@ -1,8 +1,10 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
+using System.Threading.Tasks;
 
 namespace SourceGeneratorTools.Tests;
 
-public partial class SourceBuilderTests
+// ReSharper disable once InconsistentNaming
+public class SourceBuilder_Ctor
 {
     [Test]
     public async Task Ctor_WithoutParameters_CreatesDefaultInstance()
@@ -28,7 +30,10 @@ public partial class SourceBuilderTests
     [Arguments("\r\n")]
     public async Task Ctor_WithDifferentNewLine_CreatesInstanceWithCustomNewLine(string newLine)
     {
-        var builder = new SourceBuilder(newLine: newLine);
+        var builder = await Assert.That(() => new SourceBuilder(newLine: newLine))
+            .ThrowsNothing()
+            .And
+            .IsNotNull();
 
         builder.AppendLine("Test");
 

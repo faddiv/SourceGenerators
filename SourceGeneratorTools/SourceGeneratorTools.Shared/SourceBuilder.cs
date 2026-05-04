@@ -97,6 +97,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
 
     private void AddIndent()
     {
+        // Stryker disable once update
         for (var i = 0; i < _indentLevel; i++)
         {
             _builder.Append(Indent);
@@ -110,12 +111,6 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
 
     private void AppendFormatted<T>(T? t)
     {
-        if (t is null)
-        {
-            // Stryker disable once all
-            return;
-        }
-
         _builder.Append(t);
     }
 
@@ -129,27 +124,24 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
         _builder.Append(arg);
     }
 
+    // Stryker disable once all
     private void EnsureCapacity(int capacity)
     {
-        // Stryker disable once all
         _builder.EnsureCapacity(capacity);
     }
 
     private static string? Valid(string? newLine)
     {
-        if (newLine is null)
+        switch (newLine)
         {
-            return null;
-        }
-
-        if (newLine == string.Empty)
-        {
-            throw new ArgumentException("New line cannot be empty.", nameof(newLine));
-        }
-
-        if (newLine.Length > 2)
-        {
-            throw new ArgumentException("New line cannot be longer than 2 characters.", nameof(newLine));
+            case null:
+                return null;
+            case "":
+                // Stryker disable once string
+                throw new ArgumentException("New line cannot be empty.", nameof(newLine));
+            case { Length: > 2 }:
+                // Stryker disable once string
+                throw new ArgumentException("New line cannot be longer than 2 characters.", nameof(newLine));
         }
 
         return newLine;

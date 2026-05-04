@@ -7,9 +7,6 @@
             "progress",
             "html"
         ],
-        "ignore-mutations": [
-            "linq.Prepend"
-        ],
         "test-runner": "mtp"
     }
 }

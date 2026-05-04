@@ -1,8 +1,10 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
+using System.Threading.Tasks;
 
 namespace SourceGeneratorTools.Tests;
 
-public partial class SourceBuilderTests
+// ReSharper disable once InconsistentNaming
+public class SourceBuilder_AppendLineInterpolated
 {
     [Test]
     public async Task AppendLineInterpolated_WithString_AddsLineWithText()
@@ -45,7 +47,8 @@ public partial class SourceBuilderTests
         var builder = new SourceBuilder();
         string[]? items = null;
 
-        builder.AppendLine($"({items})");
+        await Assert.That(() => builder.AppendLine($"({items})"))
+            .ThrowsNothing();
 
         await Assert.That(builder).HasContent("()");
     }
@@ -56,7 +59,8 @@ public partial class SourceBuilderTests
         var builder = new SourceBuilder();
         IEnumerable<string> items = ["Item1", "Item2", "Item3"];
 
-        builder.AppendLine($"({items})");
+        await Assert.That(() => builder.AppendLine($"({items})"))
+            .ThrowsNothing();
 
         await Assert.That(builder).HasContent("(Item1, Item2, Item3)");
     }
@@ -89,7 +93,8 @@ public partial class SourceBuilderTests
         var builder = new SourceBuilder();
         IEnumerable<string>? items = null;
 
-        builder.AppendLine($"({items})");
+        await Assert.That(() => builder.AppendLine($"({items})"))
+            .ThrowsNothing();
 
         await Assert.That(builder).HasContent("()");
     }
@@ -112,7 +117,8 @@ public partial class SourceBuilderTests
     {
         var builder = new SourceBuilder();
 
-        builder.AppendLine($"Value: {value}");
+        await Assert.That(() => builder.AppendLine($"Value: {value}"))
+            .ThrowsNothing();
 
         await Assert.That(builder).HasContent($"Value: {value}");
     }

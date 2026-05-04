@@ -2,7 +2,7 @@
 
 namespace SourceGeneratorTools.Tests;
 
-public partial class SourceBuilderTests
+public partial class SourceBuilder_CreateIndented
 {
     [Test]
     public async Task CreateIndented_CreatesIndentedBuilder()

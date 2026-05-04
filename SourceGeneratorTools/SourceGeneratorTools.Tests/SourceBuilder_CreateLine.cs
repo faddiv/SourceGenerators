@@ -1,9 +1,20 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
+using System.Threading.Tasks;
 
 namespace SourceGeneratorTools.Tests;
 
-public partial class SourceBuilderTests
+// ReSharper disable once InconsistentNaming
+public class SourceBuilder_CreateLine
 {
+    [Test]
+    public async Task CreateLine_CreatesSourceLine()
+    {
+        var builder = new SourceBuilder();
+
+        var line = builder.CreateLine();
+
+        await Assert.That(line.Builder).IsSameReferenceAs(builder);
+    }
     [Test]
     public async Task CreateLine_WithoutElements_CreatesSingleLine()
     {

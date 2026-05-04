@@ -25,12 +25,6 @@ partial class SourceBuilder
 
         public void AppendFormatted<T>(T? t)
         {
-            // Stryker disable once all
-            if (t is null)
-            {
-                return;
-            }
-
             if (t is IEnumerable<string> strings)
             {
                 AppendFormatted(strings);
