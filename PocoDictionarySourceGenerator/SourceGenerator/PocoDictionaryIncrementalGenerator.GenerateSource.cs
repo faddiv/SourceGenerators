@@ -18,7 +18,7 @@ partial class PocoDictionaryIncrementalGenerator
         }
         else if (typeSymbols is SuccessfulCollectedData data)
         {
-            using var generator = new OutputGenerator(data);
+            var generator = new OutputGenerator(data);
             context.AddSource(
                 SemanticHelpers.CreateFileName(data.TypeInfo.FullName),
                 generator.Execute());

@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="../SourceGeneratorTools/SourceGeneratorTools.Shared/SourceGeneratorTools.Shared.shproj" Id="d05b1492-5f6e-4a42-8dee-ff62c59dd046" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />
   <Project Path="SourceGenerator/Foxy.PocoDictionary.SourceGenerator.csproj" />
   <Project Path="SourceGeneratorTests/SourceGeneratorTests.csproj" />

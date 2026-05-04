@@ -1,21 +1,17 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using Foxy.PocoDictionary.SourceGenerator.Data;
 using Foxy.PocoDictionary.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis.Text;
+using SourceGeneratorTools;
 
 namespace Foxy.PocoDictionary.SourceGenerator.SourceGenerator;
 
-internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposable
+internal class OutputGenerator(SuccessfulCollectedData collectedData)
 {
-    private readonly SourceBuilder _builder = SourceBuilderPool.Instance.Get();
+    private readonly SourceBuilder _builder = new SourceBuilder();
     private CandidateTypeInfo TypeInfo => collectedData.TypeInfo;
-
-    public void Dispose()
-    {
-        SourceBuilderPool.Instance.Return(_builder);
-    }
 
     public SourceText Execute()
     {
@@ -37,7 +33,7 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
         else
         {
             _builder.AppendLine($"namespace {TypeInfo.Namespace}");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 GenerateNamespaceMembers();
             }
@@ -55,7 +51,7 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
         if (level < TypeInfo.TypeHierarchy.Count)
         {
             _builder.AppendLine($"partial class {TypeInfo.TypeHierarchy[level]}");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 GeneratePartialClass(level + 1);
             }
@@ -64,7 +60,7 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
         {
             _builder.AppendLine(
                 $"partial {TypeInfo.TypeKind} {TypeInfo.TypeName} : global::System.Collections.Generic.IReadOnlyDictionary<string, object?>");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 GenerateKeysField();
                 GenerateCount();
@@ -94,20 +90,20 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
 
     private void GenerateIndexer()
     {
-        _builder.AppendTextLine("public object? this[string key]");
-        using (_builder.StartBlock())
+        _builder.AppendLine("public object? this[string key]");
+        using (_builder.CreateBlock())
         {
-            _builder.AppendTextLine("get");
-            using (_builder.StartBlock())
+            _builder.AppendLine("get");
+            using (_builder.CreateBlock())
             {
-                _builder.AppendTextLine("if (TryGetValue(key, out var value))");
-                using (_builder.StartBlock())
+                _builder.AppendLine("if (TryGetValue(key, out var value))");
+                using (_builder.CreateBlock())
                 {
-                    _builder.AppendTextLine("return value;");
+                    _builder.AppendLine("return value;");
                 }
 
                 _builder.AppendLine();
-                _builder.AppendTextLine("throw new global::System.Collections.Generic.KeyNotFoundException($\"Key {key} not found\");");
+                _builder.AppendLine("throw new global::System.Collections.Generic.KeyNotFoundException($\"Key {key} not found\");");
             }
         }
 
@@ -116,13 +112,13 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
 
     private void GenerateKeysProperty()
     {
-        _builder.AppendTextLine("public global::System.Collections.Generic.IEnumerable<string> Keys => _keys;");
+        _builder.AppendLine("public global::System.Collections.Generic.IEnumerable<string> Keys => _keys;");
         _builder.AppendLine();
     }
 
     private void GenerateValuesProperty()
     {
-        _builder.AppendTextLine("public global::System.Collections.Generic.IEnumerable<object?> Values => new object?[] { " + string.Join(", ", TypeInfo.Properties.Select(p => p.Name)) +
+        _builder.AppendLine("public global::System.Collections.Generic.IEnumerable<object?> Values => new object?[] { " + string.Join(", ", TypeInfo.Properties.Select(p => p.Name)) +
                                 " };");
         _builder.AppendLine();
     }
@@ -131,15 +127,15 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
     {
         _builder.AppendLine(
             $"public bool TryGetValue(string key, out object? value)");
-        using (_builder.StartBlock())
+        using (_builder.CreateBlock())
         {
             _builder.AppendLine($"switch (key)");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 foreach (var propertyInfo in TypeInfo.Properties)
                 {
                     _builder.AppendLine($"case \"{propertyInfo.Name}\":");
-                    using (_builder.StartBlock())
+                    using (_builder.CreateBlock())
                     {
                         _builder.AppendLine($"value = {propertyInfo.Name};");
                         _builder.AppendLine($"return true;");
@@ -147,7 +143,7 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
                 }
 
                 _builder.AppendLine($"default:");
-                using (_builder.StartBlock())
+                using (_builder.CreateBlock())
                 {
                     _builder.AppendLine($"value = null;");
                     _builder.AppendLine($"return false;");
@@ -162,22 +158,22 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
     {
         _builder.AppendLine(
             $"public bool ContainsKey(string key)");
-        using (_builder.StartBlock())
+        using (_builder.CreateBlock())
         {
             _builder.AppendLine($"switch (key)");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 foreach (var propertyInfo in TypeInfo.Properties)
                 {
                     _builder.AppendLine($"case \"{propertyInfo.Name}\":");
-                    using (_builder.StartBlock())
+                    using (_builder.CreateBlock())
                     {
                         _builder.AppendLine($"return true;");
                     }
                 }
 
                 _builder.AppendLine($"default:");
-                using (_builder.StartBlock())
+                using (_builder.CreateBlock())
                 {
                     _builder.AppendLine($"return false;");
                 }
@@ -191,7 +187,7 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
     {
         _builder.AppendLine(
             $"public global::System.Collections.Generic.IEnumerator<global::System.Collections.Generic.KeyValuePair<string, object?>> GetEnumerator()");
-        using (_builder.StartBlock())
+        using (_builder.CreateBlock())
         {
             foreach (var propertyInfo in TypeInfo.Properties)
             {
@@ -206,7 +202,7 @@ internal class OutputGenerator(SuccessfulCollectedData collectedData) : IDisposa
     private void GenerateGetEnumerator()
     {
         _builder.AppendLine($"global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()");
-        using (_builder.StartBlock())
+        using (_builder.CreateBlock())
         {
             _builder.AppendLine($"return GetEnumerator();");
         }

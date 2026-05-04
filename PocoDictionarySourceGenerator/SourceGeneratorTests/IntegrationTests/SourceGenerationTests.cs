@@ -11,60 +11,62 @@ using VerifyCS = CSharpSourceGeneratorVerifier<PocoDictionaryIncrementalGenerato
 
 public class SourceGenerationTests(TestEnvironment testEnvironment)
 {
+    private readonly TestEnvironment _testEnvironment = testEnvironment;
+
     [Fact]
     public async Task Always_Generate_PocoDictionaryAttribute()
     {
         var code = new CSharpFile("Empty.cs", "");
 
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.DefaultOutput);
+            _testEnvironment.DefaultOutput);
     }
 
     [Fact]
     public async Task Generate_PocoInNamespace()
     {
-        var code = testEnvironment.GetValidSource();
+        var code = _testEnvironment.GetValidSource();
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.GetOutputs());
+            _testEnvironment.GetOutputs());
     }
-    
+
     [Fact]
     public async Task Generate_PocoInGlobalNamespace()
     {
-        var code = testEnvironment.GetValidSource();
+        var code = _testEnvironment.GetValidSource();
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.GetOutputs());
+            _testEnvironment.GetOutputs());
     }
-    
+
     [Fact]
     public async Task Generate_PocoForRecord()
     {
-        var code = testEnvironment.GetValidSource();
+        var code = _testEnvironment.GetValidSource();
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.GetOutputs());
+            _testEnvironment.GetOutputs());
     }
 
     [Fact]
     public async Task Generate_PocoForStruct()
     {
-        var code = testEnvironment.GetValidSource();
+        var code = _testEnvironment.GetValidSource();
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.GetOutputs());
+            _testEnvironment.GetOutputs());
     }
-    
+
     [Fact]
     public async Task Generate_PocoForRecordStruct()
     {
-        var code = testEnvironment.GetValidSource();
+        var code = _testEnvironment.GetValidSource();
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.GetOutputs());
+            _testEnvironment.GetOutputs());
     }
 
     [Fact]
     public async Task Generate_PocoInInnerClass()
     {
-        var code = testEnvironment.GetValidSource();
+        var code = _testEnvironment.GetValidSource();
         await VerifyCS.VerifyGeneratorAsync(code,
-            testEnvironment.GetOutputs());
+            _testEnvironment.GetOutputs());
     }
 }
