@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Foxy.Params.SourceGenerator.Data;
-using Foxy.Params.SourceGenerator.Helpers;
 using PerformanceTest.Data;
+using PerformanceTest.Helpers;
 
 namespace PerformanceTest;
 
@@ -70,12 +70,12 @@ public class GenericTypeInfoBenchmark
         var builder = SourceBuilderPool.Instance.Get();
         try
         {
-            using (builder.StartBlock())
+            using (builder.CreateBlock())
             {
                 foreach (var arg in _typeConstraintsOld)
                 {
                     builder.AppendLine($"where {arg.Type}: {arg.Constraints}");
-                }   
+                }
             }
         }
         finally
@@ -90,13 +90,13 @@ public class GenericTypeInfoBenchmark
         var builder = SourceBuilderPool.Instance.Get();
         try
         {
-            using (builder.StartBlock())
+            using (builder.CreateBlock())
             {
                 foreach (var arg in _genericTypeInfo)
                 {
                     arg.WriteTo(builder);
                 }
-                
+
             }
         }
         finally

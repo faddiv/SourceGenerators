@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading;
+using SourceGeneratorTools;
 
-namespace Foxy.Params.SourceGenerator.Helpers;
+namespace PerformanceTest.Helpers;
 
 internal class SourceBuilderPool
 {

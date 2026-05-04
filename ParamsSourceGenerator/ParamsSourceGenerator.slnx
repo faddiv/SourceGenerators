@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="../SourceGeneratorTools/SourceGeneratorTools.Shared/SourceGeneratorTools.Shared.shproj" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />
   <Project Path="PerformanceTest/PerformanceTest.csproj" />
   <Project Path="SourceGenerator/Foxy.Params.SourceGenerator.csproj" />

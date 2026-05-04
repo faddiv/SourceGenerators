@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Foxy.Params.SourceGenerator.Helpers;
+using PerformanceTest.Helpers;
 
 namespace PerformanceTest;
 
@@ -15,7 +15,7 @@ public class SourceBuilderBenchmark
         var builder = SourceBuilderPool.Instance.Get();
         try
         {
-            using (builder.StartBlock())
+            using (builder.CreateBlock())
             {
                 builder.AppendLine(
                     $"var {_argName}Span = new global::System.ReadOnlySpan<{_spanArgumentType}>({_argName});");

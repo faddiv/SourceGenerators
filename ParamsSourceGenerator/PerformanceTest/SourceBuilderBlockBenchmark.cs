@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Foxy.Params.SourceGenerator.Helpers;
+using PerformanceTest.Helpers;
 
 namespace PerformanceTest;
 
@@ -22,14 +22,14 @@ public class SourceBuilderBlockBenchmark
             SourceBuilderPool.Instance.Return(builder);
         }
     }*/
-    
+
     [Benchmark]
     public void DisposableBlock()
     {
         var builder = SourceBuilderPool.Instance.Get();
         try
         {
-            using (builder.StartBlock())
+            using (builder.CreateBlock())
             {
                 builder.AppendLine($"Simple;");
             }

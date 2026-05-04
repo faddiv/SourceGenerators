@@ -1,6 +1,7 @@
 ﻿using Foxy.Params.SourceGenerator.Helpers;
 using System;
 using System.Collections.Generic;
+using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
@@ -25,37 +26,8 @@ internal class GenericTypeInfo : IEquatable<GenericTypeInfo?>
         {
             return;
         }
-        using var line = builder.StartLine();
-        line.AddFormatted($"where {Type} : ");
-        var commaSeparatedList = line.StartCommaSeparatedList();
 
-        switch (ConstraintType)
-        {
-            case ConstraintType.Unmanaged:
-                commaSeparatedList.AddElement("unmanaged");
-                break;
-            case ConstraintType.Struct:
-                commaSeparatedList.AddElement("struct");
-                break;
-            case ConstraintType.Class:
-                commaSeparatedList.AddElement("class");
-                break;
-            case ConstraintType.NotNull:
-                commaSeparatedList.AddElement("notnull");
-                break;
-        }
-
-        if (ConstraintTypes.Length > 0)
-        {
-            foreach (var item in ConstraintTypes)
-            {
-                commaSeparatedList.AddElement(item);
-            }
-        }
-        if (HasConstructorConstraint)
-        {
-            commaSeparatedList.AddElement("new()");
-        }
+        builder.AppendLine($"where {Type} : {GenericTypeRestrictions()}");
     }
 
     public override string ToString()
@@ -85,5 +57,35 @@ internal class GenericTypeInfo : IEquatable<GenericTypeInfo?>
         hashCode = hashCode * -1521134295 + CollectionComparer.GetHashCode(ConstraintTypes);
         hashCode = hashCode * -1521134295 + HasConstructorConstraint.GetHashCode();
         return hashCode;
+    }
+
+    private IEnumerable<string> GenericTypeRestrictions()
+    {switch (ConstraintType)
+        {
+            case ConstraintType.Unmanaged:
+                yield return "unmanaged";
+                break;
+            case ConstraintType.Struct:
+                yield return "struct";
+                break;
+            case ConstraintType.Class:
+                yield return "class";
+                break;
+            case ConstraintType.NotNull:
+                yield return "notnull";
+                break;
+        }
+
+        if (ConstraintTypes.Length > 0)
+        {
+            foreach (var item in ConstraintTypes)
+            {
+                yield return item;
+            }
+        }
+        if (HasConstructorConstraint)
+        {
+            yield return "new()";
+        }
     }
 }

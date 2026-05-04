@@ -1,16 +1,16 @@
 ﻿using Foxy.Params.SourceGenerator.Data;
-using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.SourceGenerator;
 
-internal class OverridesGenerator : IDisposable
+internal class OverridesGenerator
 {
-    private readonly SourceBuilder _builder = SourceBuilderPool.Instance.Get();
+    private readonly SourceBuilder _builder = new();
     private readonly int _maxOverridesMax;
     private readonly SuccessfulParams[] _paramsCandidates;
     private readonly CandidateTypeInfo _typeInfo;
@@ -20,11 +20,6 @@ internal class OverridesGenerator : IDisposable
         _typeInfo = typeInfo ?? throw new ArgumentNullException(nameof(typeInfo));
         _paramsCandidates = paramsCandidates ?? throw new ArgumentNullException(nameof(paramsCandidates));
         _maxOverridesMax = paramsCandidates.Max(static e => e.MaxOverrides);
-    }
-
-    public void Dispose()
-    {
-        SourceBuilderPool.Instance.Return(_builder);
     }
 
     public SourceText Execute()
@@ -48,7 +43,7 @@ internal class OverridesGenerator : IDisposable
         {
             var namespaceName = _typeInfo.Namespace;
             _builder.AppendLine($"namespace {namespaceName}");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 GenerateNamespaceMembers();
             }
@@ -67,7 +62,7 @@ internal class OverridesGenerator : IDisposable
         if (level < _typeInfo.TypeHierarchy.Length)
         {
             _builder.AppendLine($"partial class {_typeInfo.TypeHierarchy[level]}");
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 GeneratePartialClass(level + 1);
             }
@@ -97,7 +92,7 @@ internal class OverridesGenerator : IDisposable
             var variableArguments = data.GetFixArguments().Concat(
                 Enumerable.Range(0, n).Select(j => $"{data.SpanArgumentType} {data.GetArgName()}{j}"));
             GenerateMethodHeaderWithArguments(data, variableArguments);
-            using (_builder.StartBlock())
+            using (_builder.CreateBlock())
             {
                 GenerateBodyForOverrideWithNArgs(data, n);
             }
@@ -113,7 +108,7 @@ internal class OverridesGenerator : IDisposable
         var paramsArguments = data.GetFixArguments()
             .Append($"params {data.SpanArgumentType}[] {data.GetArgName()}");
         GenerateMethodHeaderWithArguments(data, paramsArguments);
-        using (_builder.StartBlock())
+        using (_builder.CreateBlock())
         {
             GenerateBodyWithParamsParameter(data);
         }
@@ -124,20 +119,20 @@ internal class OverridesGenerator : IDisposable
         IEnumerable<string> arguments)
     {
         _builder.AddGeneratedCodeAttribute();
-        using (var line = _builder.StartLine())
+        using (var line = _builder.CreateLine())
         {
-            line.AddSegment("public");
+            line.Append("public");
             if (data.IsStatic)
             {
-                line.AddSegment(" static");
+                line.Append(" static");
             }
 
-            line.AddFormatted($" {data.ReturnType} {data.MethodName}");
+            line.Append($" {data.ReturnType} {data.MethodName}");
             AddTypeConstraints(data, line);
-            line.AddFormatted($"({arguments})");
+            line.Append($"({arguments})");
         }
 
-        using (_builder.StartIndented())
+        using (_builder.CreateIndented())
         {
             foreach (var typeConstraints in data.TypeConstraints)
             {
@@ -151,14 +146,7 @@ internal class OverridesGenerator : IDisposable
         if (data.TypeConstraints.Length <= 0)
             return;
 
-        line.AddSegment("<");
-        var commaSeparatedList = line.StartCommaSeparatedList();
-        foreach (var item in data.TypeConstraints)
-        {
-            commaSeparatedList.AddElement(item.Type);
-        }
-
-        line.AddSegment(">");
+        line.Append($"<{data.TypeConstraints.Select(item => item.Type)}>");
     }
 
     private void GenerateBodyForOverrideWithNArgs(MethodInfo data, int argsCount)
@@ -206,28 +194,28 @@ internal class OverridesGenerator : IDisposable
 
     private void GenerateCallOriginalMethod(MethodInfo data)
     {
-        using var line = _builder.StartLine();
+        using var line = _builder.CreateLine();
         if (data.ReturnsKind != ReturnKind.ReturnsVoid)
         {
-            line.AddSegment("return ");
+            line.Append("return ");
         }
 
         if (data.ReturnsKind == ReturnKind.ReturnsRef)
         {
-            line.AddSegment("ref ");
+            line.Append("ref ");
         }
 
-        line.AddSegment(data.MethodName);
+        line.Append(data.MethodName);
         AddTypeConstraints(data, line);
         var fixedParameters = data.GetFixedParameters().Select(static e => e.ToPassParameter());
-        line.AddFormatted($"({fixedParameters}, {data.GetArgNameSpanInput()});");
+        line.Append($"({fixedParameters}, {data.GetArgNameSpanInput()});");
     }
 
     private static void CreateArguments(SourceBuilder sb, int length)
     {
         sb.AppendLine($"[global::System.Runtime.CompilerServices.InlineArray({length})]");
         sb.AppendLine($"file struct Arguments{length}<T>");
-        using (sb.StartBlock())
+        using (sb.CreateBlock())
         {
             CreateArgumentsMembers(sb, length);
         }
@@ -235,10 +223,10 @@ internal class OverridesGenerator : IDisposable
 
     private static void CreateArgumentsMembers(SourceBuilder sb, int length)
     {
-        sb.AppendTextLine("public T arg0;");
+        sb.AppendLine("public T arg0;");
         sb.AppendLine();
         sb.AppendLine($"public Arguments{length}({Enumerable.Range(0, length).Select(e => $"T value{e}")})");
-        using (sb.StartBlock())
+        using (sb.CreateBlock())
         {
             ArgumentsConstructorBody(sb, length);
         }
@@ -246,7 +234,7 @@ internal class OverridesGenerator : IDisposable
 
     private static void ArgumentsConstructorBody(SourceBuilder builder, int length)
     {
-        builder.AppendTextLine("arg0 = value0;");
+        builder.AppendLine("arg0 = value0;");
         for (int i = 1; i < length; i++)
         {
             builder.AppendLine($"this[{i}] = value{i};");
