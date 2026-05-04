@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -69,7 +70,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
     }
 
     public static implicit operator SourceBuilderSegment(SourceBuilder builder) =>
-        new(builder, addIndent: true);
+        new(builder);
 
     private void IncreaseIndent()
     {
@@ -82,14 +83,32 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void AppendInternal(string text)
+    private void AppendInternal<T>(T? arg)
     {
+        if (arg is null)
+        {
+            return;
+        }
+
         EnsureIndentAdded();
-        _builder.Append(text);
+
+        if (arg is int i)
+        {
+            _builder.Append(i);
+        }
+        else
+        {
+            _builder.Append(arg);
+        }
     }
 
-    private void AppendLineInternal(string text)
+    private void AppendLineInternal(string? text)
     {
+        if (text is null)
+        {
+            return;
+        }
+
         EnsureIndentAdded();
         _builder.Append(text);
         AppendNewLine();
@@ -101,22 +120,15 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
         _indentAdded = false;
     }
 
-    private void AddCommaSeparatedList<T>(IEnumerable<T> args)
+    private void AddCommaSeparatedList<T>(IEnumerable<T>? args)
     {
+        if (args is null)
+        {
+            return;
+        }
+
         EnsureIndentAdded();
         Helpers.AppendJoin(_builder, ", ", args);
-    }
-
-    private void AppendFormatted<T>(T? t)
-    {
-        EnsureIndentAdded();
-        _builder.Append(t);
-    }
-
-    private void AppendInternal(int arg)
-    {
-        EnsureIndentAdded();
-        _builder.Append(arg);
     }
 
     private void EnsureIndentAdded()

@@ -127,6 +127,17 @@ public class SourceBuilder_CreateLine
     }
 
     [Test]
+    public async Task CreateLine_WhenAppendLineInterpolated_DoesNotThrow()
+    {
+        var builder = new SourceBuilder();
+        var argument = TestHelpers.GenerateRandomName();
+
+        var line = builder.CreateLine();
+        await Assert.That(() => line.AppendLine($"Method({argument});"))
+            .ThrowsNothing();
+    }
+
+    [Test]
     public async Task CreateLine_WhenAppendLineInterpolated_SecondAppendLineIndented()
     {
         var builder = new SourceBuilder();

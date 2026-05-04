@@ -54,6 +54,30 @@ public class SourceBuilder_AppendLineInterpolated
     }
 
     [Test]
+    public async Task AppendLineInterpolated_InBlockWithArray_InterpolatesArray()
+    {
+        var builder = new SourceBuilder();
+        var items = new[] { "Item1", "Item2", "Item3" };
+
+        builder.AppendLine("First line");
+        using (builder.CreateBlock())
+        {
+            builder.AppendLine($"{items};");
+        }
+
+        builder.AppendLine("Next line");
+
+        await Assert.That(builder).HasContent(
+            """
+            First line
+            {
+                Item1, Item2, Item3;
+            }
+            Next line
+            """);
+    }
+
+    [Test]
     public async Task AppendLineInterpolated_WithIEnumerable_AddsCommaSeparatedList()
     {
         var builder = new SourceBuilder();
@@ -85,6 +109,25 @@ public class SourceBuilder_AppendLineInterpolated
         builder.AppendLine($"({items})");
 
         await Assert.That(builder).HasContent("(Item1, Item2, Item3)");
+    }
+
+    [Test]
+    public async Task AppendLineInterpolated_ArrayInBlock_IndentsAppendedText()
+    {
+        var builder = new SourceBuilder();
+        string[] items = ["Item1", "Item2", "Item3"];
+
+        using (builder.CreateBlock())
+        {
+            builder.AppendLine($"({items})");
+        }
+
+        await Assert.That(builder).HasContent(
+            """
+            {
+                (Item1, Item2, Item3)
+            }
+            """);
     }
 
     [Test]
@@ -143,5 +186,24 @@ public class SourceBuilder_AppendLineInterpolated
         builder.AppendLine($"Value: {value}");
 
         await Assert.That(builder).HasContent("Value: { Name = Test }");
+    }
+
+    [Test]
+    public async Task AppendLineInterpolated_ObjectInBlock_IndentsAppendedText()
+    {
+        var builder = new SourceBuilder();
+        var value = new { Name = "Test" };
+
+        using (builder.CreateBlock())
+        {
+            builder.AppendLine($"Value: {value}");
+        }
+
+        await Assert.That(builder).HasContent(
+            """
+            {
+                Value: { Name = Test }
+            }
+            """);
     }
 }

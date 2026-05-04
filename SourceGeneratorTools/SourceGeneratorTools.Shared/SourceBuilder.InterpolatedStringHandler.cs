@@ -31,7 +31,7 @@ partial class SourceBuilder
             }
             else
             {
-                _builder.AppendFormatted(t);
+                _builder.AppendInternal(t);
             }
         }
 
@@ -43,38 +43,13 @@ partial class SourceBuilder
             }
         }
 
-        public void AppendFormatted(int arg)
-        {
-            _builder.AppendInternal(arg);
-        }
-
-        public void AppendFormatted(int? arg)
-        {
-            if (!arg.HasValue)
-            {
-                return;
-            }
-
-            _builder.AppendInternal(arg.Value);
-        }
-
         public void AppendFormatted<T>(IEnumerable<T>? args)
         {
-            if (args is null)
-            {
-                return;
-            }
-
             _builder.AddCommaSeparatedList(args);
         }
 
         public void AppendFormatted<T>(T[]? args)
         {
-            if (args is null)
-            {
-                return;
-            }
-
             _builder.AddCommaSeparatedList(args);
         }
     }

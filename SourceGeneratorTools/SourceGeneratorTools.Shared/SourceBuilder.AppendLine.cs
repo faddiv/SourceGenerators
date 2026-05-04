@@ -14,7 +14,7 @@ public partial class SourceBuilder
         AppendNewLine();
     }
 
-    public void AppendLine(string text)
+    public void AppendLine(string? text)
     {
         AppendLineInternal(text);
     }

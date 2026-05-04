@@ -27,6 +27,42 @@ public class SourceBuilder_AppendLine
     }
 
     [Test]
+    public async Task AppendLine_WithNull_DoesNotAddLine()
+    {
+        var builder = new SourceBuilder();
+
+        builder.AppendLine("First line");
+        // ReSharper disable once RedundantCast
+        builder.AppendLine((string?)null);
+        builder.AppendLine("Last line");
+
+        await Assert.That(builder).HasContent(
+            """
+            First line
+            Last line
+            """);
+    }
+
+    [Test]
+    public async Task AppendLine_InBlockWithNull_DoesNotIndent()
+    {
+        var builder = new SourceBuilder();
+
+        using (builder.CreateBlock())
+        {
+            // ReSharper disable once RedundantCast
+            builder.AppendLine((string?)null);
+
+        }
+
+        await Assert.That(builder).HasContent(
+            """
+            {
+            }
+            """);
+    }
+
+    [Test]
     [Arguments("\n")]
     [Arguments("\r\n")]
     public async Task AppendLine_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
