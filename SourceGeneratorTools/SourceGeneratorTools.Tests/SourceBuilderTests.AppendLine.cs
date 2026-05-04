@@ -4,49 +4,49 @@ namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {
-    [Fact]
-    public void AppendLine_WithoutParameters_AddsEmptyLine()
+    [Test]
+    public async Task AppendLine_WithoutParameters_AddsEmptyLine()
     {
         var builder = new SourceBuilder();
 
         builder.AppendLine();
 
-        Assert.Content(Environment.NewLine, builder);
+        await Assert.That(builder).HasContent(Environment.NewLine);
     }
 
-    [Fact]
-    public void AppendLine_WithString_AddsLineWithText()
+    [Test]
+    public async Task AppendLine_WithString_AddsLineWithText()
     {
         var builder = new SourceBuilder();
         const string text = "Hello, World!";
 
         builder.AppendLine(text);
 
-        Assert.Content(text, builder);
+        await Assert.That(builder).HasContent(text);
     }
 
-    [Theory]
-    [InlineData("\n")]
-    [InlineData("\r\n")]
-    public void AppendLine_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task AppendLine_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
     {
         var builder = new SourceBuilder(newLine: newLine);
         const string text = "Hello, World!";
 
         builder.AppendLine(text);
 
-        Assert.RawContent($"{text}{newLine}", builder);
+        await Assert.That(builder).HasRawContent($"{text}{newLine}");
     }
 
-    [Theory]
-    [InlineData("\n")]
-    [InlineData("\r\n")]
-    public void AppendLineEmpty_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task AppendLineEmpty_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
     {
         var builder = new SourceBuilder(newLine: newLine);
 
         builder.AppendLine();
 
-        Assert.RawContent(newLine, builder);
+        await Assert.That(builder).HasRawContent(newLine);
     }
 }

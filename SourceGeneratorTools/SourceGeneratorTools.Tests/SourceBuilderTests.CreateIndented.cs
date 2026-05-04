@@ -4,8 +4,8 @@ namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {
-    [Fact]
-    public void CreateIndented_CreatesIndentedBuilder()
+    [Test]
+    public async Task CreateIndented_CreatesIndentedBuilder()
     {
         var builder = new SourceBuilder();
 
@@ -17,11 +17,11 @@ public partial class SourceBuilderTests
 
         builder.AppendLine("Next line");
 
-        Assert.Content(
+        await Assert.That(builder).HasContent(
             """
             First line
                 Indented line
             Next line
-            """, builder);
+            """);
     }
 }

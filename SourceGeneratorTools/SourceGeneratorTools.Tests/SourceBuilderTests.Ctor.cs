@@ -1,43 +1,45 @@
-﻿namespace SourceGeneratorTools.Tests;
+﻿using SourceGeneratorTools.Tests.TestInfrastructure;
+
+namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {
-    [Fact]
-    public void Ctor_WithoutParameters_CreatesDefaultInstance()
+    [Test]
+    public async Task Ctor_WithoutParameters_CreatesDefaultInstance()
     {
         var builder = new SourceBuilder();
 
-        Assert.Equal(string.Empty, builder.ToString());
-        Assert.Equal(Environment.NewLine, builder.NewLine);
-        //Assert.Equal("    ", builder.Indent);
+        await Assert.That(builder).HasContent(string.Empty);
+        await Assert.That(builder.NewLine).IsEqualTo(Environment.NewLine);
+        await Assert.That(builder.Indent).IsEqualTo("    ");
     }
 
-    [Fact]
-    public void Ctor_WithDifferentIndent_CreatesInstanceWithCustomIndent()
+    [Test]
+    public async Task Ctor_WithDifferentIndent_CreatesInstanceWithCustomIndent()
     {
         const string indent = "\t";
         var builder = new SourceBuilder(indent);
 
-        Assert.Equal(indent, builder.Indent);
+        await Assert.That(builder.Indent).IsEqualTo(indent);
     }
 
-    [Theory]
-    [InlineData("\n")]
-    [InlineData("\r\n")]
-    public void Ctor_WithDifferentNewLine_CreatesInstanceWithCustomNewLine(string newLine)
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Ctor_WithDifferentNewLine_CreatesInstanceWithCustomNewLine(string newLine)
     {
         var builder = new SourceBuilder(newLine: newLine);
 
         builder.AppendLine("Test");
 
-        Assert.Equal(newLine, builder.NewLine);
+        await Assert.That(builder.NewLine).IsEqualTo(newLine);
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("inv")]
+    [Test]
+    [Arguments("")]
+    [Arguments("inv")]
     public void Ctor_WithInvalidNewLine_ThrowsArgumentException(string newLine)
     {
-        Assert.Throws<ArgumentException>(() => new SourceBuilder(newLine: newLine));
+        Assert.Throws<ArgumentException>(() => _ = new SourceBuilder(newLine: newLine));
     }
 }

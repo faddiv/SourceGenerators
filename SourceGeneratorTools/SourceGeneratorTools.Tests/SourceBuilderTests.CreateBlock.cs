@@ -4,48 +4,48 @@ namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {
-    [Fact]
-    public void CreateBlock_WithNoParameter_CreatesBlockWithBraces()
+    [Test]
+    public async Task CreateBlock_WithNoParameter_CreatesBlockWithBraces()
     {
         var builder = new SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateBlock())
         {
-            Assert.Equal(1, builder.IndentLevel);
+            await Assert.That(builder.IndentLevel).IsEqualTo(1);
             builder.AppendLine("Inside block");
         }
 
         builder.AppendLine("Next line");
 
-        Assert.Equal(0, builder.IndentLevel);
-        Assert.Content(
+        await Assert.That(builder.IndentLevel).IsEqualTo(0);
+        await Assert.That(builder).HasContent(
             """
             First line
             {
                 Inside block
             }
             Next line
-            """, builder);
+            """);
     }
 
-    [Fact]
-    public void CreateBlock_WithParameter_CreatesBlockWithCustomStartAndEnd()
+    [Test]
+    public async Task CreateBlock_WithParameter_CreatesBlockWithCustomStartAndEnd()
     {
         var builder = new SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateBlock("[", "]"))
         {
-            Assert.Equal(1, builder.IndentLevel);
+            await Assert.That(builder.IndentLevel).IsEqualTo(1);
             builder.AppendLine("Element 1,");
             builder.AppendLine("Element 2");
         }
 
         builder.AppendLine("Next line");
 
-        Assert.Equal(0, builder.IndentLevel);
-        Assert.Content(
+        await Assert.That(builder.IndentLevel).IsEqualTo(0);
+        await Assert.That(builder).HasContent(
             """
             First line
             [
@@ -53,6 +53,6 @@ public partial class SourceBuilderTests
                 Element 2
             ]
             Next line
-            """, builder);
+            """);
     }
 }

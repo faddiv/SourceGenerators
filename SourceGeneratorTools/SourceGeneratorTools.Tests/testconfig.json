@@ -1,15 +1,10 @@
 ﻿{
-    "platformOptions": {
-        "Coverlet": {
-            "include": "[SourceGeneratorTools]*",
-            "excludeByAttribute": "GeneratedCode,ExcludeFromCodeCoverage,ExcludeFromCodeCoverageAttribute,CompilerGeneratedAttribute",
-            "format": "cobertura,json",
-            "useSourceLink": true,
-            "singleHit": false,
-            "includeTestAssembly": false,
-            "skipAutoProps": true,
-            "deterministicReport": false,
-            "excludeAssembliesWithoutSources": "MissingAll"
+    "codeCoverage": {
+        "Configuration": {
+            "CoverageFileLogPath": "coverage.log",
+            "CoverageFileName": "cobertura.xml",
+            "Format": "cobertura",
+            "IncludeTestAssembly": false
         }
     }
 }

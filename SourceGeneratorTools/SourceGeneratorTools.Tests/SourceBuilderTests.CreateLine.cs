@@ -4,8 +4,8 @@ namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {
-    [Fact]
-    public void CreateLine_WithoutElements_CreatesSingleLine()
+    [Test]
+    public async Task CreateLine_WithoutElements_CreatesSingleLine()
     {
         var builder = new SourceBuilder();
 
@@ -14,13 +14,13 @@ public partial class SourceBuilderTests
             // No elements added to the line
         }
 
-        Assert.Content(Environment.NewLine, builder);
+        await Assert.That(builder).HasContent(Environment.NewLine);
     }
 
-    [Theory]
-    [InlineData("\n")]
-    [InlineData("\r\n")]
-    public void CreateLine_WithMultipleElement_CreatesSingleLine(string newLine)
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task CreateLine_WithMultipleElement_CreatesSingleLine(string newLine)
     {
         var builder = new SourceBuilder(newLine: newLine);
 
@@ -30,11 +30,11 @@ public partial class SourceBuilderTests
             line.Append("World!");
         }
 
-        Assert.RawContent($"Hello, World!{newLine}", builder);
+        await Assert.That(builder).HasRawContent($"Hello, World!{newLine}");
     }
 
-    [Fact]
-    public void CreateLine_WithInterpolatedString_CreatesSingleLine()
+    [Test]
+    public async Task CreateLine_WithInterpolatedString_CreatesSingleLine()
     {
         var builder = new SourceBuilder();
         string name = TestHelpers.GenerateRandomName();
@@ -46,15 +46,15 @@ public partial class SourceBuilderTests
 
         builder.AppendLine("Next line");
 
-        Assert.Content(
+        await Assert.That(builder).HasContent(
             $"""
              Hello, {name}!
              Next line
-             """, builder);
+             """);
     }
 
-    [Fact]
-    public void CreateLine_WithCommaSeparatedList_CreatesSingleLine()
+    [Test]
+    public async Task CreateLine_WithCommaSeparatedList_CreatesSingleLine()
     {
         var builder = new SourceBuilder();
         var items = new[] { "Item1", "Item2", "Item3" };
@@ -66,11 +66,11 @@ public partial class SourceBuilderTests
             line.Append(")");
         }
 
-        Assert.Content("(Item1, Item2, Item3)", builder);
+        await Assert.That(builder).HasContent("(Item1, Item2, Item3)");
     }
 
-    [Fact]
-    public void CreateLine_WhenAppendLine_CreatesIndentedLines()
+    [Test]
+    public async Task CreateLine_WhenAppendLine_CreatesIndentedLines()
     {
         var builder = new SourceBuilder();
 
@@ -84,17 +84,17 @@ public partial class SourceBuilderTests
 
         builder.AppendLine("{");
 
-        Assert.Content(
+        await Assert.That(builder).HasContent(
             """
             public void Method(
                 param1,
                 param2);
             {
-            """, builder);
+            """);
     }
 
-    [Fact]
-    public void CreateLine_WhenAppendLine_SecondLineCanBeAddedWithoutIndent()
+    [Test]
+    public async Task CreateLine_WhenAppendLine_SecondLineCanBeAddedWithoutIndent()
     {
         var builder = new SourceBuilder();
 
@@ -107,16 +107,16 @@ public partial class SourceBuilderTests
 
         builder.AppendLine("{");
 
-        Assert.Content(
+        await Assert.That(builder).HasContent(
             """
             public void Method(
                 param1, param2);
             {
-            """, builder);
+            """);
     }
 
-    [Fact]
-    public void CreateLine_WhenAppendLineInterpolated_SecondAppendLineIndented()
+    [Test]
+    public async Task CreateLine_WhenAppendLineInterpolated_SecondAppendLineIndented()
     {
         var builder = new SourceBuilder();
         var argument = TestHelpers.GenerateRandomName();
@@ -129,16 +129,16 @@ public partial class SourceBuilderTests
 
         builder.AppendLine("Third line");
 
-        Assert.Content(
+        await Assert.That(builder).HasContent(
             $"""
             Method({argument});
                 Second line
             Third line
-            """, builder);
+            """);
     }
 
-    [Fact]
-    public void CreateLine_WhenAppendLine_SecondAppendLineInterpolatedIsIndented()
+    [Test]
+    public async Task CreateLine_WhenAppendLine_SecondAppendLineInterpolatedIsIndented()
     {
         var builder = new SourceBuilder();
         var argument = TestHelpers.GenerateRandomName();
@@ -151,11 +151,11 @@ public partial class SourceBuilderTests
 
         builder.AppendLine("Third line");
 
-        Assert.Content(
+        await Assert.That(builder).HasContent(
             $"""
             Method
                 Second line {argument}
             Third line
-            """, builder);
+            """);
     }
 }

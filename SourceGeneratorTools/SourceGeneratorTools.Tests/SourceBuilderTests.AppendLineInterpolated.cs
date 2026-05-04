@@ -4,138 +4,138 @@ namespace SourceGeneratorTools.Tests;
 
 public partial class SourceBuilderTests
 {
-    [Fact]
-    public void AppendLineInterpolated_WithString_AddsLineWithText()
+    [Test]
+    public async Task AppendLineInterpolated_WithString_AddsLineWithText()
     {
         var builder = new SourceBuilder();
         var name = TestHelpers.GenerateRandomName();
 
         builder.AppendLine($"Hello, {name}!");
 
-        Assert.Content($"Hello, {name}!", builder);
+        await Assert.That(builder).HasContent($"Hello, {name}!");
     }
 
-    [Theory]
-    [InlineData("\n")]
-    [InlineData("\r\n")]
-    public void AppendLineInterpolated_WithNewLine_AddsNewLine(string newLine)
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task AppendLineInterpolated_WithNewLine_AddsNewLine(string newLine)
     {
         var builder = new SourceBuilder(newLine: newLine);
         var name = TestHelpers.GenerateRandomName();
 
         builder.AppendLine($"Hello, {name}!");
 
-        Assert.RawContent($"Hello, {name}!{newLine}", builder);
+        await Assert.That(builder).HasRawContent($"Hello, {name}!{newLine}");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithArray_AddsCommaSeparatedList()
+    [Test]
+    public async Task AppendLineInterpolated_WithArray_AddsCommaSeparatedList()
     {
         var builder = new SourceBuilder();
         var items = new[] { "Item1", "Item2", "Item3" };
 
         builder.AppendLine($"({items})");
 
-        Assert.Content("(Item1, Item2, Item3)", builder);
+        await Assert.That(builder).HasContent("(Item1, Item2, Item3)");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithNullArray_AddsEmptyParentheses()
+    [Test]
+    public async Task AppendLineInterpolated_WithNullArray_AddsEmptyParentheses()
     {
         var builder = new SourceBuilder();
         string[]? items = null;
 
         builder.AppendLine($"({items})");
 
-        Assert.Content("()", builder);
+        await Assert.That(builder).HasContent("()");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithIEnumerable_AddsCommaSeparatedList()
+    [Test]
+    public async Task AppendLineInterpolated_WithIEnumerable_AddsCommaSeparatedList()
     {
         var builder = new SourceBuilder();
         IEnumerable<string> items = ["Item1", "Item2", "Item3"];
 
         builder.AppendLine($"({items})");
 
-        Assert.Content("(Item1, Item2, Item3)", builder);
+        await Assert.That(builder).HasContent("(Item1, Item2, Item3)");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithEmptyIEnumerable_AddsEmptyParentheses()
+    [Test]
+    public async Task AppendLineInterpolated_WithEmptyIEnumerable_AddsEmptyParentheses()
     {
         var builder = new SourceBuilder();
         IEnumerable<string> items = Array.Empty<string>();
 
         builder.AppendLine($"({items})");
 
-        Assert.Content("()", builder);
+        await Assert.That(builder).HasContent("()");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithIEnumerableCastedObject_AddsCommaSeparatedList()
+    [Test]
+    public async Task AppendLineInterpolated_WithIEnumerableCastedObject_AddsCommaSeparatedList()
     {
         var builder = new SourceBuilder();
         object items = new[] { "Item1", "Item2", "Item3" };
 
         builder.AppendLine($"({items})");
 
-        Assert.Content("(Item1, Item2, Item3)", builder);
+        await Assert.That(builder).HasContent("(Item1, Item2, Item3)");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithNullIEnumerable_AddsEmptyString()
+    [Test]
+    public async Task AppendLineInterpolated_WithNullIEnumerable_AddsEmptyString()
     {
         var builder = new SourceBuilder();
         IEnumerable<string>? items = null;
 
         builder.AppendLine($"({items})");
 
-        Assert.Content("()", builder);
+        await Assert.That(builder).HasContent("()");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithInt32_AddsValue()
+    [Test]
+    public async Task AppendLineInterpolated_WithInt32_AddsValue()
     {
         var builder = new SourceBuilder();
         const int value = 42;
 
         builder.AppendLine($"Value: {value}");
 
-        Assert.Content("Value: 42", builder);
+        await Assert.That(builder).HasContent("Value: 42");
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData(42)]
-    public void AppendLineInterpolated_WithInt32Nullable_AddsValue(int? value)
+    [Test]
+    [Arguments(null)]
+    [Arguments(42)]
+    public async Task AppendLineInterpolated_WithInt32Nullable_AddsValue(int? value)
     {
         var builder = new SourceBuilder();
 
         builder.AppendLine($"Value: {value}");
 
-        Assert.Content($"Value: {value}", builder);
+        await Assert.That(builder).HasContent($"Value: {value}");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithNull_AddsEmptyString()
+    [Test]
+    public async Task AppendLineInterpolated_WithNull_AddsEmptyString()
     {
         var builder = new SourceBuilder();
         object? value = null;
 
         builder.AppendLine($"Value: {value}");
 
-        Assert.Content("Value: ", builder);
+        await Assert.That(builder).HasContent("Value: ");
     }
 
-    [Fact]
-    public void AppendLineInterpolated_WithObject_AddsObjectToString()
+    [Test]
+    public async Task AppendLineInterpolated_WithObject_AddsObjectToString()
     {
         var builder = new SourceBuilder();
         var value = new { Name = "Test" };
 
         builder.AppendLine($"Value: {value}");
 
-        Assert.Content("Value: { Name = Test }", builder);
+        await Assert.That(builder).HasContent("Value: { Name = Test }");
     }
 }

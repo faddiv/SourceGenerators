@@ -1,22 +1,38 @@
-﻿namespace SourceGeneratorTools.Tests.TestInfrastructure;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using TUnit.Assertions.Conditions;
+using TUnit.Assertions.Sources;
+
+namespace SourceGeneratorTools.Tests.TestInfrastructure;
 
 public static class AssertExtensions
 {
-    extension(Assert)
+    extension(ValueAssertion<SourceBuilder> source)
     {
-        public static void Content(string expected, SourceBuilder builder)
+        public StringEqualsAssertion HasContent(
+            string expected,
+            [CallerArgumentExpression(nameof(expected))]
+            string? expression = null)
         {
             if (!string.IsNullOrEmpty(expected) && !expected.EndsWith(Environment.NewLine))
             {
                 expected += Environment.NewLine;
             }
 
-            Assert.Equal(expected, builder.ToString());
+            source.Context.ExpressionBuilder.Append($".HasContent({expression ?? nameof(expected)})");
+            return new StringEqualsAssertion(
+                source.Context.Map(static sb => sb?.ToString()),
+                expected,
+                StringComparison.Ordinal);
         }
 
-        public static void RawContent(string expected, SourceBuilder builder)
+        public StringEqualsAssertion HasRawContent(string expected)
         {
-            Assert.Equal(expected, builder.ToString());
+            source.Context.ExpressionBuilder.Append($".HasRawContent({nameof(expected)})");
+            return new StringEqualsAssertion(
+                source.Context.Map(static sb => sb?.ToString()),
+                expected,
+                StringComparison.Ordinal);
         }
     }
 }
