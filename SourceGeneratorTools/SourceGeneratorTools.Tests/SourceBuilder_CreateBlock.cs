@@ -56,4 +56,30 @@ public partial class SourceBuilder_CreateBlock
             Next line
             """);
     }
+
+    [Test]
+    public async Task CreateBlock_WithAppendLineInterpolated_CreatesBlockWithBraces()
+    {
+        var builder = new SourceBuilder();
+
+        builder.AppendLine("First line");
+        using (builder.CreateBlock())
+        {
+            builder.AppendLine($"Element {1},");
+            builder.AppendLine($"Element {2}");
+        }
+
+        builder.AppendLine("Next line");
+
+        await Assert.That(builder).HasContent(
+            """
+            First line
+            {
+                Element 1,
+                Element 2
+            }
+            Next line
+            """
+        );
+    }
 }

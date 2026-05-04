@@ -4,8 +4,17 @@ namespace SourceGeneratorTools;
 
 partial class SourceBuilder
 {
-    public readonly ref struct SourceBuilderSegment(SourceBuilder builder)
+    public readonly ref struct SourceBuilderSegment
     {
-        public SourceBuilder Builder { get; } = builder;
+        public SourceBuilderSegment(SourceBuilder builder, bool addIndent = false)
+        {
+            Builder = builder;
+            if (addIndent)
+            {
+                Builder.AddIndent();
+            }
+        }
+
+        public SourceBuilder Builder { get; }
     }
 }

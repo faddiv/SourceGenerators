@@ -13,6 +13,9 @@ namespace SourceGeneratorTools;
 /// <param name="bufferCapacity">The suggested starting capacitz of the buffer.</param>
 public sealed partial class SourceBuilder(string indent = "    ", string? newLine = null, int bufferCapacity = 2048)
 {
+    // Can't use Environment.NewLine in SourceGenerators.
+    public static string DefaultNewLine { get; set; } = new StringBuilder().AppendLine().ToString();
+
     private readonly StringBuilder _builder = new(bufferCapacity);
     private int _indentLevel;
 
@@ -20,7 +23,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
 
     public string Indent { get; } = indent;
 
-    public string NewLine { get; } = Valid(newLine) ?? Environment.NewLine;
+    public string NewLine { get; } = Valid(newLine) ?? DefaultNewLine;
 
     public override string ToString()
     {
@@ -65,7 +68,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
     }
 
     public static implicit operator SourceBuilderSegment(SourceBuilder builder) =>
-        new(builder);
+        new(builder, addIndent: true);
 
     private void IncreaseIndent()
     {
