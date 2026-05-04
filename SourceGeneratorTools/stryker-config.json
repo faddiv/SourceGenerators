@@ -1,0 +1,15 @@
+{
+    "stryker-config":
+    {
+        "solution": "SourceGeneratorTools.slnx",
+        "project": "SourceGeneratorTools/SourceGeneratorTools.csproj",
+        "reporters": [
+            "progress",
+            "html"
+        ],
+        "ignore-mutations": [
+            "linq.Prepend"
+        ],
+        "test-runner": "mtp"
+    }
+}

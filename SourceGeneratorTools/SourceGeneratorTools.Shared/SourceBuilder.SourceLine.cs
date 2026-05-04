@@ -86,6 +86,7 @@ partial class SourceBuilder
             {
                 1 => builder[^1] == newLine[0],
                 2 => builder.Length > 1 && builder[^2] == newLine[0] && builder[^1] == newLine[1],
+                // Stryker disable once all
                 _ => throw new InvalidOperationException("NewLine must be either 1 or 2 characters long.")
             };
         }
@@ -93,7 +94,7 @@ partial class SourceBuilder
         public static implicit operator SourceBuilderSegment(SourceLine line)
         {
             line.EnsureIndentationApplied();
-            return new SourceBuilderSegment(line._builder, SourceBuilderSegmentFlags.None);
+            return new SourceBuilderSegment(line._builder);
         }
     }
 }

@@ -65,7 +65,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
     }
 
     public static implicit operator SourceBuilderSegment(SourceBuilder builder) =>
-        new(builder, SourceBuilderSegmentFlags.AddAll);
+        new(builder);
 
     private void IncreaseIndent()
     {
@@ -110,10 +110,13 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
 
     private void AppendFormatted<T>(T? t)
     {
-        if (t is not null)
+        if (t is null)
         {
-            _builder.Append(t);
+            // Stryker disable once all
+            return;
         }
+
+        _builder.Append(t);
     }
 
     private void Append(string arg)
@@ -128,6 +131,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
 
     private void EnsureCapacity(int capacity)
     {
+        // Stryker disable once all
         _builder.EnsureCapacity(capacity);
     }
 

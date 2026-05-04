@@ -13,6 +13,7 @@ partial class SourceBuilder
         public InterpolatedStringHandler(int literalLength, int formattedCount, SourceBuilderSegment segment)
         {
             _builder = segment.Builder;
+            // Stryker disable once all
             _builder.EnsureCapacity(_builder._builder.Length + literalLength + (formattedCount << 4));
         }
 
@@ -24,6 +25,7 @@ partial class SourceBuilder
 
         public void AppendFormatted<T>(T? t)
         {
+            // Stryker disable once all
             if (t is null)
             {
                 return;
