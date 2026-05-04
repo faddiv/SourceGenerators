@@ -5,10 +5,9 @@ namespace SourceGeneratorTools;
 
 partial class SourceBuilder
 {
-    public ref struct SourceLine(SourceBuilder builder) : IDisposable
+    public readonly struct SourceLine(SourceBuilder builder) : IDisposable
     {
         private readonly int _originalIndent = builder._indentLevel;
-        private bool _indentAdded;
 
         public SourceBuilder Builder { get; } = builder;
 
@@ -31,8 +30,6 @@ partial class SourceBuilder
 
         public void Append(string segment)
         {
-            EnsureIndentationApplied();
-
             Builder.AppendInternal(segment);
         }
 
@@ -43,27 +40,13 @@ partial class SourceBuilder
             Builder.AppendLine();
 
             EnsureSecondLineIndentation();
-
-            _indentAdded = false;
         }
 
         public void AppendLine(string segment)
         {
-            EnsureIndentationApplied();
-
-            Builder.AppendInternal(segment);
-            Builder.AppendLine();
+            Builder.AppendLineInternal(segment);
 
             EnsureSecondLineIndentation();
-
-            _indentAdded = false;
-        }
-
-        private void EnsureIndentationApplied()
-        {
-            if (_indentAdded) return;
-            Builder.AddIndent();
-            _indentAdded = true;
         }
 
         private void EnsureSecondLineIndentation()
@@ -95,7 +78,6 @@ partial class SourceBuilder
 
         public static implicit operator SourceBuilderSegment(SourceLine line)
         {
-            line.EnsureIndentationApplied();
             return new SourceBuilderSegment(line.Builder);
         }
     }

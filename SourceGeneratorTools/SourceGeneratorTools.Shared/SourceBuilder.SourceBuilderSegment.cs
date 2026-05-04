@@ -9,10 +9,10 @@ partial class SourceBuilder
         public SourceBuilderSegment(SourceBuilder builder, bool addIndent = false)
         {
             Builder = builder;
-            if (addIndent)
+            /*if (addIndent)
             {
                 Builder.AddIndent();
-            }
+            }*/
         }
 
         public SourceBuilder Builder { get; }

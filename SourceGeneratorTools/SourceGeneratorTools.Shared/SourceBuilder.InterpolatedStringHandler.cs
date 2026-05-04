@@ -20,7 +20,7 @@ partial class SourceBuilder
 
         public void AppendLiteral(string s)
         {
-            _builder.Append(s);
+            _builder.AppendInternal(s);
         }
 
         public void AppendFormatted<T>(T? t)
@@ -39,13 +39,13 @@ partial class SourceBuilder
         {
             if (arg is not null)
             {
-                _builder.Append(arg);
+                _builder.AppendInternal(arg);
             }
         }
 
         public void AppendFormatted(int arg)
         {
-            _builder.Append(arg);
+            _builder.AppendInternal(arg);
         }
 
         public void AppendFormatted(int? arg)
@@ -55,7 +55,7 @@ partial class SourceBuilder
                 return;
             }
 
-            _builder.Append(arg.Value);
+            _builder.AppendInternal(arg.Value);
         }
 
         public void AppendFormatted<T>(IEnumerable<T>? args)

@@ -18,6 +18,7 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
 
     private readonly StringBuilder _builder = new(bufferCapacity);
     private int _indentLevel;
+    private bool _indentAdded;
 
     public int IndentLevel => _indentLevel;
 
@@ -83,12 +84,13 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AppendInternal(string text)
     {
+        EnsureIndentAdded();
         _builder.Append(text);
     }
 
     private void AppendLineInternal(string text)
     {
-        AddIndent();
+        EnsureIndentAdded();
         _builder.Append(text);
         AppendNewLine();
     }
@@ -96,35 +98,37 @@ public sealed partial class SourceBuilder(string indent = "    ", string? newLin
     private void AppendNewLine()
     {
         _builder.Append(NewLine);
-    }
-
-    private void AddIndent()
-    {
-        // Stryker disable once update
-        for (var i = 0; i < _indentLevel; i++)
-        {
-            _builder.Append(Indent);
-        }
+        _indentAdded = false;
     }
 
     private void AddCommaSeparatedList<T>(IEnumerable<T> args)
     {
+        EnsureIndentAdded();
         Helpers.AppendJoin(_builder, ", ", args);
     }
 
     private void AppendFormatted<T>(T? t)
     {
+        EnsureIndentAdded();
         _builder.Append(t);
     }
 
-    private void Append(string arg)
+    private void AppendInternal(int arg)
     {
+        EnsureIndentAdded();
         _builder.Append(arg);
     }
 
-    private void Append(int arg)
+    private void EnsureIndentAdded()
     {
-        _builder.Append(arg);
+        if (_indentAdded) return;
+        // Stryker disable once update
+        for (var i = 0; i < _indentLevel; i++)
+        {
+            _builder.Append(Indent);
+        }
+
+        _indentAdded = true;
     }
 
     // Stryker disable once all
