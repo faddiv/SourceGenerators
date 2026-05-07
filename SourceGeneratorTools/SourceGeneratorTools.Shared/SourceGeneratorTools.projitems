@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ComparableArray.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComparableArrayBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.AppendLine.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Block.cs"/>
     <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.cs"/>
