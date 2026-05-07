@@ -1,4 +1,5 @@
 ﻿using Foxy.PocoDictionary.SourceGenerator.Helpers;
+using SourceGeneratorTools;
 
 namespace Foxy.PocoDictionary.SourceGenerator.Data;
 
@@ -10,6 +11,6 @@ public record CandidateTypeInfo(
     string TypeKind = "class")
 {
     public bool InGlobalNamespace => Namespace is null;
-    
+
     public string FullName => Namespace is null ? TypeName : $"{Namespace}.{TypeName}";
 }

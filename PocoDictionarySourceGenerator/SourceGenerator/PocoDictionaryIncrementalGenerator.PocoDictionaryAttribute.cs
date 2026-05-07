@@ -22,7 +22,7 @@ partial class PocoDictionaryIncrementalGenerator
 
         """;
 
-    private void AddPocoDictionaryAttribute(IncrementalGeneratorPostInitializationContext context)
+    private static void AddPocoDictionaryAttribute(IncrementalGeneratorPostInitializationContext context)
     {
         context.AddSource("PocoDictionaryAttribute.g.cs", _pocoDictionarySource);
     }

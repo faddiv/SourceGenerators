@@ -2,9 +2,9 @@ using Microsoft.CodeAnalysis;
 
 namespace Foxy.PocoDictionary.SourceGenerator.Data;
 
-public class DiagnosticReports
+public static class DiagnosticReports
 {
-    public const string Category = "Foxy.PocoDictionary";
+    private const string Category = "Foxy.PocoDictionary";
 
     public static DiagnosticDescriptor InternalError { get; } = new(
         "PD1000",
