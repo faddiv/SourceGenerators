@@ -1,8 +1,5 @@
 ﻿using Foxy.Params.SourceGenerator.Data;
 using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using SourceGeneratorTools;
 
@@ -59,7 +56,7 @@ internal class OverridesGenerator
     private void GeneratePartialClass(
         int level)
     {
-        if (level < _typeInfo.TypeHierarchy.Length)
+        if (level < _typeInfo.TypeHierarchy.Count)
         {
             _builder.AppendLine($"partial class {_typeInfo.TypeHierarchy[level]}");
             using (_builder.CreateBlock())

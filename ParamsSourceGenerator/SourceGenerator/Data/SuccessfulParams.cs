@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Foxy.Params.SourceGenerator.Data;
+﻿namespace Foxy.Params.SourceGenerator.Data;
 
 internal record SuccessfulParams : ParamsCandidate
 {

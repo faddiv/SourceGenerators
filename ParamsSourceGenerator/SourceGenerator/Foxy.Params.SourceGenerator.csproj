@@ -11,6 +11,7 @@
     <Authors>Viktor Faddi</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   
   <ItemGroup>

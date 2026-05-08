@@ -1,7 +1,5 @@
 using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
 
 namespace Foxy.Params.SourceGenerator.Data;
 

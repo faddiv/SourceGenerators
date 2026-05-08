@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Foxy.Params.SourceGenerator.Helpers;
+﻿namespace Foxy.Params.SourceGenerator.Helpers;
 
 public static class CollectionComparer
 {

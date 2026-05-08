@@ -1,8 +1,5 @@
-using System.Linq;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
 using Foxy.Params.SourceGenerator.Helpers;
 using Foxy.Params.SourceGenerator.Data;
 
@@ -25,7 +22,7 @@ partial class ParamsIncrementalGenerator
         {
             return null;
         }
-        
+
         var diagnostics = new List<DiagnosticInfo>();
         if (!Validators.IsContainingTypesArePartial(methodDeclarationSyntax, out var typeName))
         {
@@ -79,7 +76,7 @@ partial class ParamsIncrementalGenerator
         return new SuccessfulParamsCandidate
         {
             TypeInfo = new CandidateTypeInfo
-            { 
+            {
                 TypeName = containingType.ToDisplayString(DisplayFormats.ForFileName),
                 TypeHierarchy = SemanticHelpers.GetTypeHierarchy(containingType),
                 InGlobalNamespace = containingType.ContainingNamespace.IsGlobalNamespace,

@@ -1,9 +1,6 @@
 ﻿using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace Foxy.Params.SourceGenerator.Data;
 

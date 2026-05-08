@@ -1,5 +1,3 @@
-using System;
-
 namespace SourceGeneratorTools;
 
 partial class SourceBuilder
