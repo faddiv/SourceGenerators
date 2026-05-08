@@ -68,7 +68,7 @@ partial class ParamsIncrementalGenerator
 
         if (diagnostics.Count > 0)
         {
-            return new FailedParamsCandidate { Diagnostics = diagnostics };
+            return new FailedParamsCandidate(diagnostics);
         }
 
         INamedTypeSymbol containingType = methodSymbol.ContainingType;

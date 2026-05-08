@@ -83,14 +83,14 @@ internal sealed record MethodInfo
         for (int i = 0; i < typeArguments.Length; i++)
         {
             var typeArg = (ITypeParameterSymbol)typeArguments[i];
-            typeConstraintsList[i] = new GenericTypeInfo
-            {
-                Type = typeArg.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                ConstraintType = SemanticHelpers.GetConstraintType(typeArg),
-                ConstraintTypes = typeArg.ConstraintTypes
-                    .Select(e => e.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)).ToArray(),
-                HasConstructorConstraint = typeArg.HasConstructorConstraint
-            };
+            var constraintTypes = typeArg.ConstraintTypes
+                .Select(e => e.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))
+                .ToArray();
+            typeConstraintsList[i] = new GenericTypeInfo(
+                Type: typeArg.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                ConstraintType: SemanticHelpers.GetConstraintType(typeArg),
+                ConstraintTypes: constraintTypes,
+                HasConstructorConstraint: typeArg.HasConstructorConstraint);
         }
 
         return typeConstraintsList;

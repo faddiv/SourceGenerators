@@ -41,26 +41,16 @@ public class GenericTypeInfoBenchmark
         ];
         _genericTypeInfo =
         [
-            new GenericTypeInfo
-            {
-                Type = "T1",
-                ConstraintType = ConstraintType.Class,
-                ConstraintTypes = [
-                    "Sample.Namespace.Class1",
-                    "Sample.Namespace.Class2"
-                ],
-                HasConstructorConstraint = true
-            },
-            new GenericTypeInfo
-            {
-                Type = "T2",
-                ConstraintType = ConstraintType.Struct,
-                ConstraintTypes = [
-                    "Sample.Namespace.Struct1",
-                    "Sample.Namespace.Struct2"
-                ],
-                HasConstructorConstraint = true
-            }
+            new GenericTypeInfo(Type: "T1", ConstraintType: ConstraintType.Class, ConstraintTypes:
+            [
+                "Sample.Namespace.Class1",
+                "Sample.Namespace.Class2"
+            ], HasConstructorConstraint: true),
+            new GenericTypeInfo(Type: "T2", ConstraintType: ConstraintType.Struct, ConstraintTypes:
+            [
+                "Sample.Namespace.Struct1",
+                "Sample.Namespace.Struct2"
+            ], HasConstructorConstraint: true)
         ];
     }
 

@@ -2,16 +2,12 @@
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal sealed record GenericTypeInfo
+internal sealed record GenericTypeInfo(
+    string Type,
+    ConstraintType ConstraintType,
+    ComparableArray<string> ConstraintTypes,
+    bool HasConstructorConstraint)
 {
-    public required string Type { get; init; }
-
-    public required ConstraintType ConstraintType { get; init; }
-
-    public required ComparableArray<string> ConstraintTypes { get; init; }
-
-    public required bool HasConstructorConstraint { get; init; }
-
     public void WriteTo(SourceBuilder builder)
     {
         if (!HasConstraint())

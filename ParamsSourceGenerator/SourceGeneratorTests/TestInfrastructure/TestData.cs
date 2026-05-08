@@ -41,13 +41,8 @@ namespace SourceGeneratorTests.TestInfrastructure
                 ReturnType = returnType,
                 TypeConstraints = typeConstraints ??
                 [
-                    new GenericTypeInfo
-                    {
-                        Type = "T1",
-                        ConstraintType = ConstraintType.Class,
-                        HasConstructorConstraint = true,
-                        ConstraintTypes = []
-                    }
+                    new GenericTypeInfo(Type: "T1", ConstraintType: ConstraintType.Class,
+                        HasConstructorConstraint: true, ConstraintTypes: [])
                 ]
             };
         }
