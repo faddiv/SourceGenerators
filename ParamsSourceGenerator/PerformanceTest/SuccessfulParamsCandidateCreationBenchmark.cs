@@ -31,22 +31,18 @@ public class SuccessfulParamsCandidateCreationBenchmark
     {
         INamedTypeSymbol containingType = _methodSymbol.ContainingType;
         var parameterInfos = MethodInfo.GetArguments(_methodSymbol);
-        return new SuccessfulParamsCandidate
-        {
-            TypeInfo = new CandidateTypeInfo(TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
+        return new SuccessfulParamsCandidate(TypeInfo: new CandidateTypeInfo(
+                TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
                 TypeHierarchy: SemanticHelpers.GetTypeHierarchy(containingType),
                 InGlobalNamespace: containingType.ContainingNamespace.IsGlobalNamespace,
-                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)),
-            MaxOverrides = _maxOverrides,
-            HasParams = _hasParams,
-            MethodInfo = new MethodInfo(
+                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)), MaxOverrides: _maxOverrides,
+            HasParams: _hasParams, MethodInfo: new MethodInfo(
                 ReturnType: MethodInfo.CreateReturnTypeFor(_methodSymbol),
                 Parameters: parameterInfos,
                 ReturnsKind: SemanticHelpers.GetReturnsKind(_methodSymbol),
                 TypeConstraints: MethodInfo.CreateTypeConstraints(_methodSymbol.TypeArguments),
                 MethodName: _methodSymbol.Name,
-                IsStatic: _methodSymbol.IsStatic)
-        };
+                IsStatic: _methodSymbol.IsStatic));
     }
 
     [Benchmark]

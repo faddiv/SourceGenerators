@@ -73,22 +73,18 @@ partial class ParamsIncrementalGenerator
 
         INamedTypeSymbol containingType = methodSymbol.ContainingType;
         var parameterInfos = MethodInfo.GetArguments(methodSymbol);
-        return new SuccessfulParamsCandidate
-        {
-            TypeInfo = new CandidateTypeInfo(TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
+        return new SuccessfulParamsCandidate(TypeInfo: new CandidateTypeInfo(
+                TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
                 TypeHierarchy: SemanticHelpers.GetTypeHierarchy(containingType),
                 InGlobalNamespace: containingType.ContainingNamespace.IsGlobalNamespace,
-                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)),
-            MaxOverrides = maxOverrides,
-            HasParams = hasParams,
-            MethodInfo = new MethodInfo(
+                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)), MaxOverrides: maxOverrides,
+            HasParams: hasParams, MethodInfo: new MethodInfo(
                 ReturnType: MethodInfo.CreateReturnTypeFor(methodSymbol),
                 Parameters: parameterInfos,
                 ReturnsKind: SemanticHelpers.GetReturnsKind(methodSymbol),
                 TypeConstraints: MethodInfo.CreateTypeConstraints(methodSymbol.TypeArguments),
                 MethodName: methodSymbol.Name,
-                IsStatic: methodSymbol.IsStatic)
-        };
+                IsStatic: methodSymbol.IsStatic));
     }
 }
 

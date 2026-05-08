@@ -44,12 +44,9 @@ public partial class ParamsIncrementalGenerator : IIncrementalGenerator
             .GroupBy(x => x.TypeInfo)
             .Select(x => new SuccessfulParamsGroupCandidate
             {
-                ParamCandidates = x.Select(y => new SuccessfulParams
-                {
-                    MethodInfo = y.MethodInfo,
-                    HasParams = y.HasParams,
-                    MaxOverrides = y.MaxOverrides,
-                }).ToArray(),
+                ParamCandidates = x.Select(y =>
+                    new SuccessfulParams(MethodInfo: y.MethodInfo, HasParams: y.HasParams,
+                        MaxOverrides: y.MaxOverrides)).ToArray(),
                 TypeInfo = x.Key
             })
             .Cast<ParamsCandidate>()

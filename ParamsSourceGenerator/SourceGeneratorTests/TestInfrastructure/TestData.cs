@@ -48,13 +48,8 @@ namespace SourceGeneratorTests.TestInfrastructure
             int maxOverrides = 5,
             bool hasParams = true)
         {
-            return new SuccessfulParamsCandidate
-            {
-                TypeInfo = typeInfo ?? CreateCandidateTypeInfo(),
-                MethodInfo = derivedData ?? CreateDerivedData(),
-                MaxOverrides = maxOverrides,
-                HasParams = hasParams
-            };
+            return new SuccessfulParamsCandidate(TypeInfo: typeInfo ?? CreateCandidateTypeInfo(),
+                MethodInfo: derivedData ?? CreateDerivedData(), MaxOverrides: maxOverrides, HasParams: hasParams);
         }
     }
 }
