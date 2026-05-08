@@ -1,6 +1,6 @@
 ﻿namespace Foxy.Params.SourceGenerator.Data;
 
-internal record SuccessfulParams : ParamsCandidate
+internal sealed record SuccessfulParams : ParamsCandidate
 {
     public override bool HasErrors => false;
 
