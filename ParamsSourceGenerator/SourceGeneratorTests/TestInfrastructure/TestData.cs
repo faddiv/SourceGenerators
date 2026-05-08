@@ -14,13 +14,8 @@ namespace SourceGeneratorTests.TestInfrastructure
         string[]? typeHierarchy = null,
         string typeName = "Baz")
         {
-            return new CandidateTypeInfo
-            {
-                InGlobalNamespace = inGlobalNamespace,
-                Namespace = namespaceValue,
-                TypeHierarchy = typeHierarchy ?? ["Foo", "Bar"],
-                TypeName = typeName
-            };
+            return new CandidateTypeInfo(InGlobalNamespace: inGlobalNamespace, Namespace: namespaceValue,
+                TypeHierarchy: typeHierarchy ?? ["Foo", "Bar"], TypeName: typeName);
         }
 
         internal static MethodInfo CreateDerivedData(

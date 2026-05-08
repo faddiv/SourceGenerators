@@ -33,13 +33,10 @@ public class SuccessfulParamsCandidateCreationBenchmark
         var parameterInfos = MethodInfo.GetArguments(_methodSymbol);
         return new SuccessfulParamsCandidate
         {
-            TypeInfo = new CandidateTypeInfo
-            {
-                TypeName = containingType.ToDisplayString(DisplayFormats.ForFileName),
-                TypeHierarchy = SemanticHelpers.GetTypeHierarchy(containingType),
-                InGlobalNamespace = containingType.ContainingNamespace.IsGlobalNamespace,
-                Namespace = SemanticHelpers.GetNameSpaceNoGlobal(containingType)
-            },
+            TypeInfo = new CandidateTypeInfo(TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
+                TypeHierarchy: SemanticHelpers.GetTypeHierarchy(containingType),
+                InGlobalNamespace: containingType.ContainingNamespace.IsGlobalNamespace,
+                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)),
             MaxOverrides = _maxOverrides,
             HasParams = _hasParams,
             MethodInfo = new MethodInfo

@@ -75,13 +75,10 @@ partial class ParamsIncrementalGenerator
         var parameterInfos = MethodInfo.GetArguments(methodSymbol);
         return new SuccessfulParamsCandidate
         {
-            TypeInfo = new CandidateTypeInfo
-            {
-                TypeName = containingType.ToDisplayString(DisplayFormats.ForFileName),
-                TypeHierarchy = SemanticHelpers.GetTypeHierarchy(containingType),
-                InGlobalNamespace = containingType.ContainingNamespace.IsGlobalNamespace,
-                Namespace = SemanticHelpers.GetNameSpaceNoGlobal(containingType)
-            },
+            TypeInfo = new CandidateTypeInfo(TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
+                TypeHierarchy: SemanticHelpers.GetTypeHierarchy(containingType),
+                InGlobalNamespace: containingType.ContainingNamespace.IsGlobalNamespace,
+                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)),
             MaxOverrides = maxOverrides,
             HasParams = hasParams,
             MethodInfo = new MethodInfo
