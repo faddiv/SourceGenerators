@@ -12,13 +12,13 @@ internal class OverridesGenerator
 {
     private readonly SourceBuilder _builder = new();
     private readonly int _maxOverridesMax;
-    private readonly SuccessfulParams[] _paramsCandidates;
+    private readonly ComparableArray<SuccessfulParams> _paramsCandidates;
     private readonly CandidateTypeInfo _typeInfo;
 
-    public OverridesGenerator(CandidateTypeInfo typeInfo, SuccessfulParams[] paramsCandidates)
+    public OverridesGenerator(CandidateTypeInfo typeInfo, ComparableArray<SuccessfulParams> paramsCandidates)
     {
         _typeInfo = typeInfo ?? throw new ArgumentNullException(nameof(typeInfo));
-        _paramsCandidates = paramsCandidates ?? throw new ArgumentNullException(nameof(paramsCandidates));
+        _paramsCandidates = paramsCandidates;
         _maxOverridesMax = paramsCandidates.Max(static e => e.MaxOverrides);
     }
 

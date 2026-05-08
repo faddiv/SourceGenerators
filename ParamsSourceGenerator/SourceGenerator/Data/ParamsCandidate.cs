@@ -1,6 +1,6 @@
 ﻿namespace Foxy.Params.SourceGenerator.Data;
 
-internal abstract class ParamsCandidate
+internal abstract record ParamsCandidate
 {
     public abstract bool HasErrors { get; }
 }
