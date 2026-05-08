@@ -3,7 +3,7 @@ using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal record DiagnosticInfo(
+internal sealed record DiagnosticInfo(
     DiagnosticDescriptor Descriptor,
     Location Location,
     params ComparableArray<object> Args)

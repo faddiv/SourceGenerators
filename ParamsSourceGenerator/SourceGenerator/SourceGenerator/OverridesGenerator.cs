@@ -140,7 +140,7 @@ internal class OverridesGenerator
 
     private static void AddTypeConstraints(in MethodInfo data, in SourceBuilder.SourceLine line)
     {
-        if (data.TypeConstraints.Length <= 0)
+        if (data.TypeConstraints.Count <= 0)
             return;
 
         line.Append($"<{data.TypeConstraints.Select(item => item.Type)}>");

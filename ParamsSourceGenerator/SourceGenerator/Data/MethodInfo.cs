@@ -1,30 +1,31 @@
 ﻿using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis;
 using System.Collections.Immutable;
+using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal class MethodInfo : IEquatable<MethodInfo?>
+internal record MethodInfo
 {
     public required string ReturnType { get; init; }
 
     public string SpanArgumentType => ParamsArgument.GetFirstGenericType();
 
-    public required ParameterInfo[] Parameters { get; init; }
-
-    public ref ParameterInfo ParamsArgument => ref Parameters[^1];
+    public required ComparableArray<ParameterInfo> Parameters { get; init; }
 
     public required ReturnKind ReturnsKind { get; init; }
 
-    public required GenericTypeInfo[] TypeConstraints { get; init; }
+    public required ComparableArray<GenericTypeInfo> TypeConstraints { get; init; }
 
     public required string MethodName { get; init; }
 
     public required bool IsStatic { get; init; }
 
+    private ParameterInfo ParamsArgument => Parameters[^1];
+
     public IEnumerable<ParameterInfo> GetFixedParameters()
     {
-        return Parameters.Take(Parameters.Length - 1);
+        return Parameters.Take(Parameters.Count - 1);
     }
 
     public IEnumerable<string> GetFixArguments()
@@ -65,16 +66,6 @@ internal class MethodInfo : IEquatable<MethodInfo?>
         return SemanticHelpers.WithModifiers(returnType, RefKind.None, isNullable);
     }
 
-    public static string GetSpanArgumentType(IParameterSymbol spanParam)
-    {
-        var spanType = spanParam.Type as INamedTypeSymbol;
-        SemanticHelpers.AssertNotNull(spanType);
-        var spanTypeArgument = spanType.TypeArguments.First();
-        string spanTypeName = spanTypeArgument.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        bool isNullable = spanTypeArgument.NullableAnnotation == NullableAnnotation.Annotated;
-        return SemanticHelpers.WithModifiers(spanTypeName, RefKind.None, isNullable);
-    }
-
     public static ParameterInfo[] GetArguments(IMethodSymbol methodSymbol)
     {
         return methodSymbol.Parameters
@@ -101,35 +92,5 @@ internal class MethodInfo : IEquatable<MethodInfo?>
             };
         }
         return typeConstraintsList;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as MethodInfo);
-    }
-
-    public bool Equals(MethodInfo? other)
-    {
-        return other is not null &&
-               ReturnType == other.ReturnType &&
-               SpanArgumentType == other.SpanArgumentType &&
-               Parameters.SequenceEqual(other.Parameters) &&
-               ReturnsKind == other.ReturnsKind &&
-               TypeConstraints.SequenceEqual(other.TypeConstraints) &&
-               MethodName == other.MethodName &&
-               IsStatic == other.IsStatic;
-    }
-
-    public override int GetHashCode()
-    {
-        int hashCode = 1919567312;
-        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ReturnType);
-        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(SpanArgumentType);
-        hashCode = hashCode * -1521134295 + CollectionComparer.GetHashCode(Parameters);
-        hashCode = hashCode * -1521134295 + ReturnsKind.GetHashCode();
-        hashCode = hashCode * -1521134295 + CollectionComparer.GetHashCode(TypeConstraints);
-        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MethodName);
-        hashCode = hashCode * -1521134295 + IsStatic.GetHashCode();
-        return hashCode;
     }
 }
