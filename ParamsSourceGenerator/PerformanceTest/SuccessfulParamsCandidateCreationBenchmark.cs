@@ -39,15 +39,13 @@ public class SuccessfulParamsCandidateCreationBenchmark
                 Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)),
             MaxOverrides = _maxOverrides,
             HasParams = _hasParams,
-            MethodInfo = new MethodInfo
-            {
-                ReturnType = MethodInfo.CreateReturnTypeFor(_methodSymbol),
-                Parameters = parameterInfos,
-                ReturnsKind = SemanticHelpers.GetReturnsKind(_methodSymbol),
-                TypeConstraints = MethodInfo.CreateTypeConstraints(_methodSymbol.TypeArguments),
-                MethodName = _methodSymbol.Name,
-                IsStatic = _methodSymbol.IsStatic
-            }
+            MethodInfo = new MethodInfo(
+                ReturnType: MethodInfo.CreateReturnTypeFor(_methodSymbol),
+                Parameters: parameterInfos,
+                ReturnsKind: SemanticHelpers.GetReturnsKind(_methodSymbol),
+                TypeConstraints: MethodInfo.CreateTypeConstraints(_methodSymbol.TypeArguments),
+                MethodName: _methodSymbol.Name,
+                IsStatic: _methodSymbol.IsStatic)
         };
     }
 
@@ -56,14 +54,12 @@ public class SuccessfulParamsCandidateCreationBenchmark
     {
         var parameterInfos = MethodInfo.GetArguments(_methodSymbol);
 
-        return new MethodInfo
-        {
-            ReturnType = MethodInfo.CreateReturnTypeFor(_methodSymbol),
-            Parameters = parameterInfos,
-            ReturnsKind = SemanticHelpers.GetReturnsKind(_methodSymbol),
-            TypeConstraints = MethodInfo.CreateTypeConstraints(_methodSymbol.TypeArguments),
-            MethodName = _methodSymbol.Name,
-            IsStatic = _methodSymbol.IsStatic
-        };
+        return new MethodInfo(
+            ReturnType: MethodInfo.CreateReturnTypeFor(_methodSymbol),
+            Parameters: parameterInfos,
+            ReturnsKind: SemanticHelpers.GetReturnsKind(_methodSymbol),
+            TypeConstraints: MethodInfo.CreateTypeConstraints(_methodSymbol.TypeArguments),
+            MethodName: _methodSymbol.Name,
+            IsStatic: _methodSymbol.IsStatic);
     }
 }

@@ -81,15 +81,13 @@ partial class ParamsIncrementalGenerator
                 Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)),
             MaxOverrides = maxOverrides,
             HasParams = hasParams,
-            MethodInfo = new MethodInfo
-            {
-                ReturnType = MethodInfo.CreateReturnTypeFor(methodSymbol),
-                Parameters = parameterInfos,
-                ReturnsKind = SemanticHelpers.GetReturnsKind(methodSymbol),
-                TypeConstraints = MethodInfo.CreateTypeConstraints(methodSymbol.TypeArguments),
-                MethodName = methodSymbol.Name,
-                IsStatic = methodSymbol.IsStatic
-            }
+            MethodInfo = new MethodInfo(
+                ReturnType: MethodInfo.CreateReturnTypeFor(methodSymbol),
+                Parameters: parameterInfos,
+                ReturnsKind: SemanticHelpers.GetReturnsKind(methodSymbol),
+                TypeConstraints: MethodInfo.CreateTypeConstraints(methodSymbol.TypeArguments),
+                MethodName: methodSymbol.Name,
+                IsStatic: methodSymbol.IsStatic)
         };
     }
 }

@@ -5,21 +5,15 @@ using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal sealed record MethodInfo
+internal sealed record MethodInfo(
+    string ReturnType,
+    ComparableArray<ParameterInfo> Parameters,
+    ReturnKind ReturnsKind,
+    ComparableArray<GenericTypeInfo> TypeConstraints,
+    string MethodName,
+    bool IsStatic)
 {
-    public required string ReturnType { get; init; }
-
     public string SpanArgumentType => ParamsArgument.GetFirstGenericType();
-
-    public required ComparableArray<ParameterInfo> Parameters { get; init; }
-
-    public required ReturnKind ReturnsKind { get; init; }
-
-    public required ComparableArray<GenericTypeInfo> TypeConstraints { get; init; }
-
-    public required string MethodName { get; init; }
-
-    public required bool IsStatic { get; init; }
 
     private ParameterInfo ParamsArgument => Parameters[^1];
 
