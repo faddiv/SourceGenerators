@@ -5,7 +5,7 @@ using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal record MethodInfo
+internal sealed record MethodInfo
 {
     public required string ReturnType { get; init; }
 
@@ -46,8 +46,8 @@ internal record MethodInfo
     public string GetArgNameSpanInput()
     {
         return ParamsArgument.IsRefType
-                    ? $"ref {GetArgNameSpan()}"
-                    : GetArgNameSpan();
+            ? $"ref {GetArgNameSpan()}"
+            : GetArgNameSpan();
     }
 
     public static string CreateReturnTypeFor(IMethodSymbol methodSymbol)
@@ -70,10 +70,10 @@ internal record MethodInfo
     {
         return methodSymbol.Parameters
             .Select(arg => new ParameterInfo(
-        type: TypeInfo.Create(arg.Type),
-        name: arg.Name,
-        refKind: arg.RefKind,
-        isNullable: arg.NullableAnnotation == NullableAnnotation.Annotated))
+                Type: TypeInfo.Create(arg.Type),
+                Name: arg.Name,
+                RefKind: arg.RefKind,
+                IsNullable: arg.NullableAnnotation == NullableAnnotation.Annotated))
             .ToArray();
     }
 
@@ -87,10 +87,12 @@ internal record MethodInfo
             {
                 Type = typeArg.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 ConstraintType = SemanticHelpers.GetConstraintType(typeArg),
-                ConstraintTypes = typeArg.ConstraintTypes.Select(e => e.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)).ToArray(),
+                ConstraintTypes = typeArg.ConstraintTypes
+                    .Select(e => e.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)).ToArray(),
                 HasConstructorConstraint = typeArg.HasConstructorConstraint
             };
         }
+
         return typeConstraintsList;
     }
 }

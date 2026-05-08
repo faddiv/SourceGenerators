@@ -1,13 +1,13 @@
 ﻿using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis;
+using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-public class TypeInfo(string typeName, string[]? genericParameters = null) : IEquatable<TypeInfo?>
+public sealed record TypeInfo(
+    string TypeName,
+    ComparableArray<string> GenericParameters = default)
 {
-    public string TypeName { get; } = typeName;
-    public string[] GenericParameters { get; } = genericParameters ?? [];
-
     internal static TypeInfo Create(ITypeSymbol type)
     {
         var name = type.ToDisplayString(DisplayFormats.ForRootTypeDisplay);
@@ -21,29 +21,9 @@ public class TypeInfo(string typeName, string[]? genericParameters = null) : IEq
         }
     }
 
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as TypeInfo);
-    }
-
-    public bool Equals(TypeInfo? other)
-    {
-        return other is not null &&
-               TypeName == other.TypeName &&
-               GenericParameters.SequenceEqual(other.GenericParameters);
-    }
-
-    public override int GetHashCode()
-    {
-        int hashCode = 1224272728;
-        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TypeName);
-        hashCode = hashCode * -1521134295 + CollectionComparer.GetHashCode(GenericParameters);
-        return hashCode;
-    }
-
     public override string ToString()
     {
-        return GenericParameters.Length > 0
+        return GenericParameters.Count > 0
             ? $"{TypeName}<{string.Join(", ", GenericParameters)}>"
             : TypeName;
     }
