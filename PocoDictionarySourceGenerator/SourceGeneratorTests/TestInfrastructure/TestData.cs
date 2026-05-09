@@ -1,5 +1,4 @@
 ﻿using Foxy.PocoDictionary.SourceGenerator.Data;
-using Foxy.PocoDictionary.SourceGenerator.Helpers;
 using SourceGeneratorTools;
 
 namespace SourceGeneratorTests.TestInfrastructure;

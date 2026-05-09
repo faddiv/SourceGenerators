@@ -1,4 +1,5 @@
-﻿
+﻿using SourceGeneratorTools.Tests.TestInfrastructure;
+
 namespace SourceGeneratorTools.Tests;
 
 // ReSharper disable once InconsistentNaming
@@ -40,12 +41,14 @@ public class ComparableArray_Ctor
     }
 
     [Test]
-    public async Task CtorWithList_CreatesArrayWithElements()
+    public async Task CtorWithComparableArray_UnpacksInternalRepresentation()
     {
-        var list = new List<int> { 1, 2, 3 };
-        var array = new ComparableArray<int>(list);
+        int[] innerArray = [1, 2, 3];
+        var originalArray = new ComparableArray<int>(innerArray);
+        var array = new ComparableArray<int>(originalArray);
+        var actualArray = ComparableArrayMarshal.GetInternalArray(array);
 
-        await Assert.That(array).IsEquivalentTo([1, 2, 3]);
+        await Assert.That(actualArray).IsSameReferenceAs(innerArray);
     }
 
     [Test]
@@ -54,5 +57,14 @@ public class ComparableArray_Ctor
         ComparableArray<int> array = default;
 
         await Assert.That(array).IsEmpty();
+    }
+
+    [Test]
+    public async Task Create_WithIEnumerable_CreatesArrayWithElements()
+    {
+        IEnumerable<int> ints = [1, 2, 3];
+        var array = ComparableArray.Create(ints);
+
+        await Assert.That(array).IsEquivalentTo([1, 2, 3]);
     }
 }

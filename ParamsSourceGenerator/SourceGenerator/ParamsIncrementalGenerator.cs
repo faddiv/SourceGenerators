@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
+using System.Threading;
 using Foxy.Params.SourceGenerator.Data;
 using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis;

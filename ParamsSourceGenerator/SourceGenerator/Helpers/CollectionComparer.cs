@@ -1,5 +1,7 @@
-﻿namespace Foxy.Params.SourceGenerator.Helpers;
+﻿using System.Collections.Generic;
 
+namespace Foxy.Params.SourceGenerator.Helpers;
+/*
 public static class CollectionComparer
 {
     public static int GetHashCode<TElement>(TElement[]? list)
@@ -17,3 +19,4 @@ public static class CollectionComparer
         return hashCode;
     }
 }
+*/

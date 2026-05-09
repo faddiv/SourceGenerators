@@ -1,4 +1,5 @@
-﻿using Foxy.Params.SourceGenerator.Helpers;
+﻿using System.Linq;
+using Foxy.Params.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis;
 using SourceGeneratorTools;
 

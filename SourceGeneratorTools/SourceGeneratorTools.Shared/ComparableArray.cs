@@ -1,29 +1,38 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace SourceGeneratorTools;
 
-[CollectionBuilder(typeof(ComparableArrayBuilder), nameof(ComparableArrayBuilder.Create))]
-public readonly struct ComparableArray<T>(IReadOnlyList<T>? array)
+[CollectionBuilder(typeof(ComparableArray), nameof(ComparableArray.Create))]
+public readonly struct ComparableArray<T>(T[]? array)
     : IEquatable<ComparableArray<T>>,
         IReadOnlyList<T>
 {
-    private readonly IReadOnlyList<T>? _array = array;
+    private readonly T[]? _array = array;
+
+    public ComparableArray(ComparableArray<T> comparableArray) : this(comparableArray._array)
+    {
+    }
 
     public static implicit operator ComparableArray<T>(T[] array)
     {
         return new ComparableArray<T>(array);
     }
 
-    public static implicit operator ComparableArray<T>(List<T> array)
+    public static implicit operator ComparableArray<T>(List<T> list)
     {
+        var array = list.ToArray();
         return new ComparableArray<T>(array);
     }
 
-    public static implicit operator ComparableArray<T>(ImmutableArray<T> array)
+    public static implicit operator ComparableArray<T>(ImmutableArray<T> immutableArray)
     {
-        return new ComparableArray<T>(array);
+        return new ComparableArray<T>(ImmutableCollectionsMarshal.AsArray(immutableArray));
     }
 
     public IEnumerator<T> GetEnumerator()
@@ -40,8 +49,8 @@ public readonly struct ComparableArray<T>(IReadOnlyList<T>? array)
         if (thisArray is null && otherArray is null) return true;
         if (thisArray is null || otherArray is null) return false;
         if (ReferenceEquals(thisArray, otherArray)) return true;
-        if (thisArray.Count != otherArray.Count) return false;
-        for (var i = 0; i < thisArray.Count; i++)
+        if (thisArray.Length != otherArray.Length) return false;
+        for (var i = 0; i < thisArray.Length; i++)
         {
             var thisItem = thisArray[i];
             var otherItem = otherArray[i];
@@ -63,7 +72,7 @@ public readonly struct ComparableArray<T>(IReadOnlyList<T>? array)
 
     public override int GetHashCode()
     {
-        if (_array is null || _array.Count == 0) return 0;
+        if (_array is null || _array.Length == 0) return 0;
 
         var hash = 17;
         foreach (var item in _array)
@@ -91,11 +100,16 @@ public readonly struct ComparableArray<T>(IReadOnlyList<T>? array)
         return !Equals(left, right);
     }
 
-    public int Count => _array?.Count ?? 0;
+    public int Count => _array?.Length ?? 0;
 
     // Stryker disable once string
     public T this[int index] =>
         _array is not null
             ? _array[index]
             : throw new InvalidOperationException("The ComparableArray is not initialized.");
+
+    public ReadOnlySpan<T> AsSpan()
+    {
+        return _array;
+    }
 }

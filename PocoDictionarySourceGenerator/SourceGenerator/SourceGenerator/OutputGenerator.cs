@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
 using System.Text;
 using Foxy.PocoDictionary.SourceGenerator.Data;
-using Foxy.PocoDictionary.SourceGenerator.Helpers;
 using Microsoft.CodeAnalysis.Text;
 using SourceGeneratorTools;
 

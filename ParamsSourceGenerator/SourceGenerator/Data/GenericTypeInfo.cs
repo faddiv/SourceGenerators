@@ -1,4 +1,5 @@
-﻿using SourceGeneratorTools;
+﻿using System.Collections.Generic;
+using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
