@@ -2,7 +2,7 @@
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal sealed record GenericTypeInfo(
+public sealed record GenericTypeInfo(
     string Type,
     ConstraintType ConstraintType,
     ComparableArray<string> ConstraintTypes,

@@ -8,7 +8,7 @@ public sealed record TypeInfo(
     string TypeName,
     ComparableArray<string> GenericParameters = default)
 {
-    internal static TypeInfo Create(ITypeSymbol type)
+    public static TypeInfo Create(ITypeSymbol type)
     {
         var name = type.ToDisplayString(DisplayFormats.ForRootTypeDisplay);
         if (type is INamedTypeSymbol { TypeArguments.Length: > 0 } namedType)

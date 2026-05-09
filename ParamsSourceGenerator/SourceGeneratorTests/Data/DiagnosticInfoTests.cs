@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using Xunit;
 using Foxy.Params.SourceGenerator.Data;
+using System.Threading.Tasks;
 
 namespace SourceGeneratorTests.Data
 {
@@ -18,8 +18,8 @@ namespace SourceGeneratorTests.Data
 
         private static object[] GetDifferentArgs() => ["arg3", "arg4"];
 
-        [Fact]
-        public void Create_ShouldReturnDiagnosticInfoInstance()
+        [Test]
+        public async Task Create_ShouldReturnDiagnosticInfoInstance()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -31,13 +31,13 @@ namespace SourceGeneratorTests.Data
 
             // Assert
             Assert.NotNull(diagnosticInfo);
-            Assert.Equal(descriptor, diagnosticInfo.Descriptor);
-            Assert.Equal(location, diagnosticInfo.Location);
-            Assert.Equal(args, diagnosticInfo.Args);
+            await Assert.That(diagnosticInfo.Descriptor).IsEqualTo(descriptor);
+            await Assert.That(diagnosticInfo.Location).IsEqualTo(location);
+            await Assert.That(diagnosticInfo.Args).IsEquivalentTo(args);
         }
 
-        [Fact]
-        public void Equals_SameInstance_ShouldReturnTrue()
+        [Test]
+        public async Task Equals_SameInstance_ShouldReturnTrue()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -50,11 +50,11 @@ namespace SourceGeneratorTests.Data
             var result = diagnosticInfo.Equals(diagnosticInfo);
 
             // Assert
-            Assert.True(result);
+            await Assert.That(result).IsTrue();
         }
 
-        [Fact]
-        public void Equals_Null_ShouldReturnFalse()
+        [Test]
+        public async Task Equals_Null_ShouldReturnFalse()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -67,11 +67,11 @@ namespace SourceGeneratorTests.Data
             var result = diagnosticInfo.Equals(null);
 
             // Assert
-            Assert.False(result);
+            await Assert.That(result).IsFalse();
         }
 
-        [Fact]
-        public void Equals_DifferentType_ShouldReturnFalse()
+        [Test]
+        public async Task Equals_DifferentType_ShouldReturnFalse()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -85,11 +85,11 @@ namespace SourceGeneratorTests.Data
             var result = diagnosticInfo.Equals("string");
 
             // Assert
-            Assert.False(result);
+            await Assert.That(result).IsFalse();
         }
 
-        [Fact]
-        public void Equals_DifferentValues_ShouldReturnFalse()
+        [Test]
+        public async Task Equals_DifferentValues_ShouldReturnFalse()
         {
             // Arrange
             var descriptor1 = GetTestDescriptor();
@@ -105,11 +105,11 @@ namespace SourceGeneratorTests.Data
             var result = diagnosticInfo1.Equals(diagnosticInfo2);
 
             // Assert
-            Assert.False(result);
+            await Assert.That(result).IsFalse();
         }
 
-        [Fact]
-        public void Equals_SameValues_ShouldReturnTrue()
+        [Test]
+        public async Task Equals_SameValues_ShouldReturnTrue()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -123,11 +123,11 @@ namespace SourceGeneratorTests.Data
             var result = diagnosticInfo1.Equals(diagnosticInfo2);
 
             // Assert
-            Assert.True(result);
+            await Assert.That(result).IsTrue();
         }
 
-        [Fact]
-        public void GetHashCode_SameValues_ShouldReturnSameHashCode()
+        [Test]
+        public async Task GetHashCode_SameValues_ShouldReturnSameHashCode()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -142,11 +142,11 @@ namespace SourceGeneratorTests.Data
             var hashCode2 = diagnosticInfo2.GetHashCode();
 
             // Assert
-            Assert.Equal(hashCode1, hashCode2);
+            await Assert.That(hashCode1).IsEqualTo(hashCode2);
         }
 
-        [Fact]
-        public void ToDiagnostics_ShouldReturnDiagnostic()
+        [Test]
+        public async Task ToDiagnostics_ShouldReturnDiagnostic()
         {
             // Arrange
             var descriptor = GetTestDescriptor();
@@ -160,9 +160,9 @@ namespace SourceGeneratorTests.Data
 
             // Assert
             Assert.NotNull(diagnostic);
-            Assert.Equal(descriptor, diagnostic.Descriptor);
-            Assert.Equal(location, diagnostic.Location);
-            Assert.Equal(string.Format(descriptor.MessageFormat.ToString(), args), diagnostic.GetMessage());
+            await Assert.That(descriptor).IsEqualTo(diagnostic.Descriptor);
+            await Assert.That(location).IsEqualTo(diagnostic.Location);
+            await Assert.That(string.Format(descriptor.MessageFormat.ToString(), args)).IsEqualTo(diagnostic.GetMessage());
         }
     }
 }

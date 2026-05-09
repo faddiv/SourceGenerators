@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Foxy.Params.SourceGenerator.Helpers;
 
-internal static class Validators
+public static class Validators
 {
     public static bool HasDuplication(ImmutableArray<IParameterSymbol> parameters)
     {

@@ -3,7 +3,7 @@ using SourceGeneratorTools;
 
 namespace PerformanceTest.Helpers;
 
-internal class SourceBuilderPool
+public class SourceBuilderPool
 {
     public static SourceBuilderPool Instance { get; } = new();
 

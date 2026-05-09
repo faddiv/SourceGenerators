@@ -1,22 +1,22 @@
 ﻿using Foxy.Params.SourceGenerator.Helpers;
-using Xunit;
+using System.Threading.Tasks;
 
 namespace SourceGeneratorTests
 {
     public class CollectionComparerTests
     {
-        [Fact]
-        public void GetHashCode_NullList_ShouldReturnDefaultHashCode()
+        [Test]
+        public async Task GetHashCode_NullList_ShouldReturnDefaultHashCode()
         {
             // Act
             var result = CollectionComparer.GetHashCode<object>(null);
 
             // Assert
-            Assert.Equal(2011230944, result);
+            await Assert.That(result).IsEqualTo(2011230944);
         }
 
-        [Fact]
-        public void GetHashCode_NonEmptyList_ShouldReturnCorrectHashCode()
+        [Test]
+        public async Task GetHashCode_NonEmptyList_ShouldReturnCorrectHashCode()
         {
             // Arrange
             var list = CreateList();
@@ -26,11 +26,11 @@ namespace SourceGeneratorTests
 
             // Assert
             var expectedHashCode = 1884520134;
-            Assert.Equal(expectedHashCode, result);
+            await Assert.That(result).IsEqualTo(expectedHashCode);
         }
 
-        [Fact]
-        public void GetHashCode_FromDifferentInstances_ShouldReturnTheSameHashCode()
+        [Test]
+        public async Task GetHashCode_FromDifferentInstances_ShouldReturnTheSameHashCode()
         {
             // Arrange
             var list1 = CreateList();
@@ -41,7 +41,7 @@ namespace SourceGeneratorTests
             var result2 = CollectionComparer.GetHashCode(list2);
 
             // Assert
-            Assert.Equal(result2, result1);
+            await Assert.That(result2).IsEqualTo(result1);
         }
 
         private static int[] CreateList()

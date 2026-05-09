@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
-using SourceGeneratorTests.TestInfrastructure;
 using Test.Infrastructure;
-using Xunit;
-
-[assembly: AssemblyFixture(typeof(TestEnvironment))]
+using TUnit.Core.Interfaces;
 
 namespace SourceGeneratorTests.TestInfrastructure;
 
-public class TestEnvironment : IAsyncLifetime
+public class TestEnvironment : IAsyncInitializer
 {
     private readonly EnvironmentProvider _environment = new();
 
@@ -29,16 +27,16 @@ public class TestEnvironment : IAsyncLifetime
     }
 
 
-    public async ValueTask InitializeAsync()
+    public async Task InitializeAsync()
     {
-        await Compiler.LoadCSharpAssemblies(TestContext.Current.CancellationToken);
+        await Compiler.LoadCSharpAssemblies(TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None);
     }
-    
+
     public ValueTask DisposeAsync()
     {
         return ValueTask.CompletedTask;
     }
-    
+
     public CSharpFile GetValidSource([CallerMemberName] string caller = null!)
     {
         return _environment.GetFile(_validTests, caller, "_source.cs");

@@ -5,7 +5,7 @@ using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal sealed record MethodInfo(
+public sealed record MethodInfo(
     string ReturnType,
     ComparableArray<ParameterInfo> Parameters,
     ReturnKind ReturnsKind,
@@ -32,16 +32,11 @@ internal sealed record MethodInfo(
         return ParamsArgument.Name;
     }
 
-    public string GetArgNameSpan()
-    {
-        return $"{ParamsArgument.Name}Span";
-    }
-
     public string GetArgNameSpanInput()
     {
         return ParamsArgument.IsRefType
-            ? $"ref {GetArgNameSpan()}"
-            : GetArgNameSpan();
+            ? $"ref {ParamsArgument.Name}Span"
+            : $"{ParamsArgument.Name}Span";
     }
 
     public static string CreateReturnTypeFor(IMethodSymbol methodSymbol)

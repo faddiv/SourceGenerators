@@ -5,7 +5,7 @@ using SourceGeneratorTools;
 
 namespace Foxy.Params.SourceGenerator.SourceGenerator;
 
-internal class OverridesGenerator
+public class OverridesGenerator
 {
     private readonly SourceBuilder _builder = new();
     private readonly int _maxOverridesMax;

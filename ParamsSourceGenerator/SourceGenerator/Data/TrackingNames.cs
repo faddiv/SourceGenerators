@@ -1,6 +1,6 @@
 ﻿namespace Foxy.Params.SourceGenerator.Data;
 
-internal static class TrackingNames
+public static class TrackingNames
 {
     public const string GetSpanParamsMethods = nameof(GetSpanParamsMethods);
 

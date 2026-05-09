@@ -1,10 +1,10 @@
 ﻿namespace Foxy.Params.SourceGenerator.Data;
 
-internal enum ConstraintType
+public enum ConstraintType
 {
     None,
     Unmanaged,
-    Struct, 
-    Class, 
+    Struct,
+    Class,
     NotNull
 }

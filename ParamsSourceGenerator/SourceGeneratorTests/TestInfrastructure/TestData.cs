@@ -1,12 +1,13 @@
 ﻿using Foxy.Params.SourceGenerator.Data;
 using Microsoft.CodeAnalysis;
+using GenericTypeInfo = Foxy.Params.SourceGenerator.Data.GenericTypeInfo;
 using TypeInfo = Foxy.Params.SourceGenerator.Data.TypeInfo;
 
 namespace SourceGeneratorTests.TestInfrastructure
 {
-    internal static class TestData
+    public static class TestData
     {
-        internal static CandidateTypeInfo CreateCandidateTypeInfo(
+        public static CandidateTypeInfo CreateCandidateTypeInfo(
             bool inGlobalNamespace = true,
             string namespaceValue = "Something",
             string[]? typeHierarchy = null,
@@ -16,7 +17,7 @@ namespace SourceGeneratorTests.TestInfrastructure
                 TypeHierarchy: typeHierarchy ?? ["Foo", "Bar"], TypeName: typeName);
         }
 
-        internal static MethodInfo CreateDerivedData(
+        public static MethodInfo CreateDerivedData(
             bool isStatic = true,
             string methodName = "Format",
             ParameterInfo[]? parameters = null,
@@ -42,7 +43,7 @@ namespace SourceGeneratorTests.TestInfrastructure
                 ]);
         }
 
-        internal static SuccessfulParamsCandidate CreateSuccessfulParamsCandidate(
+        public static SuccessfulParamsCandidate CreateSuccessfulParamsCandidate(
             CandidateTypeInfo? typeInfo = null,
             MethodInfo? derivedData = null,
             int maxOverrides = 5,

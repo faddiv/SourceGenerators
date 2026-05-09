@@ -6,14 +6,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Foxy.Params.SourceGenerator.Helpers;
 
-internal static class SemanticHelpers
+public static class SemanticHelpers
 {
-    public static void AssertNotNull([NotNull] object? typeInfo)
-    {
-        if (typeInfo is null)
-            throw new ArgumentNullException(nameof(typeInfo));
-    }
-
     public static Location GetAttributeLocation(
         this GeneratorAttributeSyntaxContext context,
         CancellationToken cancel)
@@ -46,12 +40,12 @@ internal static class SemanticHelpers
             {
                 var symbolInfo = semanticModel.GetSymbolInfo(attribute, cancellationToken);
 
-                if (symbolInfo.Symbol is not null &&
-                    ReferenceEquals(attributeData.AttributeConstructor, symbolInfo.Symbol))
-                {
-                    value = attribute;
-                    return true;
-                }
+                if (symbolInfo.Symbol is null ||
+                    !ReferenceEquals(attributeData.AttributeConstructor, symbolInfo.Symbol))
+                    continue;
+
+                value = attribute;
+                return true;
             }
         }
 
@@ -89,10 +83,12 @@ internal static class SemanticHelpers
         {
             return ReturnKind.ReturnsVoid;
         }
+
         if (methodSymbol.ReturnsByRef || methodSymbol.ReturnsByRefReadonly)
         {
             return ReturnKind.ReturnsRef;
         }
+
         return ReturnKind.ReturnsType;
     }
 
@@ -111,6 +107,7 @@ internal static class SemanticHelpers
                 symbol = symbol.ContainingType;
                 count++;
             }
+
             return container;
         }
 
@@ -122,6 +119,7 @@ internal static class SemanticHelpers
                 symbol = symbol.ContainingType;
                 count++;
             }
+
             return count;
         }
     }
@@ -148,6 +146,7 @@ internal static class SemanticHelpers
                 {
                     return typeName;
                 }
+
                 return $"{typeName}?";
         }
     }
@@ -170,6 +169,7 @@ internal static class SemanticHelpers
         {
             return ConstraintType.NotNull;
         }
+
         return ConstraintType.None;
     }
 
@@ -178,4 +178,3 @@ internal static class SemanticHelpers
         return isNullable ? "?" : "";
     }
 }
-

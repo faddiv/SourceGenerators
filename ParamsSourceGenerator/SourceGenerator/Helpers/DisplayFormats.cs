@@ -2,7 +2,7 @@
 
 namespace Foxy.Params.SourceGenerator.Helpers;
 
-internal class DisplayFormats
+public class DisplayFormats
 {
     public static readonly SymbolDisplayFormat ForFileName = new(
         globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,

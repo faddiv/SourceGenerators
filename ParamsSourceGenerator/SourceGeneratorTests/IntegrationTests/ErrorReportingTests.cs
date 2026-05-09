@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Foxy.Params.SourceGenerator;
-using Xunit;
 using SourceGeneratorTests.TestInfrastructure;
 using Foxy.Params.SourceGenerator.Data;
 using Microsoft.CodeAnalysis;
@@ -10,11 +9,12 @@ namespace SourceGeneratorTests.IntegrationTests;
 
 using VerifyCS = CSharpSourceGeneratorVerifier<ParamsIncrementalGenerator>;
 
+[ClassDataSource<TestEnvironment>(Shared = SharedType.PerTestSession)]
 public class ErrorReportingTests(TestEnvironment testEnvironment)
 {
     private readonly TestEnvironment _testEnvironment = testEnvironment;
 
-    [Fact]
+    [Test]
     public async Task Reports_NoPartialKeyword()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -27,7 +27,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task Reports_NoPartialKeywordOnParentClass()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -40,7 +40,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task Reports_NoParameter()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -53,7 +53,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task Reports_NonReadOnlySpanParameter()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -66,7 +66,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task DoesntGenerateOnFaultyMethodParameter()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -79,7 +79,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task DoesntGenerateOnFaultyReturnType()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -92,7 +92,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task Reports_OutReadOnlySpanParameter()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -105,7 +105,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task DoesntGenerateOnNameDuplication()
     {
         var code = _testEnvironment.GetInvalidSource();
@@ -118,7 +118,7 @@ public class ErrorReportingTests(TestEnvironment testEnvironment)
         await VerifyCS.VerifyGeneratorAsync(code, expected, _testEnvironment.DefaultOutput);
     }
 
-    [Fact]
+    [Test]
     public async Task Reports_OnNameCollision()
     {
         var code = _testEnvironment.GetInvalidSource();

@@ -1,22 +1,22 @@
-﻿using Xunit;
-using SourceGeneratorTests.TestInfrastructure;
+﻿using SourceGeneratorTests.TestInfrastructure;
+using System.Threading.Tasks;
 
 namespace SourceGeneratorTests.Data;
 
 public class SuccessfulParamsCandidateTests
 {
-    [Fact]
-    public void Equals_WithSameObject_ShouldReturnTrue()
+    [Test]
+    public async Task Equals_WithSameObject_ShouldReturnTrue()
     {
         // Arrange
         var candidate = TestData.CreateSuccessfulParamsCandidate();
 
         // Act & Assert
-        Assert.True(candidate.Equals(candidate));
+        await Assert.That(candidate.Equals(candidate)).IsTrue();
     }
 
-    [Fact]
-    public void Equals_WithEqualObject_ShouldReturnTrue()
+    [Test]
+    public async Task Equals_WithEqualObject_ShouldReturnTrue()
     {
         // Arrange
         var candidate1 = TestData.CreateSuccessfulParamsCandidate();
@@ -24,21 +24,21 @@ public class SuccessfulParamsCandidateTests
         var candidate2 = TestData.CreateSuccessfulParamsCandidate();
 
         // Act & Assert
-        Assert.True(candidate1.Equals(candidate2));
+        await Assert.That(candidate1.Equals(candidate2)).IsTrue();
     }
 
-    [Fact]
-    public void Equals_WithNullObject_ShouldReturnFalse()
+    [Test]
+    public async Task Equals_WithNullObject_ShouldReturnFalse()
     {
         // Arrange
         var candidate = TestData.CreateSuccessfulParamsCandidate();
 
         // Act & Assert
-        Assert.False(candidate.Equals(null));
+        await Assert.That(candidate.Equals(null)).IsFalse();
     }
 
-    [Fact]
-    public void Equals_WithDifferentType_ShouldReturnFalse()
+    [Test]
+    public async Task Equals_WithDifferentType_ShouldReturnFalse()
     {
         // Arrange
         var candidate = TestData.CreateSuccessfulParamsCandidate();
@@ -46,11 +46,11 @@ public class SuccessfulParamsCandidateTests
         var differentTypeObject = new { };
 
         // Act & Assert
-        Assert.False(candidate.Equals(differentTypeObject));
+        await Assert.That(candidate.Equals(differentTypeObject)).IsFalse();
     }
 
-    [Fact]
-    public void Equals_WithTypeInfoDifferent_ShouldReturnFalse()
+    [Test]
+    public async Task Equals_WithTypeInfoDifferent_ShouldReturnFalse()
     {
         // Arrange
         var candidate1 = TestData.CreateSuccessfulParamsCandidate();
@@ -59,11 +59,11 @@ public class SuccessfulParamsCandidateTests
             typeInfo: TestData.CreateCandidateTypeInfo(typeName: "DifferentTypeName"));
 
         // Act & Assert
-        Assert.False(candidate1.Equals(candidate2));
+        await Assert.That(candidate1.Equals(candidate2)).IsFalse();
     }
 
-    [Fact]
-    public void Equals_WithDerivedDataDifferent_ShouldReturnFalse()
+    [Test]
+    public async Task Equals_WithDerivedDataDifferent_ShouldReturnFalse()
     {
         // Arrange
         var candidate1 = TestData.CreateSuccessfulParamsCandidate();
@@ -72,11 +72,11 @@ public class SuccessfulParamsCandidateTests
             derivedData: TestData.CreateDerivedData(methodName: "DifferentMethod"));
 
         // Act & Assert
-        Assert.False(candidate1.Equals(candidate2));
+        await Assert.That(candidate1.Equals(candidate2)).IsFalse();
     }
 
-    [Fact]
-    public void Equals_WithMaxOverridesDifferent_ShouldReturnFalse()
+    [Test]
+    public async Task Equals_WithMaxOverridesDifferent_ShouldReturnFalse()
     {
         // Arrange
         var candidate1 = TestData.CreateSuccessfulParamsCandidate();
@@ -85,11 +85,11 @@ public class SuccessfulParamsCandidateTests
             maxOverrides: 10);
 
         // Act & Assert
-        Assert.False(candidate1.Equals(candidate2));
+        await Assert.That(candidate1.Equals(candidate2)).IsFalse();
     }
 
-    [Fact]
-    public void Equals_WithHasParamDifferent_ShouldReturnFalse()
+    [Test]
+    public async Task Equals_WithHasParamDifferent_ShouldReturnFalse()
     {
         // Arrange
         var candidate1 = TestData.CreateSuccessfulParamsCandidate();
@@ -98,6 +98,6 @@ public class SuccessfulParamsCandidateTests
             hasParams: false);
 
         // Act & Assert
-        Assert.False(candidate1.Equals(candidate2));
+        await Assert.That(candidate1.Equals(candidate2)).IsFalse();
     }
 }

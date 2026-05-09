@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Testing;
 
 namespace SourceGeneratorTests.TestInfrastructure.Verifiers;
 
-internal static partial class CSharpSourceGeneratorVerifier<TSourceGenerator>
+public static partial class CSharpSourceGeneratorVerifier<TSourceGenerator>
     where TSourceGenerator : IIncrementalGenerator, new()
 {
     private sealed class Test<TSourceGenerator2> : CSharpSourceGeneratorTest<TSourceGenerator2, DefaultVerifier>

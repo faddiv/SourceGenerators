@@ -3,7 +3,7 @@ using Test.Infrastructure;
 
 namespace PerformanceTest.Helpers;
 
-internal static class TestEnvironment
+public static class TestEnvironment
 {
     private static readonly EnvironmentProvider _environment = new();
     private static readonly string _subDirectory = "TestFiles";

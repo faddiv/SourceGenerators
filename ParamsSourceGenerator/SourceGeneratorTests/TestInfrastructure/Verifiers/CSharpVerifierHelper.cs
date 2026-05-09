@@ -5,9 +5,9 @@ using Microsoft.CodeAnalysis.CSharp;
 
 namespace SourceGeneratorTests.TestInfrastructure.Verifiers;
 
-internal static class CSharpVerifierHelper
+public static class CSharpVerifierHelper
 {
-    internal static ImmutableDictionary<string, ReportDiagnostic> NullableWarnings { get; } = GetNullableWarningsFromCompiler();
+    public static ImmutableDictionary<string, ReportDiagnostic> NullableWarnings { get; } = GetNullableWarningsFromCompiler();
 
     private static ImmutableDictionary<string, ReportDiagnostic> GetNullableWarningsFromCompiler()
     {

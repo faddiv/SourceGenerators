@@ -12,8 +12,8 @@ namespace PerformanceTest;
 public class SuccessfulParamsCandidateCreationBenchmark
 {
     private IMethodSymbol _methodSymbol = null!;
-    private int _maxOverrides = 3;
-    private bool _hasParams = true;
+    private const int MaxOverrides = 3;
+    private const bool HasParams = true;
 
     [GlobalSetup]
     public void Setup()
@@ -35,8 +35,8 @@ public class SuccessfulParamsCandidateCreationBenchmark
                 TypeName: containingType.ToDisplayString(DisplayFormats.ForFileName),
                 TypeHierarchy: SemanticHelpers.GetTypeHierarchy(containingType),
                 InGlobalNamespace: containingType.ContainingNamespace.IsGlobalNamespace,
-                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)), MaxOverrides: _maxOverrides,
-            HasParams: _hasParams, MethodInfo: new MethodInfo(
+                Namespace: SemanticHelpers.GetNameSpaceNoGlobal(containingType)), MaxOverrides: MaxOverrides,
+            HasParams: HasParams, MethodInfo: new MethodInfo(
                 ReturnType: MethodInfo.CreateReturnTypeFor(_methodSymbol),
                 Parameters: parameterInfos,
                 ReturnsKind: SemanticHelpers.GetReturnsKind(_methodSymbol),

@@ -2,7 +2,7 @@
 
 namespace Foxy.Params.SourceGenerator.Data;
 
-internal record SuccessfulParamsGroupCandidate : ParamsCandidate
+public record SuccessfulParamsGroupCandidate : ParamsCandidate
 {
     public override bool HasErrors => false;
 
