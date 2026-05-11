@@ -1,13 +1,13 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 public partial class SourceBuilder_CreateIndented
 {
     [Test]
     public async Task CreateIndented_CreatesIndentedBuilder()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateIndented())

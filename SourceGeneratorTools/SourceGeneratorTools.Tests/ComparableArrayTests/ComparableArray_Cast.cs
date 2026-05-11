@@ -1,8 +1,7 @@
-﻿using System.Collections.Immutable;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.ComparableArrayTests;
 
 // ReSharper disable once InconsistentNaming
 public class ComparableArray_Cast

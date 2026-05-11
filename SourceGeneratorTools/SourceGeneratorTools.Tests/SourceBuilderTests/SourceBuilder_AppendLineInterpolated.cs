@@ -1,7 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
-using System.Threading.Tasks;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 // ReSharper disable once InconsistentNaming
 public class SourceBuilder_AppendLineInterpolated
@@ -9,7 +8,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithString_AddsLineWithText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var name = TestHelpers.GenerateRandomName();
 
         builder.AppendLine($"Hello, {name}!");
@@ -22,7 +21,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Arguments("\r\n")]
     public async Task AppendLineInterpolated_WithNewLine_AddsNewLine(string newLine)
     {
-        var builder = new SourceBuilder(newLine: newLine);
+        var builder = new SourceGeneratorTools.SourceBuilder(newLine: newLine);
         var name = TestHelpers.GenerateRandomName();
 
         builder.AppendLine($"Hello, {name}!");
@@ -33,7 +32,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithArray_AddsCommaSeparatedList()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var items = new[] { "Item1", "Item2", "Item3" };
 
         builder.AppendLine($"({items})");
@@ -44,7 +43,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithNullArray_AddsEmptyParentheses()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         string[]? items = null;
 
         await Assert.That(() => builder.AppendLine($"({items})"))
@@ -56,7 +55,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_InBlockWithArray_InterpolatesArray()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var items = new[] { "Item1", "Item2", "Item3" };
 
         builder.AppendLine("First line");
@@ -80,7 +79,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithIEnumerable_AddsCommaSeparatedList()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         IEnumerable<string> items = ["Item1", "Item2", "Item3"];
 
         await Assert.That(() => builder.AppendLine($"({items})"))
@@ -92,7 +91,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithEmptyIEnumerable_AddsEmptyParentheses()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         IEnumerable<string> items = Array.Empty<string>();
 
         builder.AppendLine($"({items})");
@@ -103,7 +102,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithIEnumerableCastedObject_AddsCommaSeparatedList()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         object items = new[] { "Item1", "Item2", "Item3" };
 
         builder.AppendLine($"({items})");
@@ -114,7 +113,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_ArrayInBlock_IndentsAppendedText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         string[] items = ["Item1", "Item2", "Item3"];
 
         using (builder.CreateBlock())
@@ -133,7 +132,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithNullIEnumerable_AddsEmptyString()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         IEnumerable<string>? items = null;
 
         await Assert.That(() => builder.AppendLine($"({items})"))
@@ -145,7 +144,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithInt32_AddsValue()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         const int value = 42;
 
         builder.AppendLine($"Value: {value}");
@@ -158,7 +157,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Arguments(42)]
     public async Task AppendLineInterpolated_WithInt32Nullable_AddsValue(int? value)
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         await Assert.That(() => builder.AppendLine($"Value: {value}"))
             .ThrowsNothing();
@@ -169,7 +168,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithNull_AddsEmptyString()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         object? value = null;
 
         builder.AppendLine($"Value: {value}");
@@ -180,7 +179,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_WithObject_AddsObjectToString()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var value = new { Name = "Test" };
 
         builder.AppendLine($"Value: {value}");
@@ -191,7 +190,7 @@ public class SourceBuilder_AppendLineInterpolated
     [Test]
     public async Task AppendLineInterpolated_ObjectInBlock_IndentsAppendedText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var value = new { Name = "Test" };
 
         using (builder.CreateBlock())

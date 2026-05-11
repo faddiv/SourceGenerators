@@ -1,6 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 // ReSharper disable once InconsistentNaming
 public class SourceBuilder_AppendLine
@@ -8,7 +8,7 @@ public class SourceBuilder_AppendLine
     [Test]
     public async Task AppendLine_WithoutParameters_AddsEmptyLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine();
 
@@ -18,7 +18,7 @@ public class SourceBuilder_AppendLine
     [Test]
     public async Task AppendLine_WithString_AddsLineWithText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         const string text = "Hello, World!";
 
         builder.AppendLine(text);
@@ -29,7 +29,7 @@ public class SourceBuilder_AppendLine
     [Test]
     public async Task AppendLine_WithNull_DoesNotAddLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         // ReSharper disable once RedundantCast
@@ -46,7 +46,7 @@ public class SourceBuilder_AppendLine
     [Test]
     public async Task AppendLine_InBlockWithNull_DoesNotIndent()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         using (builder.CreateBlock())
         {
@@ -67,7 +67,7 @@ public class SourceBuilder_AppendLine
     [Arguments("\r\n")]
     public async Task AppendLine_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
     {
-        var builder = new SourceBuilder(newLine: newLine);
+        var builder = new SourceGeneratorTools.SourceBuilder(newLine: newLine);
         const string text = "Hello, World!";
 
         builder.AppendLine(text);
@@ -80,7 +80,7 @@ public class SourceBuilder_AppendLine
     [Arguments("\r\n")]
     public async Task AppendLineEmpty_WithDifferentNewLine_AddsLineWithCustomNewLine(string newLine)
     {
-        var builder = new SourceBuilder(newLine: newLine);
+        var builder = new SourceGeneratorTools.SourceBuilder(newLine: newLine);
 
         builder.AppendLine();
 

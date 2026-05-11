@@ -1,6 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 // ReSharper disable once InconsistentNaming
 public partial class SourceBuilder_CreateBlock
@@ -8,7 +8,7 @@ public partial class SourceBuilder_CreateBlock
     [Test]
     public async Task CreateBlock_WithNoParameter_CreatesBlockWithBraces()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateBlock())
@@ -33,7 +33,7 @@ public partial class SourceBuilder_CreateBlock
     [Test]
     public async Task CreateBlock_WithParameter_CreatesBlockWithCustomStartAndEnd()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateBlock("[", "]"))
@@ -60,7 +60,7 @@ public partial class SourceBuilder_CreateBlock
     [Test]
     public async Task CreateBlock_WithAppendLineInterpolated_CreatesBlockWithBraces()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateBlock())

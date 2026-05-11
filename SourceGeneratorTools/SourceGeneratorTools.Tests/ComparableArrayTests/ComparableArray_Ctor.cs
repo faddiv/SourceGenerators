@@ -1,6 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.ComparableArrayTests;
 
 // ReSharper disable once InconsistentNaming
 public class ComparableArray_Ctor
@@ -63,7 +63,7 @@ public class ComparableArray_Ctor
     public async Task Create_WithIEnumerable_CreatesArrayWithElements()
     {
         IEnumerable<int> ints = [1, 2, 3];
-        var array = ComparableArray.Create(ints);
+        var array = SourceGeneratorTools.ComparableArray.Create(ints);
 
         await Assert.That(array).IsEquivalentTo([1, 2, 3]);
     }

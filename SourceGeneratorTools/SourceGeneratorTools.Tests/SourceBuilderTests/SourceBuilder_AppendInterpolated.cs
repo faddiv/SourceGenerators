@@ -1,13 +1,13 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 public class SourceBuilder_AppendInterpolated
 {
     [Test]
     public async Task Append_WithString_AddsToTheSameLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var text = TestHelpers.GenerateRandomName();
 
         builder.Append($"Hello, {text}!");
@@ -22,7 +22,7 @@ public class SourceBuilder_AppendInterpolated
     [Test]
     public async Task Append_InBlock_IndentsAppendedText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var text = TestHelpers.GenerateRandomName();
 
         builder.AppendLine("First line");
@@ -48,7 +48,7 @@ public class SourceBuilder_AppendInterpolated
     [Test]
     public async Task Append_InIndented_IndentsAppendedText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var text = TestHelpers.GenerateRandomName();
 
         builder.AppendLine("First line");

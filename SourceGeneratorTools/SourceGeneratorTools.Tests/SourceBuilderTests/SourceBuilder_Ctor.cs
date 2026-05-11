@@ -1,7 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
-using System.Threading.Tasks;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 // ReSharper disable once InconsistentNaming
 public class SourceBuilder_Ctor
@@ -9,7 +8,7 @@ public class SourceBuilder_Ctor
     [Test]
     public async Task Ctor_WithoutParameters_CreatesDefaultInstance()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         await Assert.That(builder).HasContent(string.Empty);
         await Assert.That(builder.NewLine).IsEqualTo(Environment.NewLine);
@@ -20,7 +19,7 @@ public class SourceBuilder_Ctor
     public async Task Ctor_WithDifferentIndent_CreatesInstanceWithCustomIndent()
     {
         const string indent = "\t";
-        var builder = new SourceBuilder(indent);
+        var builder = new SourceGeneratorTools.SourceBuilder(indent);
 
         await Assert.That(builder.Indent).IsEqualTo(indent);
     }
@@ -30,7 +29,7 @@ public class SourceBuilder_Ctor
     [Arguments("\r\n")]
     public async Task Ctor_WithDifferentNewLine_CreatesInstanceWithCustomNewLine(string newLine)
     {
-        var builder = await Assert.That(() => new SourceBuilder(newLine: newLine))
+        var builder = await Assert.That(() => new SourceGeneratorTools.SourceBuilder(newLine: newLine))
             .ThrowsNothing()
             .And
             .IsNotNull();
@@ -45,6 +44,6 @@ public class SourceBuilder_Ctor
     [Arguments("inv")]
     public void Ctor_WithInvalidNewLine_ThrowsArgumentException(string newLine)
     {
-        Assert.Throws<ArgumentException>(() => _ = new SourceBuilder(newLine: newLine));
+        Assert.Throws<ArgumentException>(() => _ = new SourceGeneratorTools.SourceBuilder(newLine: newLine));
     }
 }

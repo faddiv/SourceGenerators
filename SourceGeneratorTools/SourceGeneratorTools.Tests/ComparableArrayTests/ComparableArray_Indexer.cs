@@ -1,4 +1,4 @@
-﻿namespace SourceGeneratorTools.Tests;
+﻿namespace SourceGeneratorTools.Tests.ComparableArrayTests;
 
 // ReSharper disable once InconsistentNaming
 public class ComparableArray_Indexer

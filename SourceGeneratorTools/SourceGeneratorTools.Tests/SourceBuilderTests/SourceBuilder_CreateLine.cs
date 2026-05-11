@@ -1,7 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
-using System.Threading.Tasks;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 // ReSharper disable once InconsistentNaming
 public class SourceBuilder_CreateLine
@@ -9,7 +8,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_CreatesSourceLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         var line = builder.CreateLine();
 
@@ -18,7 +17,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WithoutElements_CreatesSingleLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         using (builder.CreateLine())
         {
@@ -33,7 +32,7 @@ public class SourceBuilder_CreateLine
     [Arguments("\r\n")]
     public async Task CreateLine_WithMultipleElement_CreatesSingleLine(string newLine)
     {
-        var builder = new SourceBuilder(newLine: newLine);
+        var builder = new SourceGeneratorTools.SourceBuilder(newLine: newLine);
 
         using (var line = builder.CreateLine())
         {
@@ -47,7 +46,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WithInterpolatedString_CreatesSingleLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         string name = TestHelpers.GenerateRandomName();
 
         using (var line = builder.CreateLine())
@@ -67,7 +66,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WithCommaSeparatedList_CreatesSingleLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var items = new[] { "Item1", "Item2", "Item3" };
 
         using (var line = builder.CreateLine())
@@ -83,7 +82,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WhenAppendLine_CreatesIndentedLines()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         using (var line = builder.CreateLine())
         {
@@ -107,7 +106,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WhenAppendLine_SecondLineCanBeAddedWithoutIndent()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         using (var line = builder.CreateLine())
         {
@@ -129,7 +128,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WhenAppendLineInterpolated_DoesNotThrow()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var argument = TestHelpers.GenerateRandomName();
 
         var line = builder.CreateLine();
@@ -140,7 +139,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WhenAppendLineInterpolated_SecondAppendLineIndented()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var argument = TestHelpers.GenerateRandomName();
 
         using (var line = builder.CreateLine())
@@ -162,7 +161,7 @@ public class SourceBuilder_CreateLine
     [Test]
     public async Task CreateLine_WhenAppendLine_SecondAppendLineInterpolatedIsIndented()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
         var argument = TestHelpers.GenerateRandomName();
 
         using (var line = builder.CreateLine())

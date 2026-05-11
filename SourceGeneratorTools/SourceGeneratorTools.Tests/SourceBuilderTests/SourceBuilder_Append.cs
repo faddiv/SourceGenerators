@@ -1,6 +1,6 @@
 ﻿using SourceGeneratorTools.Tests.TestInfrastructure;
 
-namespace SourceGeneratorTools.Tests;
+namespace SourceGeneratorTools.Tests.SourceBuilderTests;
 
 // ReSharper disable once InconsistentNaming
 public class SourceBuilder_Append
@@ -8,7 +8,7 @@ public class SourceBuilder_Append
     [Test]
     public async Task Append_WithString_AddsToTheSameLine()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.Append("Hello, ");
         builder.Append("World");
@@ -20,7 +20,7 @@ public class SourceBuilder_Append
     [Test]
     public async Task Append_WithNull_AddsEmptyString()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.Append((string?)null);
 
@@ -30,7 +30,7 @@ public class SourceBuilder_Append
     [Test]
     public async Task Append_InBlockWithNull_DoesNotIndent()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         using (builder.CreateBlock())
         {
@@ -47,7 +47,7 @@ public class SourceBuilder_Append
     [Test]
     public async Task Append_InBlock_IndentsAppendedText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateBlock())
@@ -71,7 +71,7 @@ public class SourceBuilder_Append
     [Test]
     public async Task Append_InIndented_IndentsAppendedText()
     {
-        var builder = new SourceBuilder();
+        var builder = new SourceGeneratorTools.SourceBuilder();
 
         builder.AppendLine("First line");
         using (builder.CreateIndented())
