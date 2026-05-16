@@ -11,15 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ComparableArray.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ComparableArrayBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.AppendLine.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Block.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.Helpers.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.InterpolatedStringHandler.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.SourceBuilderSegment.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder.SourceLine.cs"/>
-    <Compile Include="$(MSBuildThisFileDirectory)SourceGeneratorTools.Append.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComparableArray\ComparableArray.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComparableArray\ComparableArrayBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.Append.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.AppendLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.Block.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.InterpolatedStringHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.SourceBuilderSegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SourceBuilder\SourceBuilder.SourceLine.cs" />
   </ItemGroup>
 </Project>
