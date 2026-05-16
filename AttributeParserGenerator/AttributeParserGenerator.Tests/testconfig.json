@@ -1,0 +1,10 @@
+﻿{
+    "codeCoverage": {
+        "Configuration": {
+            "CoverageFileLogPath": "coverage.log",
+            "CoverageFileName": "cobertura.xml",
+            "Format": "cobertura",
+            "IncludeTestAssembly": false
+        }
+    }
+}
