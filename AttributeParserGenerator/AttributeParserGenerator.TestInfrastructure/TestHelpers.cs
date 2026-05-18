@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
-using AttributeParserGenerator.Core;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
@@ -64,17 +63,6 @@ public class TestHelpers
                 yield return file;
             }
         }
-    }
-
-    public static Dictionary<string, object?> ExtractValues(AttributeDataParser parser, AttributeData attributeData)
-    {
-        var results = new Dictionary<string, object?>();
-        foreach (var result in parser.Parse(attributeData))
-        {
-            results[result.Name] = result.GetValue();
-        }
-
-        return results;
     }
 
     public static MetadataReference[] GetFrameworkReferences()

@@ -1,23 +1,15 @@
-﻿using Microsoft.CodeAnalysis;
-
-namespace AttributeParserGenerator.Core;
+﻿namespace AttributeParserGenerator.Core;
 
 public partial class AttributeDataParser
 {
     public readonly struct AttributeArgument(
         string name,
-        int index,
-        AttributeData attributeData,
-        AttributeDataParser parser)
+        object? value)
     {
-        private readonly AttributeDataParser _parser = parser;
-        private readonly AttributeData _attributeData = attributeData;
-        private readonly int _index = index;
-        public string Name { get; } = name;
+        private readonly string _name = name;
+        private readonly object? _value = value;
+        public string GetName() => _name;
 
-        public object? GetValue()
-        {
-            return _parser.GetValue(_index, _attributeData);
-        }
+        public object? GetValue() => _value;
     }
 }

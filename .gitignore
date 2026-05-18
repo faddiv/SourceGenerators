@@ -26,3 +26,4 @@
 
 # Tests and coverage
 coveragereport/
+BenchmarkDotNet.Artifacts/

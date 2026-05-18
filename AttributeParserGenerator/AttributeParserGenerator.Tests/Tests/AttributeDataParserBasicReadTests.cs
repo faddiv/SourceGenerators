@@ -26,7 +26,7 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithNamedArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestHelpers.ExtractValues(attributeParser, attributeData);
+        var results = TestRunner.ExtractValues(attributeParser, attributeData);
 
         await Assert.That(results)
             .Count().IsEqualTo(3);
@@ -43,7 +43,7 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithConstructorArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestHelpers.ExtractValues(attributeParser, attributeData);
+        var results = TestRunner.ExtractValues(attributeParser, attributeData);
 
         await Assert.That(results)
             .Count().IsEqualTo(3);
@@ -60,7 +60,7 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithLotsOfArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestHelpers.ExtractValues(attributeParser, attributeData);
+        var results = TestRunner.ExtractValues(attributeParser, attributeData);
 
         await Assert.That(results)
             .Count().IsEqualTo(20);
