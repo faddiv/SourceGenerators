@@ -1,19 +1,16 @@
-﻿using System.Linq;
-using System.Threading;
-using AttributeParserGenerator.Sample;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace AttributeParserGenerator.Tests.Tests;
+namespace AttributeParserGenerator.TestInfrastructure;
 
 public class TestEnvironment
 {
     private readonly Lazy<CSharpCompilation> _compilation =
-        new(CreateCompilationCreateCompilation, LazyThreadSafetyMode.ExecutionAndPublication);
+        new(CreateCompilation, LazyThreadSafetyMode.ExecutionAndPublication);
 
     public CSharpCompilation Compilation => _compilation.Value;
 
-    private static CSharpCompilation CreateCompilationCreateCompilation()
+    private static CSharpCompilation CreateCompilation()
     {
         var syntaxTrees = TestHelpers.GetSyntaxes();
         var compilationOptions = new CSharpCompilationOptions(
@@ -31,8 +28,10 @@ public class TestEnvironment
     public AttributeData GetClassAttributeData(string name)
     {
         return Compilation.GetSymbolsWithName(n => n == name, SymbolFilter.Type)
-            .FirstOrDefault()?
-            .GetAttributes()
-            .FirstOrDefault() ?? throw new InvalidOperationException($"Attribute not found on class {name}");
+                   .FirstOrDefault()?
+                   .GetAttributes()
+                   .FirstOrDefault(a =>
+                       a.AttributeClass?.ToDisplayString().StartsWith("AttributeParserGenerator") ?? false) ??
+               throw new InvalidOperationException($"Attribute not found on class {name}");
     }
 }

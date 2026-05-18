@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="AttributeParserGenerator.Benchmarks/AttributeParserGenerator.Benchmarks.csproj" />
+  <Project Path="AttributeParserGenerator.SampleCode/AttributeParserGenerator.SampleCode.csproj" />
+  <Project Path="AttributeParserGenerator.TestInfrastructure/AttributeParserGenerator.TestInfrastructure.csproj" />
   <Project Path="AttributeParserGenerator.Tests/AttributeParserGenerator.Tests.csproj" />
+  <Project Path="AttributeParserGenerator/AttributeParserGenerator.csproj" />
 </Solution>
