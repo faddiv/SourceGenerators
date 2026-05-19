@@ -32,9 +32,9 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
             .Count().IsEqualTo(3);
 
         await Assert.That(results)
-            .ContainsKeyWithValue("Value", "Hello World")
-            .And.ContainsKeyWithValue("IntValue", 42)
-            .And.ContainsKeyWithValue("BoolValue", true);
+            .ContainsKeyWithValue("value", "Hello World")
+            .And.ContainsKeyWithValue("intValue", 42)
+            .And.ContainsKeyWithValue("boolValue", true);
     }
 
     [Test]
@@ -68,7 +68,7 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         await Assert.That(results)
             .ContainsKeyWithValue("value1", "Arg 1")
             .And.ContainsKeyWithValue("value10", "Arg 10")
-            .And.ContainsKeyWithValue("IntValue1", 1)
-            .And.ContainsKeyWithValue("IntValue10", 10);
+            .And.ContainsKeyWithValue("intValue1", 1)
+            .And.ContainsKeyWithValue("intValue10", 10);
     }
 }

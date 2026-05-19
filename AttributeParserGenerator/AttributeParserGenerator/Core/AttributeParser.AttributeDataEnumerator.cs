@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace AttributeParserGenerator.Core;
@@ -11,6 +13,7 @@ public partial class AttributeDataParser
     {
         private readonly AttributeData _attributeData = attributeData;
         private readonly AttributeDataParser _parser = parser;
+        private readonly AttributeTypeInfo _info = parser.GetAttributeTypeInfo(attributeData);
 
         private AttributeArgumentType _currentType = InitialAttributeArgumentType(attributeData);
         private int _index = -1;
@@ -28,39 +31,71 @@ public partial class AttributeDataParser
 
         public bool MoveNext()
         {
-            if (_currentType == AttributeArgumentType.ConstructorArgument)
+            var index = _index + 1;
+            if (index >= _info.CountArguments)
             {
-                _index++;
-                var constructorArguments = _attributeData.ConstructorArguments.Length;
-                if (_index < constructorArguments)
-                {
-                    _currentName = _attributeData.AttributeConstructor?.Parameters[_index].Name ?? "";
-                    var argument = _attributeData.ConstructorArguments[_index];
-                    _currentValue = argument.Value;
-                    return true;
-                }
-
-                _index = -1;
-                _currentType = AttributeArgumentType.NamedArgument;
+                return false;
             }
 
-            if (_currentType == AttributeArgumentType.NamedArgument)
+            _index = index;
+            _currentName = _info.ArgumentNames[_index];
+            if (TryGetNamedArgument(out var value))
             {
-                _index++;
-                var namedArguments = _attributeData.NamedArguments.Length;
-                if (_index < namedArguments)
-                {
-                    var namedArgument = _attributeData.NamedArguments[_index];
-                    _currentName = namedArgument.Key;
-                    _currentValue = namedArgument.Value.Value;
-                    return true;
-                }
-
-                _index = -1;
-                _currentType = AttributeArgumentType.Finished;
+                _currentValue = value;
+                return true;
             }
 
-            return _currentType != AttributeArgumentType.Finished;
+            if (TryGetConstructorParameter(out value))
+            {
+                _currentValue = value;
+                return true;
+            }
+
+            _currentValue = null;
+            return true;
+        }
+
+        private bool TryGetNamedArgument(out object? o)
+        {
+            foreach (var keyValuePair in _attributeData.NamedArguments)
+            {
+                if (!string.Equals(keyValuePair.Key, _currentName, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                o = keyValuePair.Value.Value;
+                return true;
+            }
+
+            o = null;
+            return false;
+        }
+
+        private bool TryGetConstructorParameter(out object? value)
+        {
+            if (_attributeData.AttributeConstructor == null)
+            {
+                value = null;
+                return false;
+            }
+
+            var parameters = _attributeData.AttributeConstructor.Parameters;
+
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var item = parameters.ItemRef(i);
+                if (!string.Equals(item.Name, _currentName, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                value = _attributeData.ConstructorArguments[i].Value;
+                return true;
+            }
+
+            value = null;
+            return false;
         }
 
         public void Reset()
