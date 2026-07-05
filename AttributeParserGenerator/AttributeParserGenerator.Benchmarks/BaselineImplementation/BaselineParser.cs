@@ -13,13 +13,14 @@ public class BaselineParser
             for (var index = 0; index < attributeData.ConstructorArguments.Length; index++)
             {
                 var argument = attributeData.ConstructorArguments[index];
-                results.Add(attributeConstructor.Parameters[index].Name, argument.Value);
+                results[attributeConstructor.Parameters[index].Name] = argument.Value;
             }
         }
 
         foreach (var argument in attributeData.NamedArguments)
         {
-            results.Add(argument.Key, argument.Value.Value);
+            var name = $"{char.ToLower(argument.Key[0])}{argument.Key[1..]}";
+            results[name] = argument.Value.Value;
         }
 
         return results;

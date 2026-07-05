@@ -2,7 +2,6 @@
 using AttributeParserGenerator.SampleCode.DecoratedClasses;
 using AttributeParserGenerator.TestInfrastructure;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnosers;
 using Microsoft.CodeAnalysis;
 using AttributeDataParser = AttributeParserGenerator.Core.AttributeDataParser;
 using PreviousAttributeDataParser = AttributeParserGenerator.PreviousImplementation.AttributeDataParser;

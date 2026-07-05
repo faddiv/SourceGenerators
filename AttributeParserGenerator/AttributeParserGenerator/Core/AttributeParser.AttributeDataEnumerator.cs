@@ -13,15 +13,38 @@ public partial class AttributeDataParser
     {
         private readonly AttributeData _attributeData = attributeData;
         private readonly AttributeDataParser _parser = parser;
-        private readonly AttributeTypeInfo _info = parser.GetAttributeTypeInfo(attributeData);
 
         private AttributeArgumentType _currentType = InitialAttributeArgumentType(attributeData);
         private int _index = -1;
 
-        private string _currentName = "";
-        private object? _currentValue = null;
+        public AttributeArgument Current
+        {
+            get
+            {
+                if (_index < 0)
+                {
+                    throw new InvalidOperationException("Enumeration has not started. Call MoveNext().");
+                }
 
-        public AttributeArgument Current => new(_currentName, _currentValue);
+                switch (_currentType)
+                {
+                    case AttributeArgumentType.ConstructorArgument:
+                        var constName = _attributeData.AttributeConstructor?.Parameters[_index].Name ?? string.Empty;
+                        var constValue = _attributeData.ConstructorArguments[_index].Value;
+                        return new AttributeArgument(constName, constValue);
+
+                    case AttributeArgumentType.NamedArgument:
+                        var namedName = _parser.ToCamelCase(_attributeData.NamedArguments[_index].Key);
+                        var namedValue = _attributeData.NamedArguments[_index].Value.Value;
+                        return new AttributeArgument(namedName, namedValue);
+
+                    case AttributeArgumentType.Finished:
+                        throw new InvalidOperationException("Enumeration already finished.");
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         object IEnumerator.Current => Current;
 
@@ -31,70 +54,27 @@ public partial class AttributeDataParser
 
         public bool MoveNext()
         {
-            var index = _index + 1;
-            if (index >= _info.CountArguments)
+            _index++;
+            if (_currentType == AttributeArgumentType.ConstructorArgument)
             {
-                return false;
-            }
-
-            _index = index;
-            _currentName = _info.ArgumentNames[_index];
-            if (TryGetNamedArgument(out var value))
-            {
-                _currentValue = value;
-                return true;
-            }
-
-            if (TryGetConstructorParameter(out value))
-            {
-                _currentValue = value;
-                return true;
-            }
-
-            _currentValue = null;
-            return true;
-        }
-
-        private bool TryGetNamedArgument(out object? o)
-        {
-            foreach (var keyValuePair in _attributeData.NamedArguments)
-            {
-                if (!string.Equals(keyValuePair.Key, _currentName, StringComparison.OrdinalIgnoreCase))
+                if (_index >= _attributeData.ConstructorArguments.Length)
                 {
-                    continue;
+                    _currentType = AttributeArgumentType.NamedArgument;
+                    _index = 0;
                 }
+            }
 
-                o = keyValuePair.Value.Value;
+            if (_currentType != AttributeArgumentType.NamedArgument)
+            {
                 return true;
             }
 
-            o = null;
-            return false;
-        }
-
-        private bool TryGetConstructorParameter(out object? value)
-        {
-            if (_attributeData.AttributeConstructor == null)
+            if (_index < _attributeData.NamedArguments.Length)
             {
-                value = null;
-                return false;
-            }
-
-            var parameters = _attributeData.AttributeConstructor.Parameters;
-
-            for (var i = 0; i < parameters.Length; i++)
-            {
-                var item = parameters.ItemRef(i);
-                if (!string.Equals(item.Name, _currentName, StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                value = _attributeData.ConstructorArguments[i].Value;
                 return true;
             }
 
-            value = null;
+            _currentType = AttributeArgumentType.Finished;
             return false;
         }
 
