@@ -66,7 +66,7 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
             .Count().IsEqualTo(20);
 
         await Assert.That(results)
-            .ContainsKeyWithValue("value1", "Arg 1")
+            .ContainsKeyWithValue("value1", "Arg 1 overridden")
             .And.ContainsKeyWithValue("value10", "Arg 10")
             .And.ContainsKeyWithValue("intValue1", 1)
             .And.ContainsKeyWithValue("intValue10", 10);

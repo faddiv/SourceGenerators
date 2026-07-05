@@ -37,5 +37,10 @@ public partial class AttributeDataParser
                 _attributeData.NamedArguments[_index - constructorArguments];
             return namedArgument.Value.Value;
         }
+
+        public T? GetValue<T>()
+        {
+            return (T?)GetValue();
+        }
     }
 }
