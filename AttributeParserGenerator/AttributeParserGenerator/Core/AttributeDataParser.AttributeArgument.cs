@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -34,7 +35,7 @@ public partial class AttributeDataParser
             switch (typedConstant.Kind)
             {
                 case TypedConstantKind.Error:
-                    throw new InvalidOperationException();
+                    return null;
 
                 case TypedConstantKind.Primitive:
                     return typedConstant.Value;
@@ -46,7 +47,7 @@ public partial class AttributeDataParser
                     return typedConstant.Value;
 
                 case TypedConstantKind.Array:
-                    return typedConstant.Values.Select(x => x.Value).ToArray();
+                    return SelectArray(typedConstant);
 
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -111,6 +112,38 @@ public partial class AttributeDataParser
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private IList SelectArray(TypedConstant typedConstant)
+        {
+            if (typedConstant.Type is not IArrayTypeSymbol arrayType)
+            {
+                return Array.Empty<object>();
+            }
+
+            return arrayType.ElementType.SpecialType switch
+            {
+                SpecialType.System_Boolean => typedConstant.Values.Select(x => (bool)x.Value!).ToImmutableArray(),
+                SpecialType.System_Char => typedConstant.Values.Select(x => (char)x.Value!).ToImmutableArray(),
+                SpecialType.System_SByte => typedConstant.Values.Select(x => (sbyte)x.Value!).ToImmutableArray(),
+                SpecialType.System_Byte => typedConstant.Values.Select(x => (byte)x.Value!).ToImmutableArray(),
+                SpecialType.System_Int16 => typedConstant.Values.Select(x => (short)x.Value!).ToImmutableArray(),
+                SpecialType.System_UInt16 => typedConstant.Values.Select(x => (ushort)x.Value!).ToImmutableArray(),
+                SpecialType.System_Int32 => typedConstant.Values.Select(x => (int)x.Value!).ToImmutableArray(),
+                SpecialType.System_UInt32 => typedConstant.Values.Select(x => (uint)x.Value!).ToImmutableArray(),
+                SpecialType.System_Int64 => typedConstant.Values.Select(x => (long)x.Value!).ToImmutableArray(),
+                SpecialType.System_UInt64 => typedConstant.Values.Select(x => (ulong)x.Value!).ToImmutableArray(),
+                SpecialType.System_Single => typedConstant.Values.Select(x => (float)x.Value!).ToImmutableArray(),
+                SpecialType.System_Double => typedConstant.Values.Select(x => (double)x.Value!).ToImmutableArray(),
+                SpecialType.System_String => typedConstant.Values.Select(x => (string?)x.Value).ToImmutableArray(),
+                _ when arrayType.ElementType.TypeKind == TypeKind.Enum =>
+                    typedConstant.Values.Select(x => (int)x.Value!).ToImmutableArray(),
+
+                _ when arrayType.ElementType is { TypeKind: TypeKind.Class, Name: "Type" } =>
+                    typedConstant.Values.Select(x => (INamedTypeSymbol?)x.Value).ToImmutableArray(),
+
+                _ => throw new NotImplementedException()
+            };
         }
     }
 }
