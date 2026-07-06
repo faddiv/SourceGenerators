@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using AttributeParserGenerator.Core;
 using AttributeParserGenerator.SampleCode.DecoratedClasses;
@@ -10,7 +11,7 @@ namespace AttributeParserGenerator.Tests.Tests;
 
 [ClassDataSource<TestEnvironment>(Shared = SharedType.PerTestSession)]
 [SuppressMessage("Usage", "TUnit0018:Test methods should not assign instance data")]
-public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
+public class AttributeDataParserTypeParsersTests(TestEnvironment testEnvironment)
 {
     private readonly TestEnvironment _testEnvironment = testEnvironment;
 
@@ -20,6 +21,7 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
         var attributeParser = new AttributeDataParser();
 
         var result = TestRunner.DeserializeInputWithDifferentTypes(attributeParser, attributeData);
+
         return result;
     }
 
@@ -36,6 +38,7 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
     public async Task AttributeDataParserReadsString()
     {
         var result = ProcessAttributeDataForTesting();
+
         await Assert.That(result.StringValue)
             .IsEqualTo("Test Value");
     }
@@ -45,6 +48,7 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
     public async Task AttributeDataParserReadsInt()
     {
         var result = ProcessAttributeDataForTesting();
+
         await Assert.That(result.IntValue)
             .IsEqualTo(42);
     }
@@ -54,6 +58,7 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
     public async Task AttributeDataParserReadsBool()
     {
         var result = ProcessAttributeDataForTesting();
+
         await Assert.That(result.BoolValue)
             .IsTrue();
     }
@@ -63,6 +68,7 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
     public async Task AttributeDataParserReadsEnum()
     {
         var result = ProcessAttributeDataForTesting();
+
         await Assert.That(result.EnumValue)
             .IsEqualTo(EnumValue.Value2);
     }
@@ -72,6 +78,7 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
     public async Task AttributeDataParserReadsDouble()
     {
         var result = ProcessAttributeDataForTesting();
+
         await Assert.That(result.DoubleValue)
             .IsEqualTo(3.14);
     }
@@ -81,10 +88,87 @@ public class AttributeDataParserDifferentTypes(TestEnvironment testEnvironment)
     public async Task AttributeDataParserReadsType()
     {
         var result = ProcessAttributeDataForTesting();
+
         await Assert.That(result.TypeValue)
             .IsNotNull()
             .And
             .HasProperty(x => x.Name)
             .IsEqualTo(nameof(TargetClass));
+    }
+
+    [Test]
+    [DependsOn(nameof(AttributeDataParserWithDifferentTypesSucceed))]
+    public async Task AttributeDataParserReadsStringArray()
+    {
+        var result = ProcessAttributeDataForTesting();
+
+        await Assert.That(result.StringArray)
+            .IsNotNull()
+            .And
+            .IsEquivalentTo(["Test String 1", "Test String 2"]);
+    }
+
+    [Test]
+    [DependsOn(nameof(AttributeDataParserWithDifferentTypesSucceed))]
+    public async Task AttributeDataParserReadsIntArray()
+    {
+        var result = ProcessAttributeDataForTesting();
+
+        await Assert.That(result.IntArray)
+            .IsNotNull()
+            .And
+            .IsEquivalentTo([1, 2, 3]);
+    }
+
+    [Test]
+    [DependsOn(nameof(AttributeDataParserWithDifferentTypesSucceed))]
+    public async Task AttributeDataParserReadsBoolArray()
+    {
+        var result = ProcessAttributeDataForTesting();
+
+        await Assert.That(result.BoolArray)
+            .IsNotNull()
+            .And
+            .IsEquivalentTo([true, false, true]);
+    }
+
+    [Test]
+    [DependsOn(nameof(AttributeDataParserWithDifferentTypesSucceed))]
+    public async Task AttributeDataParserReadsDoubleArray()
+    {
+        var result = ProcessAttributeDataForTesting();
+
+        await Assert.That(result.DoubleArray)
+            .IsNotNull()
+            .And
+            .IsEquivalentTo([1.1, 2.2, 3.3]);
+    }
+
+    [Test]
+    [DependsOn(nameof(AttributeDataParserWithDifferentTypesSucceed))]
+    public async Task AttributeDataParserReadsEnumArray()
+    {
+        var result = ProcessAttributeDataForTesting();
+
+        await Assert.That(result.EnumArray)
+            .IsNotNull()
+            .And
+            .IsEquivalentTo([EnumValue.Value1, EnumValue.Value3]);
+    }
+
+    [Test]
+    [DependsOn(nameof(AttributeDataParserWithDifferentTypesSucceed))]
+    public async Task AttributeDataParserReadsObjectWithNestedTypesAndArray()
+    {
+        var result = ProcessAttributeDataForTesting();
+
+        var typeArray = await Assert.That(result.TypeArray)
+            .IsNotNull();
+
+        await Assert.That(typeArray?.Select(e => e.Name))
+            .IsEquivalentTo([
+                nameof(TargetClass),
+                nameof(AnotherTargetClass)
+            ]);
     }
 }

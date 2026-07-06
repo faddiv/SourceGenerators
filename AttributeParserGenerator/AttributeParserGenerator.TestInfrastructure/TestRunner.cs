@@ -45,6 +45,24 @@ public class TestRunner
                 case "typeValue":
                     result.TypeValue = item.GetValue<INamedTypeSymbol>();
                     break;
+                case "stringArray":
+                    result.StringArray = item.GetValues<string>();
+                    break;
+                case "intArray":
+                    result.IntArray = item.GetValues<int>();
+                    break;
+                case "boolArray":
+                    result.BoolArray = item.GetValues<bool>();
+                    break;
+                case "enumArray":
+                    result.EnumArray = item.GetValues<EnumValue>();
+                    break;
+                case "doubleArray":
+                    result.DoubleArray = item.GetValues<double>();
+                    break;
+                case "typeArray":
+                    result.TypeArray = item.GetValues<INamedTypeSymbol>();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
