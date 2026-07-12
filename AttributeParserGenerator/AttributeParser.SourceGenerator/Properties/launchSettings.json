@@ -1,0 +1,9 @@
+{
+    "$schema": "https://json.schemastore.org/launchsettings.json",
+    "profiles": {
+        "IntegrationTests": {
+            "commandName": "DebugRoslynComponent",
+            "targetProject": "../AttributeParser.TestInfrastructure/AttributeParser.TestInfrastructure.csproj"
+        }
+    }
+}
