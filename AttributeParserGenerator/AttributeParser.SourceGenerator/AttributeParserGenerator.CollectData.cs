@@ -88,7 +88,9 @@ public partial class AttributeParserGenerator
     private static ContainingType ExtractContainingTypeInfo(INamedTypeSymbol parentClass)
     {
         var className = parentClass.Name;
-        var classNamespace = parentClass.ContainingNamespace.ToDisplayString();
+        var classNamespace = parentClass.ContainingNamespace.IsGlobalNamespace
+            ? ""
+            : parentClass.ContainingNamespace.ToDisplayString();
         var containingType = new ContainingType(classNamespace, className);
         return containingType;
     }

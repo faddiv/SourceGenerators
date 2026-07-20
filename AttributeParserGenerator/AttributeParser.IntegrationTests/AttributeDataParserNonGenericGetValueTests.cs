@@ -93,8 +93,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result)
-            .HasProperty(x => x.TypeValue.Name)
+        await Assert.That(result.TypeValue?.Name)
             .IsEqualTo(nameof(TargetClass));
     }
 
