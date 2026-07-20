@@ -1,0 +1,29 @@
+---
+description: Sample fixtures, TestInfrastructure, and TUnit test patterns
+globs: AttributeParser.{Tests,TestInfrastructure,SampleCode,Benchmarks}/**/*.cs
+alwaysApply: false
+---
+
+# Testing conventions
+
+## Layout
+
+| Project | Use for |
+|---------|---------|
+| `SampleCode` | Attribute definitions + decorated classes only (no generator ref) |
+| `TestInfrastructure` | Compilation host, `TestEnvironment`, `[AttributeParser]` partials |
+| `Tests` | TUnit coverage of runtime parser **and** generated partials |
+| `Benchmarks` | Hot-path changes; keep `PreviousImplementation` for comparison |
+
+## Adding behavior
+
+1. Add/adjust fixtures under `SampleCode/TestAttributes` and `DecoratedClasses`
+2. Expose generated parsers in TestInfrastructure when testing emit
+3. Cover with TUnit via `TestEnvironment` / `ClassDataSource`
+4. Prefer both raw `AttributeDataParser` and generated paths when changing emit
+
+## Gaps to fill (backlog)
+
+- Generator diagnostics / invalid signatures
+- Emitted-source assertions
+- Constructor-init and custom field-parser scenarios (once implemented)

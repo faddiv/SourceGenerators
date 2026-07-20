@@ -1,0 +1,23 @@
+---
+description: AttributeParserGenerator project scope, SDK, and goals
+alwaysApply: true
+---
+
+# Project overview
+
+- Solution entry: `AttributeParserGenerator.slnx` (not sibling solutions unless shared API must change).
+- Goal: source generator **for other source generators** — turn `AttributeData` into strongly typed objects efficiently.
+- SDK: `global.json` → **10.0.203**. Analyzer/library **netstandard2.0**; tests/samples **net10.0**.
+- Shared dependency (read-mostly): `..\SourceGeneratorTools\SourceGeneratorTools.Shared\` (`SourceBuilder`, `ComparableArray<T>` via projitems).
+
+## Backlog (prefer these over refactors)
+
+1. Constructor initialization of return types (property init only today)
+2. Custom field parsers
+3. Broader generator/unit tests
+
+## Do not
+
+- Reference the generator from `AttributeParser.SampleCode`
+- Copy shared tools into this repo — extend Shared or import projitems
+- Use host-only APIs in the analyzer (`EnforceExtendedAnalyzerRules`)

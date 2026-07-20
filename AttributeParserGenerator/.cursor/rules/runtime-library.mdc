@@ -1,0 +1,21 @@
+---
+description: Runtime AttributeDataParser and AttributeParser library conventions
+globs: AttributeParser/**/*.cs
+alwaysApply: false
+---
+
+# Runtime library (`AttributeParser`)
+
+- Public marker: `AttributeParserAttribute` (methods only)
+- Runtime API lives in `AttributeParser.Core`: `AttributeDataParser`, nested `AttributeArgument` / `ParseResult`
+- Prefer partial classes for nested types (same pattern as the generator)
+- `PreviousImplementation/` is for benchmarks only — do not use from new production code
+
+## Parsing semantics agents must preserve
+
+- Constructor args: names as declared
+- Named args: forced to camelCase at runtime; generated switch matches PascalCase + camelCase
+- Arrays surface as `ImmutableArray<T>`
+- Unknown names in generated code throw `ArgumentOutOfRangeException` (strict)
+
+Keep the library **netstandard2.0** and packable with the analyzer (`analyzers/dotnet/cs` + `lib/netstandard2.0`).
