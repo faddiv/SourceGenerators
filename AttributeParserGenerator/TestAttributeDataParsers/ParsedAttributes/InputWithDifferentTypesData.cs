@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace AttributeParserGenerator.TestInfrastructure;
 
-public class InputWithDifferentTypes
+public class InputWithDifferentTypesData
 {
     public string? StringValue { get; set; }
 

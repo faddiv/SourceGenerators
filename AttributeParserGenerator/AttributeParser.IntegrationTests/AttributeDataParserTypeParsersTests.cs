@@ -13,7 +13,7 @@ public class AttributeDataParserGenericGetValueTests(TestEnvironment testEnviron
 {
     private readonly TestEnvironment _testEnvironment = testEnvironment;
 
-    private InputWithDifferentTypes ProcessAttributeDataForTesting()
+    private InputWithDifferentTypesData ProcessAttributeDataForTesting()
     {
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithProvidedDifferentTypes));
         var attributeParser = new AttributeDataParser();

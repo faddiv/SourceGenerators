@@ -16,12 +16,12 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
 {
     private readonly TestEnvironment _testEnvironment = testEnvironment;
 
-    private Dictionary<string, object?> ProcessAttributeDataForTesting()
+    private InputWithDifferentTypesData ProcessAttributeDataForTesting()
     {
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithProvidedDifferentTypes));
         var attributeParser = new AttributeDataParser();
 
-        var result = TestRunner.ExtractValues(attributeParser, attributeData);
+        var result = AttributeParsers.ParseInputWithDifferentTypesData(attributeData, attributeParser);
 
         return result;
     }
@@ -40,7 +40,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["stringValue"])
+        await Assert.That(result.StringValue)
             .IsEqualTo("Test Value");
     }
 
@@ -50,7 +50,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["intValue"])
+        await Assert.That(result.IntValue)
             .IsEqualTo(42);
     }
 
@@ -60,9 +60,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["boolValue"])
-            .IsTypeOf<bool>()
-            .And
+        await Assert.That(result.BoolValue)
             .IsTrue();
     }
 
@@ -72,10 +70,8 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["enumValue"])
-            .IsTypeOf<int>()
-            .And
-            .IsEqualTo((int)EnumValue.Value2);
+        await Assert.That(result.EnumValue)
+            .IsEqualTo(EnumValue.Value2);
     }
 
 
@@ -85,9 +81,8 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["doubleValue"])
-            .IsTypeOf<double>()
-            .And
+        await Assert.That(result)
+            .HasProperty(x => x.DoubleValue)
             .IsEqualTo(3.14);
     }
 
@@ -98,10 +93,8 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["typeValue"])
-            .IsTypeOf<INamedTypeSymbol>()
-            .And
-            .HasProperty(x => x.Name)
+        await Assert.That(result)
+            .HasProperty(x => x.TypeValue.Name)
             .IsEqualTo(nameof(TargetClass));
     }
 
@@ -111,9 +104,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["stringArray"])
-            .IsTypeOf<ImmutableArray<string>>()
-            .And
+        await Assert.That(result.StringArray)
             .IsEquivalentTo(["Test String 1", "Test String 2"]);
     }
 
@@ -123,9 +114,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["intArray"])
-            .IsTypeOf<ImmutableArray<int>>()
-            .And
+        await Assert.That(result.IntArray)
             .IsEquivalentTo([1, 2, 3]);
     }
 
@@ -135,9 +124,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["boolArray"])
-            .IsTypeOf<ImmutableArray<bool>>()
-            .And
+        await Assert.That(result.BoolArray)
             .IsEquivalentTo([true, false, true]);
     }
 
@@ -147,9 +134,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["doubleArray"])
-            .IsTypeOf<ImmutableArray<double>>()
-            .And
+        await Assert.That(result.DoubleArray)
             .IsEquivalentTo([1.1, 2.2, 3.3]);
     }
 
@@ -159,10 +144,8 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        await Assert.That(result["enumArray"])
-            .IsTypeOf<ImmutableArray<int>>()
-            .And
-            .IsEquivalentTo([(int)EnumValue.Value1, (int)EnumValue.Value3]);
+        await Assert.That(result.EnumArray)
+            .IsEquivalentTo([EnumValue.Value1, EnumValue.Value3]);
     }
 
     [Test]
@@ -171,7 +154,7 @@ public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvi
     {
         var result = ProcessAttributeDataForTesting();
 
-        var typeArray = await Assert.That(result["typeArray"])
+        var typeArray = await Assert.That(result.TypeArray)
             .IsTypeOf<ImmutableArray<INamedTypeSymbol>>();
 
         await Assert.That(typeArray.Select(e => e.Name))

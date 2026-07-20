@@ -26,15 +26,12 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithNamedArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestRunner.ExtractValues(attributeParser, attributeData);
+        var results = AttributeParsers.ParseFirstInputData(attributeData, attributeParser);
 
-        await Assert.That(results)
-            .Count().IsEqualTo(3);
-
-        await Assert.That(results)
-            .ContainsKeyWithValue("value", "Hello World")
-            .And.ContainsKeyWithValue("intValue", 42)
-            .And.ContainsKeyWithValue("boolValue", true);
+        await Assert.That(results).IsNotNull();
+        await Assert.That(results.Value).IsEqualTo("Hello World");
+        await Assert.That(results.IntValue).IsEqualTo(42);
+        await Assert.That(results.BoolValue).IsTrue();
     }
 
     [Test]
@@ -43,15 +40,12 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithConstructorArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestRunner.ExtractValues(attributeParser, attributeData);
+        var results = AttributeParsers.ParseFirstInputData(attributeData, attributeParser);
 
-        await Assert.That(results)
-            .Count().IsEqualTo(3);
-
-        await Assert.That(results)
-            .ContainsKeyWithValue("value", "Hello World")
-            .And.ContainsKeyWithValue("intValue", 42)
-            .And.ContainsKeyWithValue("boolValue", true);
+        await Assert.That(results).IsNotNull();
+        await Assert.That(results.Value).IsEqualTo("Hello World");
+        await Assert.That(results.IntValue).IsEqualTo(42);
+        await Assert.That(results.BoolValue).IsTrue();
     }
 
     [Test]
@@ -60,15 +54,12 @@ public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithLotsOfArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestRunner.ExtractValues(attributeParser, attributeData);
+        var results = AttributeParsers.ParseAttributeWithLotsOfArgumentsData(attributeData, attributeParser);
 
-        await Assert.That(results)
-            .Count().IsEqualTo(20);
-
-        await Assert.That(results)
-            .ContainsKeyWithValue("value1", "Arg 1 overridden")
-            .And.ContainsKeyWithValue("value10", "Arg 10")
-            .And.ContainsKeyWithValue("intValue1", 1)
-            .And.ContainsKeyWithValue("intValue10", 10);
+        await Assert.That(results).IsNotNull();
+        await Assert.That(results.Value1).IsEqualTo("Arg 1 overridden");
+        await Assert.That(results.Value10).IsEqualTo("Arg 10");
+        await Assert.That(results.IntValue1).IsEqualTo(1);
+        await Assert.That(results.IntValue10).IsEqualTo(10);
     }
 }

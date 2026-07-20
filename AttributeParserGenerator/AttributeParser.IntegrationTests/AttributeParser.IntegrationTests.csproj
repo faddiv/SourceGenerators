@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AttributeParser.SampleCode\AttributeParser.SampleCode.csproj" />
-    <ProjectReference Include="..\AttributeParser.TestInfrastructure\AttributeParser.TestInfrastructure.csproj" />
+    <ProjectReference Include="..\TestAttributeDataParsers\TestAttributeDataParsers.csproj" />
     <ProjectReference Include="..\AttributeParser\AttributeParser.csproj" />
   </ItemGroup>
 

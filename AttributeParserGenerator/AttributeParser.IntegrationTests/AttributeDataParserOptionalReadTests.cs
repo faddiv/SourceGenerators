@@ -16,14 +16,11 @@ public class AttributeDataParserOptionalReadTests(TestEnvironment testEnvironmen
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithOptionalArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestRunner.ExtractValues(attributeParser, attributeData);
+        var results = AttributeParsers.ParseInputWithOptionalData(attributeData, attributeParser);
 
-        await Assert.That(results)
-            .Count().IsEqualTo(2);
-
-        await Assert.That(results)
-            .ContainsKeyWithValue("value", "Default Value")
-            .And.ContainsKeyWithValue("intValue", 42);
+        await Assert.That(results).IsNotNull();
+        await Assert.That(results.Value).IsEqualTo("Default Value");
+        await Assert.That(results.IntValue).IsEqualTo(42);
     }
 
     [Test]
@@ -32,14 +29,11 @@ public class AttributeDataParserOptionalReadTests(TestEnvironment testEnvironmen
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithProvidedOptionalArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestRunner.ExtractValues(attributeParser, attributeData);
+        var results = AttributeParsers.ParseInputWithOptionalData(attributeData, attributeParser);
 
-        await Assert.That(results)
-            .Count().IsEqualTo(2);
-
-        await Assert.That(results)
-            .ContainsKeyWithValue("value", "Hello World")
-            .And.ContainsKeyWithValue("intValue", 42);
+        await Assert.That(results).IsNotNull();
+        await Assert.That(results.Value).IsEqualTo("Hello World");
+        await Assert.That(results.IntValue).IsEqualTo(42);
     }
 
     [Test]
@@ -48,13 +42,10 @@ public class AttributeDataParserOptionalReadTests(TestEnvironment testEnvironmen
         var attributeData = _testEnvironment.GetClassAttributeData(nameof(ClassWithNamedOptionalArguments));
         var attributeParser = new AttributeDataParser();
 
-        var results = TestRunner.ExtractValues(attributeParser, attributeData);
+        var results = AttributeParsers.ParseInputWithOptionalData(attributeData, attributeParser);
 
-        await Assert.That(results)
-            .Count().IsEqualTo(2);
-
-        await Assert.That(results)
-            .ContainsKeyWithValue("value", "Hello World")
-            .And.ContainsKeyWithValue("intValue", 42);
+        await Assert.That(results).IsNotNull();
+        await Assert.That(results.Value).IsEqualTo("Hello World");
+        await Assert.That(results.IntValue).IsEqualTo(42);
     }
 }
