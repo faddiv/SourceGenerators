@@ -12,14 +12,10 @@
 [Oo]bj/
 
 # IDE directories
-## Visual Studio
 .vs/
-
-## Rider
-.idea/
-
-# VS Code
 .vscode/
+.idea/
+.zed/
 
 # Approval Tests result files
 *.received.*
