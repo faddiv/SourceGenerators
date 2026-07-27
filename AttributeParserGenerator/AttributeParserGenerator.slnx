@@ -1,7 +1,6 @@
 <Solution>
   <Folder Name="/tests/">
     <Project Path="AttributeParser.Benchmarks/AttributeParser.Benchmarks.csproj" />
-    <Project Path="AttributeParser.IntegrationTests/AttributeParser.IntegrationTests.csproj" />
     <Project Path="AttributeParser.SampleCode/AttributeParser.SampleCode.csproj" />
     <Project Path="AttributeParser.SourceGenerator.Tests/AttributeParser.SourceGenerator.Tests.csproj" />
     <Project Path="AttributeParser.Tests/AttributeParser.Tests.csproj" />
