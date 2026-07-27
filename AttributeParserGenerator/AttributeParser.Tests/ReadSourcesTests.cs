@@ -24,8 +24,8 @@ public class ReadSourcesTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("StringValue");
-        await Assert.That(argument.GetValue<string>()).IsEqualTo("Hello");
+        await Assert.That(argument)
+            .IsNameAndValue("StringValue", "Hello");
     }
 
     [Test]
@@ -48,8 +48,8 @@ public class ReadSourcesTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("stringValue");
-        await Assert.That(argument.GetValue<string>()).IsEqualTo("Hello");
+        await Assert.That(argument)
+            .IsNameAndValue("stringValue", "Hello");
     }
 
     [Test]
@@ -75,9 +75,9 @@ public class ReadSourcesTests
         await Assert.That(arguments).Count().IsEqualTo(2);
         var first = arguments.First();
         var second = arguments.Last();
-        await Assert.That(first.GetName()).IsEqualTo("stringValue");
-        await Assert.That(first.GetValue<string>()).IsEqualTo("First");
-        await Assert.That(second.GetName()).IsEqualTo("StringValue");
-        await Assert.That(second.GetValue<string>()).IsEqualTo("Second");
+        await Assert.That(first)
+            .IsNameAndValue("stringValue", "First");
+        await Assert.That(second)
+            .IsNameAndValue("StringValue", "Second");
     }
 }

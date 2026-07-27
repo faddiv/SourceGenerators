@@ -33,8 +33,8 @@ public class TypesReadingTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("StringValue");
-        await Assert.That(argument.GetValue<string>()).IsEqualTo("Hello");
+        await Assert.That(argument)
+            .IsNameAndValue("StringValue", "Hello");
     }
 
     [Test]
@@ -57,8 +57,8 @@ public class TypesReadingTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("IntValue");
-        await Assert.That(argument.GetValue<int>()).IsEqualTo(42);
+        await Assert.That(argument)
+            .IsNameAndValue("IntValue", 42);
     }
 
     [Test]
@@ -81,8 +81,8 @@ public class TypesReadingTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("BoolValue");
-        await Assert.That(argument.GetValue<bool>()).IsTrue();
+        await Assert.That(argument)
+            .IsNameAndValue("BoolValue", true);
     }
 
     [Test]
@@ -112,8 +112,8 @@ public class TypesReadingTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("EnumValue");
-        await Assert.That(argument.GetValue<ExampleEnum>()).IsEqualTo(ExampleEnum.Value2);
+        await Assert.That(argument)
+            .IsNameAndValue("EnumValue", ExampleEnum.Value2);
     }
 
     [Test]
@@ -136,8 +136,8 @@ public class TypesReadingTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("DoubleValue");
-        await Assert.That(argument.GetValue<double>()).IsEqualTo(3.14);
+        await Assert.That(argument)
+            .IsNameAndValue("DoubleValue", 3.14);
     }
 
     [Test]
@@ -162,8 +162,8 @@ public class TypesReadingTests
 
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
-        await Assert.That(argument.GetName()).IsEqualTo("TypeValue");
-        await Assert.That(argument.GetValue<INamedTypeSymbol>()?.Name).IsEqualTo("TargetClass");
+        await Assert.That(argument)
+            .IsNameAndSymbolName("TypeValue", "TargetClass");
     }
 
     [Test]
