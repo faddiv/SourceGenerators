@@ -1,4 +1,6 @@
-﻿namespace AttributeParser.SourceGenerator.Tests;
+﻿using AttributeParser.SourceGenerator.Tests.TestInfrstructure;
+
+namespace AttributeParser.SourceGenerator.Tests;
 
 public class TypesGenerationTests
 {

@@ -1,4 +1,4 @@
-﻿using SourceGeneratorTools;
+﻿using AttributeParser.SourceGenerator.ComparableArray;
 
 namespace AttributeParser.SourceGenerator.Data;
 

@@ -3,7 +3,7 @@ using AttributeParser.Core;
 using AttributeParserGenerator.SampleCode.DecoratedClasses;
 using AttributeParserGenerator.TestInfrastructure;
 
-namespace AttributeParserGenerator.Tests.Tests;
+namespace AttributeParser.IntegrationTests;
 
 [ClassDataSource<TestEnvironment>(Shared = SharedType.PerTestSession)]
 public class AttributeDataParserOptionalReadTests(TestEnvironment testEnvironment)

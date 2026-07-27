@@ -1,4 +1,4 @@
-namespace AttributeParserGenerator.SampleCode.TestAttributes;
+namespace AttributeParserGenerator.TestInfrastructure.ParsedAttributes;
 
 public class InputWithOptionalData
 {

@@ -1,4 +1,4 @@
-﻿namespace SourceGeneratorTools;
+﻿namespace AttributeParser.SourceGenerator.SourceBuilder;
 
 partial class SourceBuilder
 {

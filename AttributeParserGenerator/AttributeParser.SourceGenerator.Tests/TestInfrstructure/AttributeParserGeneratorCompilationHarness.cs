@@ -1,4 +1,4 @@
-namespace AttributeParser.SourceGenerator.Tests;
+namespace AttributeParser.SourceGenerator.Tests.TestInfrstructure;
 
 public class AttributeParserGeneratorCompilationHarness
     : IncrementalGeneratorCompilationHarness<AttributeParserGenerator>

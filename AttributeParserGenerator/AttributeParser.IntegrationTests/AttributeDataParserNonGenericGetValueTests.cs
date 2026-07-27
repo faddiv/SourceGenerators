@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using AttributeParser.Core;
 using AttributeParserGenerator.SampleCode.DecoratedClasses;
 using AttributeParserGenerator.SampleCode.TestAttributes;
 using AttributeParserGenerator.TestInfrastructure;
+using AttributeParserGenerator.TestInfrastructure.ParsedAttributes;
 using Microsoft.CodeAnalysis;
-using EnumValue = AttributeParserGenerator.TestInfrastructure.EnumValue;
+using EnumValue = AttributeParserGenerator.TestInfrastructure.ParsedAttributes.EnumValue;
 
-namespace AttributeParserGenerator.Tests.Tests;
+namespace AttributeParser.IntegrationTests;
 
 [ClassDataSource<TestEnvironment>(Shared = SharedType.PerTestSession)]
 public class AttributeDataParserNonGenericGetValueTests(TestEnvironment testEnvironment)

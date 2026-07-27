@@ -1,4 +1,4 @@
-namespace AttributeParserGenerator.TestInfrastructure;
+namespace AttributeParserGenerator.TestInfrastructure.ParsedAttributes;
 
 public enum EnumValue
 {

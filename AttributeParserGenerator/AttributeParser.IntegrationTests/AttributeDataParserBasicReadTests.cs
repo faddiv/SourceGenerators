@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using AttributeParser.Core;
+using AttributeParser.IntegrationTests.TestInfrastructure;
 using AttributeParserGenerator.SampleCode.DecoratedClasses;
 using AttributeParserGenerator.TestInfrastructure;
-using AttributeParserGenerator.Tests.TestInfrastructure;
 
-namespace AttributeParserGenerator.Tests.Tests;
+namespace AttributeParser.IntegrationTests;
 
 [ClassDataSource<TestEnvironment>(Shared = SharedType.PerTestSession)]
 public class AttributeDataParserBasicReadTests(TestEnvironment testEnvironment)

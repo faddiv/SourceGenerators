@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace SourceGeneratorTools;
+namespace AttributeParser.SourceGenerator.SourceBuilder;
 
 /// <summary>
 ///

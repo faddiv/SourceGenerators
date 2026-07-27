@@ -1,9 +1,10 @@
 ﻿using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using TestInfrastructure;
 using TUnit.Engine.Exceptions;
 
-namespace AttributeParser.SourceGenerator.Tests;
+namespace AttributeParser.SourceGenerator.Tests.TestInfrstructure;
 
 public class IncrementalGeneratorCompilationHarness<TGenerator> : CompilationHarness
     where TGenerator : IIncrementalGenerator, new()

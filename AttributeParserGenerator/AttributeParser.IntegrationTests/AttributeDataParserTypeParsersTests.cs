@@ -4,9 +4,10 @@ using AttributeParser.Core;
 using AttributeParserGenerator.SampleCode.DecoratedClasses;
 using AttributeParserGenerator.SampleCode.TestAttributes;
 using AttributeParserGenerator.TestInfrastructure;
-using EnumValue = AttributeParserGenerator.TestInfrastructure.EnumValue;
+using AttributeParserGenerator.TestInfrastructure.ParsedAttributes;
+using EnumValue = AttributeParserGenerator.TestInfrastructure.ParsedAttributes.EnumValue;
 
-namespace AttributeParserGenerator.Tests.Tests;
+namespace AttributeParser.IntegrationTests;
 
 [ClassDataSource<TestEnvironment>(Shared = SharedType.PerTestSession)]
 public class AttributeDataParserGenericGetValueTests(TestEnvironment testEnvironment)

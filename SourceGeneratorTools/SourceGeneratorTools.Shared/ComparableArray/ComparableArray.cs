@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SourceGeneratorTools;
+namespace AttributeParser.SourceGenerator.ComparableArray;
 
 [CollectionBuilder(typeof(ComparableArray), nameof(ComparableArray.Create))]
 public readonly struct ComparableArray<T>(T[]? array)

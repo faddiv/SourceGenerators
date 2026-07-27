@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SourceGeneratorTools;
+namespace AttributeParser.SourceGenerator.SourceBuilder;
 
 partial class SourceBuilder
 {

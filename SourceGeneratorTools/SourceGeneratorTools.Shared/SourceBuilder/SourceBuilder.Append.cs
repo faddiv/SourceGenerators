@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace SourceGeneratorTools;
+namespace AttributeParser.SourceGenerator.SourceBuilder;
 
 public sealed partial class SourceBuilder
 {

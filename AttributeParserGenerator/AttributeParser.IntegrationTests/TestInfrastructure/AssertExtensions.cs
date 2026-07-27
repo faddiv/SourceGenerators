@@ -2,7 +2,7 @@
 using TUnit.Assertions.Conditions;
 using TUnit.Assertions.Sources;
 
-namespace AttributeParserGenerator.Tests.TestInfrastructure;
+namespace AttributeParser.IntegrationTests.TestInfrastructure;
 
 public static class AssertExtensions
 {

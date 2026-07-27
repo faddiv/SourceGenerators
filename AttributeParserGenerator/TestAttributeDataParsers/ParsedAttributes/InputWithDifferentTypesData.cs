@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 
-namespace AttributeParserGenerator.TestInfrastructure;
+namespace AttributeParserGenerator.TestInfrastructure.ParsedAttributes;
 
 public class InputWithDifferentTypesData
 {

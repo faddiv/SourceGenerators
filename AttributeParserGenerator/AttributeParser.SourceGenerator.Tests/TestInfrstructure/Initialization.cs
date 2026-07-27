@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace AttributeParser.SourceGenerator.Tests;
+namespace AttributeParser.SourceGenerator.Tests.TestInfrstructure;
 
 public static class Initialization
 {

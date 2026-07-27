@@ -1,6 +1,6 @@
 ﻿using AttributeParser;
 using AttributeParser.Core;
-using AttributeParserGenerator.SampleCode.TestAttributes;
+using AttributeParserGenerator.TestInfrastructure.ParsedAttributes;
 using Microsoft.CodeAnalysis;
 
 namespace AttributeParserGenerator.TestInfrastructure;
