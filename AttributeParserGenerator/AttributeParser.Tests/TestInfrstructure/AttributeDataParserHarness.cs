@@ -3,7 +3,7 @@ using AttributeParser.Core;
 using Microsoft.CodeAnalysis;
 using TestInfrastructure;
 
-namespace AttributeParser.Tests;
+namespace AttributeParser.Tests.TestInfrstructure;
 
 public class AttributeDataParserHarness : CompilationHarness
 {

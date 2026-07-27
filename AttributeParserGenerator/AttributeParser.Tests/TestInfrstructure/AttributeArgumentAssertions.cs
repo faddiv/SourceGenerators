@@ -1,28 +1,18 @@
-﻿using System.ComponentModel;
+﻿using System.Runtime.CompilerServices;
 using AttributeParser.Core;
-using Microsoft.CodeAnalysis;
-using TUnit.Assertions.Attributes;
+using TUnit.Assertions.Core;
 
-namespace AttributeParser.Tests;
+namespace AttributeParser.Tests.TestInfrstructure;
 
 public static class AttributeArgumentAssertions
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [GenerateAssertion(ExpectationMessage = "to be name {name} and value {value}")]
-    public static bool IsNameAndValue<T>(this AttributeDataParser.AttributeArgument argument, string name, T value)
+    public static HasNameAssertion HasName(
+        this IAssertionSource<AttributeDataParser.AttributeArgument> source,
+        string expected,
+        [CallerArgumentExpression(nameof(expected))]
+        string? expression = null)
     {
-        return argument.GetName() == name &&
-               EqualityComparer<T>.Default.Equals(argument.GetValue<T>(), value);
-    }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [GenerateAssertion(ExpectationMessage = "to be name {name} and symbolName {symbolName}")]
-    public static bool IsNameAndSymbolName(
-        this AttributeDataParser.AttributeArgument argument,
-        string name,
-        string symbolName)
-    {
-        return argument.GetName() == name &&
-               argument.GetValue<INamedTypeSymbol>()?.Name == symbolName;
+        source.Context.ExpressionBuilder.Append($".HasName({expression})");
+        return new HasNameAssertion(source.Context, expected);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace AttributeParser.Tests;
+﻿using AttributeParser.Tests.TestInfrstructure;
+
+namespace AttributeParser.Tests;
 
 public class ReadSourcesTests
 {
@@ -25,7 +27,8 @@ public class ReadSourcesTests
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument)
-            .IsNameAndValue("StringValue", "Hello");
+            .HasName("StringValue")
+            .WithValue("Hello");
     }
 
     [Test]
@@ -49,7 +52,8 @@ public class ReadSourcesTests
         var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument)
-            .IsNameAndValue("stringValue", "Hello");
+            .HasName("stringValue")
+            .WithValue("Hello");
     }
 
     [Test]
@@ -76,8 +80,10 @@ public class ReadSourcesTests
         var first = arguments.First();
         var second = arguments.Last();
         await Assert.That(first)
-            .IsNameAndValue("stringValue", "First");
+            .HasName("stringValue")
+            .WithValue("First");
         await Assert.That(second)
-            .IsNameAndValue("StringValue", "Second");
+            .HasName("StringValue")
+            .WithValue("Second");
     }
 }

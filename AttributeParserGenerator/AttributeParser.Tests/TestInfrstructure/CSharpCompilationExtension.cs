@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace AttributeParser.Tests;
+namespace AttributeParser.Tests.TestInfrstructure;
 
 public static class CSharpCompilationExtension
 {
