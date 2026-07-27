@@ -1,6 +1,6 @@
 ﻿namespace AttributeParser.SourceGenerator.Tests;
 
-public class GeneratorTests
+public class TypesGenerationTests
 {
     private readonly AttributeParserGeneratorCompilationHarness _harness = new();
 
