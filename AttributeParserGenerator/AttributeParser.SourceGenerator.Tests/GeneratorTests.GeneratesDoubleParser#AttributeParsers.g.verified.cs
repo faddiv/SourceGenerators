@@ -7,15 +7,15 @@ public partial class AttributeParsers
     public static partial ParsedData ParseData
         (Microsoft.CodeAnalysis.AttributeData attributeData, AttributeParser.Core.AttributeDataParser parser)
     {
-        string? __StringValue = default;
+        double __DoubleValue = default;
         foreach(var __item in parser.Parse(attributeData))
         {
             switch (__item.GetName())
             {
-                case "StringValue":
-                case "stringValue":
+                case "DoubleValue":
+                case "doubleValue":
                 {
-                    __StringValue = __item.GetValue<string?>();
+                    __DoubleValue = __item.GetValue<double>();
                     break;
                 }
                 default:
@@ -26,7 +26,7 @@ public partial class AttributeParsers
         }
         return new ParsedData()
         {
-            StringValue = __StringValue,
+            DoubleValue = __DoubleValue,
         };
     }
 }

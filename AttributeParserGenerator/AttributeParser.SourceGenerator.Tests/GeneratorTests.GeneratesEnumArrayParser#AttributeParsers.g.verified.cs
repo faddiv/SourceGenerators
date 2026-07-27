@@ -7,15 +7,15 @@ public partial class AttributeParsers
     public static partial ParsedData ParseData
         (Microsoft.CodeAnalysis.AttributeData attributeData, AttributeParser.Core.AttributeDataParser parser)
     {
-        string? __StringValue = default;
+        System.Collections.Immutable.ImmutableArray<EnumValue> __EnumArray = default;
         foreach(var __item in parser.Parse(attributeData))
         {
             switch (__item.GetName())
             {
-                case "StringValue":
-                case "stringValue":
+                case "EnumArray":
+                case "enumArray":
                 {
-                    __StringValue = __item.GetValue<string?>();
+                    __EnumArray = __item.GetValues<EnumValue>();
                     break;
                 }
                 default:
@@ -26,7 +26,7 @@ public partial class AttributeParsers
         }
         return new ParsedData()
         {
-            StringValue = __StringValue,
+            EnumArray = __EnumArray,
         };
     }
 }
