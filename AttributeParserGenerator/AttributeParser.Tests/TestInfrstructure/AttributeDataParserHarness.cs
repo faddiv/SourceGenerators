@@ -25,7 +25,7 @@ public class AttributeDataParserHarness : CompilationHarness
             token);
     }
 
-    public async Task<AttributeDataParser.AttributeArgument> ExtractSingleArgument(
+    public async Task<AttributeDataParser.AttributeArgument> ParseAndGetSingleArgument(
         CancellationToken token,
         string fullName = "ExampleClass")
     {
@@ -34,6 +34,15 @@ public class AttributeDataParserHarness : CompilationHarness
 
         await Assert.That(arguments).Count().IsEqualTo(1);
         return arguments[0];
+    }
+
+    public async Task<AttributeDataParser.AttributeArgument[]> ParseAndGetArguments(
+        CancellationToken token,
+        string fullName = "ExampleClass")
+    {
+        var attributeData = GetAttributeDataOnClass(fullName, token);
+        return Parser.Parse(attributeData).ToArray();
+
     }
 
     /// <summary>

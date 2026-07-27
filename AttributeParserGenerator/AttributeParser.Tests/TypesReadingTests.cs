@@ -31,7 +31,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("StringValue");
         await Assert.That(argument.GetValue<string>()).IsEqualTo("Hello");
@@ -55,7 +55,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("IntValue");
         await Assert.That(argument.GetValue<int>()).IsEqualTo(42);
@@ -79,7 +79,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("BoolValue");
         await Assert.That(argument.GetValue<bool>()).IsTrue();
@@ -110,7 +110,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("EnumValue");
         await Assert.That(argument.GetValue<ExampleEnum>()).IsEqualTo(ExampleEnum.Value2);
@@ -134,7 +134,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("DoubleValue");
         await Assert.That(argument.GetValue<double>()).IsEqualTo(3.14);
@@ -160,7 +160,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("TypeValue");
         await Assert.That(argument.GetValue<INamedTypeSymbol>()?.Name).IsEqualTo("TargetClass");
@@ -184,7 +184,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("StringArray");
         await Assert.That(argument.GetValues<string>()).IsEquivalentTo(["Hello", "World"]);
@@ -208,7 +208,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("IntArray");
         await Assert.That(argument.GetValues<int>()).IsEquivalentTo([1, 2, 3]);
@@ -232,7 +232,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("BoolArray");
         await Assert.That(argument.GetValues<bool>()).IsEquivalentTo([true, false, true]);
@@ -263,7 +263,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("EnumArray");
         await Assert.That(argument.GetValues<ExampleEnum>()).IsEquivalentTo([ExampleEnum.Value1, ExampleEnum.Value3]);
@@ -287,7 +287,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("DoubleArray");
         await Assert.That(argument.GetValues<double>()).IsEquivalentTo([1.1, 2.2, 3.3]);
@@ -314,7 +314,7 @@ public class TypesReadingTests
             """,
             token);
 
-        var argument = await _harness.ExtractSingleArgument(token);
+        var argument = await _harness.ParseAndGetSingleArgument(token);
 
         await Assert.That(argument.GetName()).IsEqualTo("TypeArray");
         await Assert.That(argument.GetValues<INamedTypeSymbol>().Select(x => x.Name))
