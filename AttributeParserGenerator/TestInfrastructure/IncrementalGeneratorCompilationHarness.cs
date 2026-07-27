@@ -15,7 +15,7 @@ public class IncrementalGeneratorCompilationHarness<TGenerator> : CompilationHar
 
     public GeneratorDriver RunSourceGenerator(CancellationToken token)
     {
-        var compilation = Compile();
+        var compilation = CompileNoDiagnostics(token);
 
         var generator = new TGenerator();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
