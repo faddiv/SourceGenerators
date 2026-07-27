@@ -1,21 +1,21 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
-using TUnit.Core.Exceptions;
-using TUnit.Engine.Exceptions;
 
 namespace AttributeParser.SourceGenerator.Tests;
 
-public class CompilationHarness<TGenerator> where TGenerator : IIncrementalGenerator, new()
+public class CompilationHarness
 {
     private readonly List<SyntaxTree> _syntaxTrees = [];
     private readonly List<MetadataReference> _references = [];
 
+    protected CompilationHarness()
+    {
+        AddMetadataReferencesFromCurrentDomain();
+    }
     public CSharpCompilationOptions CompilationOptions { get; } = new(
         OutputKind.DynamicallyLinkedLibrary,
         nullableContextOptions: NullableContextOptions.Enable);
@@ -89,26 +89,5 @@ public class CompilationHarness<TGenerator> where TGenerator : IIncrementalGener
             _syntaxTrees,
             _references,
             options: CompilationOptions);
-    }
-
-    public GeneratorDriver RunSourceGenerator(CancellationToken token)
-    {
-        var compilation = Compile();
-        var diagnostics = compilation.GetDiagnostics(token);
-        if (diagnostics.Any(d => d.Id != "CS8795"))
-        {
-            var builder = new StringBuilder();
-            builder.AppendLine("Compilation diagnostics:");
-            foreach (var diagnostic in diagnostics)
-            {
-                builder.AppendLine(diagnostic.ToString());
-            }
-
-            throw new TestFailedException(builder.ToString(), null);
-        }
-
-        var generator = new TGenerator();
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
-        return driver.RunGenerators(compilation, token);
     }
 }

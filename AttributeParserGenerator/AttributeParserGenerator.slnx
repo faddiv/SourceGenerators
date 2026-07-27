@@ -4,7 +4,9 @@
     <Project Path="AttributeParser.IntegrationTests/AttributeParser.IntegrationTests.csproj" />
     <Project Path="AttributeParser.SampleCode/AttributeParser.SampleCode.csproj" />
     <Project Path="AttributeParser.SourceGenerator.Tests/AttributeParser.SourceGenerator.Tests.csproj" />
+    <Project Path="AttributeParser.Tests/AttributeParser.Tests.csproj" />
     <Project Path="TestAttributeDataParsers/TestAttributeDataParsers.csproj" />
+    <Project Path="TestInfrastructure/TestInfrastructure.csproj" />
   </Folder>
   <Project Path="AttributeParser.SourceGenerator/AttributeParser.SourceGenerator.csproj" />
   <Project Path="AttributeParser/AttributeParser.csproj" />
