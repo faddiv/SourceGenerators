@@ -1,10 +1,13 @@
+using TestInfrastructure;
+using TUnit.Engine.Exceptions;
+
 namespace AttributeParser.SourceGenerator.Tests.TestInfrstructure;
 
 public class AttributeParserGeneratorCompilationHarness
     : IncrementalGeneratorCompilationHarness<AttributeParserGenerator>
 {
-    public AttributeParserGeneratorCompilationHarness()
+    protected override void NoDiagnosticsFailed(string message)
     {
-        AddMetadataReference(typeof(AttributeParserAttribute));
+        throw new TestFailedException(message, null);
     }
 }

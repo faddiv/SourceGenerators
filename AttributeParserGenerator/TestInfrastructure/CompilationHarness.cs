@@ -1,6 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
@@ -15,8 +17,10 @@ public class CompilationHarness
     protected CompilationHarness()
     {
         AddMetadataReferencesFromCurrentDomain();
+        AddMetadataReference(typeof(AttributeData));
     }
-    public CSharpCompilationOptions CompilationOptions { get; } = new(
+
+    public CSharpCompilationOptions CompilationOptions { get; private set; } = new(
         OutputKind.DynamicallyLinkedLibrary,
         nullableContextOptions: NullableContextOptions.Enable);
 
@@ -82,6 +86,16 @@ public class CompilationHarness
         AddMetadataReference(type.Assembly);
     }
 
+    public void AddGlobalUsings(params ReadOnlySpan<string> usings)
+    {
+        var builder = new StringBuilder();
+        foreach (var @using in usings)
+        {
+            builder.AppendLine($"global using {@using};");
+        }
+        AddSource(builder.ToString(), CancellationToken.None, "GlobalUsings.cs");
+    }
+
     public CSharpCompilation Compile()
     {
         return CSharpCompilation.Create(
@@ -90,4 +104,25 @@ public class CompilationHarness
             _references,
             options: CompilationOptions);
     }
+
+    public CSharpCompilation CompileNoDiagnostics(CancellationToken token)
+    {
+        var compilation = Compile();
+        var diagnostics = compilation.GetDiagnostics(token);
+        if (!diagnostics.Any(d => d.Id != "CS8795"))
+            return compilation;
+        var builder = new StringBuilder();
+        builder.AppendLine("Compilation diagnostics:");
+        foreach (var diagnostic in diagnostics)
+        {
+            builder.AppendLine(diagnostic.ToString());
+        }
+
+        NoDiagnosticsFailed(builder.ToString());
+
+        return compilation;
+    }
+
+    protected virtual void NoDiagnosticsFailed(string message) =>
+        throw new ApplicationException(message, null);
 }

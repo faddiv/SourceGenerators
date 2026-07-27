@@ -24,9 +24,9 @@ public partial class AttributeDataParser
                 return _attributeData.AttributeConstructor?.Parameters[_index].Name ?? "";
             }
 
-            return _parser.ToCamelCase(_attributeData
+            return _attributeData
                 .NamedArguments[_index - _attributeData.ConstructorArguments.Length]
-                .Key);
+                .Key;
         }
 
         public object? GetValue()
