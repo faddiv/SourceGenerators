@@ -86,4 +86,60 @@ public class ReadSourcesTests
             .HasName("StringValue")
             .WithValue("Second");
     }
+
+    [Test]
+    public async Task WhenHasConstructorWithDefaultValue_ReadsTheDefaultValue(CancellationToken token)
+    {
+        _harness.AddSource(
+            """
+            [AttributeUsage(AttributeTargets.Class)]
+            public class ExampleAttribute(string stringValue = "Default") : Attribute
+            {
+                public string StringValue { get; } = stringValue;
+            }
+            """,
+            token
+        );
+
+        _harness.AddAttributeOnClass(
+            """
+            [Example]
+            """,
+            token
+        );
+
+        var argument = await _harness.ParseAndGetSingleArgument(token);
+
+        await Assert.That(argument)
+            .HasName("stringValue")
+            .WithValue("Default");
+    }
+
+    [Test]
+    public async Task WhenHasConstructorWithOverriddenDefaultValue_ReadsTheConstructorValue(CancellationToken token)
+    {
+        _harness.AddSource(
+            """
+            [AttributeUsage(AttributeTargets.Class)]
+            public class ExampleAttribute(string stringValue = "Default") : Attribute
+            {
+                public string StringValue { get; } = stringValue;
+            }
+            """,
+            token
+        );
+
+        _harness.AddAttributeOnClass(
+            """
+            [Example("Overridden")]
+            """,
+            token
+        );
+
+        var argument = await _harness.ParseAndGetSingleArgument(token);
+
+        await Assert.That(argument)
+            .HasName("stringValue")
+            .WithValue("Overridden");
+    }
 }
