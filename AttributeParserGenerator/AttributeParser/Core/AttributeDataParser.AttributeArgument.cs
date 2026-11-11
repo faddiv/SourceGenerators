@@ -29,31 +29,6 @@ public partial class AttributeDataParser
                 .Key;
         }
 
-        public object? GetValue()
-        {
-            var typedConstant = GetTypedConstant();
-            switch (typedConstant.Kind)
-            {
-                case TypedConstantKind.Error:
-                    return null;
-
-                case TypedConstantKind.Primitive:
-                    return typedConstant.Value;
-
-                case TypedConstantKind.Enum:
-                    return typedConstant.Value;
-
-                case TypedConstantKind.Type:
-                    return typedConstant.Value;
-
-                case TypedConstantKind.Array:
-                    return SelectArray(typedConstant);
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         private TypedConstant GetTypedConstant()
         {
             var constructorArguments = _attributeData.ConstructorArguments.Length;
