@@ -12,7 +12,7 @@ Roslyn source generator that helps **other** source generators turn `AttributeDa
 
 ## SDK / TFMs
 
-- SDK from `global.json`: **10.0.203** (`rollForward: latestFeature`)
+- .NET SDK from `global.json`: **10.0.203** (`rollForward: latestFeature`)
 - Test runner: Microsoft.Testing.Platform
 - Analyzer + library: **netstandard2.0** (`AttributeParser`, `AttributeParser.SourceGenerator`)
 - Samples / tests / benches / test infra: **net10.0**
