@@ -23,10 +23,9 @@ Roslyn source generator that helps **other** source generators turn `AttributeDa
 |---------|------|
 | `AttributeParser` | Marker attribute + runtime `AttributeDataParser` (`AttributeParser.Core`) |
 | `AttributeParser.SourceGenerator` | Incremental generator (`IIncrementalGenerator`) |
-| `AttributeParser.SampleCode` | Fixture attributes + decorated classes (no generator reference) |
-| `AttributeParser.TestInfrastructure` | Compiles SampleCode; hosts `[AttributeParser]` partials; wires generator as analyzer |
-| `AttributeParser.Tests` | TUnit tests |
-| `AttributeParser.Benchmarks` | BenchmarkDotNet vs baseline / previous implementations |
+| `TestInfrastructure` | Shared test helpers (`CompilationHarness`, `IncrementalGeneratorCompilationHarness`, `AssertExtensions`) for compiling sources and running generators |
+| `AttributeParser.Tests` | TUnit tests for the runtime parser (`AttributeDataParser`) |
+| `AttributeParser.SourceGenerator.Tests` | TUnit + **Verify** (`Verify.TUnit`, `Verify.SourceGenerators`) snapshot tests of generator output (`*.verified.cs`) |
 
 ## How it works
 
@@ -46,11 +45,11 @@ Pipeline files:
 - `AttributeParserGenerator.GenerateSource.cs` — emit via `SourceBuilder`
 - `Data/*` — equality-safe pipeline records (`ComparableArray` for collections)
 
-Consumer example (`AttributeParser.TestInfrastructure/AttributeParsers.cs`):
+Consumer example (from `AttributeParser.SourceGenerator.Tests/TypesGenerationTests.cs`, compiled in-memory):
 
 ```csharp
 [AttributeParser]
-public static partial InputWithDifferentTypes ParseInputWithDifferentTypes(
+public static partial ParsedData ParseData(
     AttributeData attributeData,
     AttributeDataParser parser);
 ```
@@ -76,14 +75,13 @@ Value-equality `IReadOnlyList<T>` for incremental generator caching / record equ
 - Split generator/runtime into partials by phase / nested type.
 - Diagnostics: `APG####`, category `AttributeParser.SourceGenerator` (today: `APG1000`).
 - Output model fields are **properties**, not fields.
-- SampleCode must **not** reference the generator; only TestInfrastructure does.
 - Analyzer/library stay netstandard2.0 and analyzer-safe (`EnforceExtendedAnalyzerRules`).
 
 ## Future work (priority)
 
 1. **Constructor initialization** of return types (only property init is implemented).
 2. **Custom field parsers** for advanced per-field scenarios.
-3. **Broader tests** — generator diagnostics, invalid signatures, emitted-source coverage (runtime parser tests exist; generated-path coverage is thin).
+3. **Broader tests** — generator diagnostics, invalid signatures, more emitted-source snapshots (runtime parser tests and per-type Verify snapshots exist).
 
 When implementing features, prefer the backlog above over drive-by refactors. Do not break existing property-init consumers.
 
@@ -92,6 +90,15 @@ When implementing features, prefer the backlog above over drive-by refactors. Do
 ```bash
 dotnet build AttributeParserGenerator.slnx
 dotnet test AttributeParser.Tests
+dotnet test AttributeParser.SourceGenerator.Tests
 ```
 
-Debug the generator via Roslyn component launch settings targeting TestInfrastructure.
+### Verify snapshots
+
+`AttributeParser.SourceGenerator.Tests` compares generator output with `*.verified.cs` files next to the tests. After an intentional generator change, review the `*.received.*` files, then accept them all from the solution directory:
+
+```bash
+dotnet ./accept.cs
+```
+
+(`accept.cs` is a file-based app that moves every `*.received.*` file in that project to `*.verified.*`.)
